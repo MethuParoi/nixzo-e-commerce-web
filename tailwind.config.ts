@@ -15,9 +15,9 @@ const config: Config = {
         secondary: "#374151", // gray-800
         "secondary-light": "#374151", // gray-700
         "secondary-dark": "#1F2937", // gray-900
-        accent: "#86a3be",
-        "accent-light": "#abc1d4",
-        "accent-dark": "#6b8ba9",
+        accent: "#005b96",
+        "accent-light": "#6497b1",
+        "accent-dark": "#03396c",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
