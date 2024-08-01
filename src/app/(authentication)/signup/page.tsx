@@ -1,10 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import signupImage from "../../../../public/signup.svg";
-import Button from "@/components/navbar/Button";
+import Button from "@/components/ui/Button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function SignUp() {
+  const router = useRouter();
   return (
     <div className="grid grid-cols-2 h-[100dvh]">
       <div className="grid-cols-1 bg-gray-200">
@@ -29,7 +33,7 @@ function SignUp() {
             placeholder="Enter contact no"
           />
           <Button
-            onClick={console.log("btn clicked")}
+            onClick={() => router.push("signup/otp")}
             label={"Sign up with contact no."}
             type="auth"
           />

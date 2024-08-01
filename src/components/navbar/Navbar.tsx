@@ -4,11 +4,16 @@ import { useEffect, useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
+import Logo from "../../../public/images/logo/logo-wbg.png";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,8 +34,8 @@ function Navbar() {
 
   return (
     <nav className="flex items-center justify-between pb-[2rem]">
-      <div>
-        <h1>NIXZO</h1>
+      <div className="cursor-pointer" onClick={() => router.push("/")}>
+        <Image className="w-[18rem]" src={Logo} alt="" />
       </div>
 
       {/* search bar for md and above*/}

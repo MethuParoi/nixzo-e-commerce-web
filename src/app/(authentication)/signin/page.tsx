@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import signupImage from "../../../../public/signup.svg";
-import Button from "@/components/navbar/Button";
+import Button from "@/components/ui/Button";
 import Link from "next/link";
 
 function SignIn() {
