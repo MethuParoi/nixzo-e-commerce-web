@@ -7,13 +7,13 @@ import OtpVerification from "@/components/auth/OtpVerification";
 
 function OtpValidation() {
   return (
-    <div className="grid grid-cols-2 h-[100dvh]">
+    <div className="grid md:grid-cols-2 h-[100dvh]">
       <div className="grid-cols-1 bg-gray-200">
-        <div className="flex flex-col items-center justify-center h-[100dvh]">
-          <h1 className="text-secondary-dark text-[3rem] font-semibold mb-[2rem]">
+        <div className="flex flex-col items-center justify-center h-[35rem] md:h-[100dvh]">
+          <h1 className="text-secondary-dark text-[3rem] font-semibold mb-[2rem] hidden md:block">
             Sign Up
           </h1>
-          <Image className="w-[50rem] " src={signupImage} alt="" />
+          <Image className="md:w-[50rem] w-[30rem] " src={signupImage} alt="" />
         </div>
       </div>
       <div className="grid-cols-1">

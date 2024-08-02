@@ -54,8 +54,8 @@ function OtpVerification({ onClick, length = 4 }) {
   const handleOtpSubmit = (otp) => {};
 
   return (
-    <div className="flex flex-col items-center justify-center h-[100dvh]">
-      <h1 className="text-secondary text-[3rem] font-semibold mb-[.5rem]">
+    <div className="flex flex-col items-center md:justify-center md:h-[100dvh] mb-[2rem] md:mb-0">
+      <h1 className="text-secondary text-[3rem] font-semibold mb-[.5rem] mt-[2rem] md:mt-0">
         Enter OTP
       </h1>
       <p className="text-gray-600 text-[1.6rem]">
@@ -72,7 +72,7 @@ function OtpVerification({ onClick, length = 4 }) {
               onChange={(e) => handleChange(index, e)}
               onClick={() => handleClick(index)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-[6rem] h-[6rem] rounded-[1rem] border-2 border-secondary px-[.2rem] my-[3rem] mx-[1rem] text-center text-[2rem] "
+              className="md:w-[6rem] w-[5rem] h-[5rem] wd:h-[6rem] rounded-[1rem] border-2 border-secondary px-[.2rem] my-[3rem] mx-[1rem] text-center text-[2rem] "
             />
           );
         })}

@@ -12,7 +12,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, type, label }) => {
       <div>
         <button
           onClick={onClick}
-          className="lg:w-[50rem] h-[4.5rem] rounded-[1rem] ml-[-2px] bg-secondary hover:bg-secondary-dark hover:text-primary-dark text-primary text-md rounded-r-[1rem]"
+          className="lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] rounded-[1rem] ml-[-2px] bg-secondary hover:bg-secondary-dark hover:text-primary-dark text-primary text-md rounded-r-[1rem]"
         >
           {label}
         </button>
