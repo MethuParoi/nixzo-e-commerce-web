@@ -13,7 +13,8 @@ const Button: React.FC<ButtonProps> = ({ onClick, href, type = "button", label }
 
   switch (type) {
     case "auth":
-      buttonClass += " lg:w-[50rem] h-[4.5rem] bg-accent hover:bg-accent-dark active:bg-accent text-primary";
+      buttonClass +=
+        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark active:bg-accent text-primary";
       break;
     case "submit":
       buttonClass += " bg-green-500 hover:bg-green-600";
