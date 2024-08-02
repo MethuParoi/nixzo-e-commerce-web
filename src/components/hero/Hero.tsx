@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { FaGreaterThan, FaLessThan, FaShippingFast, FaHeadset } from 'react-icons/fa'; // Correcting import path
 import { BsCashCoin } from "react-icons/bs";
 import Image from 'next/image';
-import FeatureCard from '../ui/FeatureCard';
+import CoreFeatureCard from '../ui/CoreFeatureCard';
 
 // Define the data array with objects containing src, title, and description
 const slides = [
@@ -63,16 +63,16 @@ const Hero = () => {
     }
 
     return (
-        <section className='min-h-screen flex flex-col'>
-            <div className='flex-grow-[7] relative'>
-                <div className='relative h-[calc(100vh-70px)] w-full'>
+        <section className='md:min-h-screen grid lg:grid-rows-10 '>
+            <div className='lg:row-span-7'>
+                <div className='relative h-[30rem] md:h-[70rem] w-full'>
                     <Image
                         src={slides[page].src}
                         alt={slides[page].title}
                         // layout='fill'
                         fill={true}
                         objectFit='cover'
-                        className='absolute inset-0'
+                        className=' absolute inset-0'
                     />
                     <div className='absolute bottom-8 left-12 py-3 px-6 bg-gray-800 bg-opacity-60 rounded-md'>
                         <h2 className='text-white text-4xl'>{slides[page].title}</h2>
@@ -80,26 +80,26 @@ const Hero = () => {
                     </div>
                     {/* Left/Prev Button */}
                     <div onClick={handlePrevPage} className='z-10 hidden md:block absolute bottom-1/2 -left-20 md:left-10'>
-                        <button className='bg-gray-800 bg-opacity-40 text-white p-4 rounded-full flex justify-center items-center'>
+                        <button className='bg-gray-800 bg-opacity-60 text-white p-4 rounded-full flex justify-center items-center'>
                             <FaLessThan />
                         </button>
                     </div>
 
                     {/* Right/Next Button */}
                     <div onClick={handleNextPage} className='z-10 hidden md:block absolute bottom-1/2 -right-20 md:right-10'>
-                        <button className='bg-gray-800 bg-opacity-40 text-white p-4 rounded-full flex justify-center items-center'>
+                        <button className='bg-gray-800 bg-opacity-60 text-white p-4 rounded-full flex justify-center items-center'>
                             <FaGreaterThan />
                         </button>
                     </div>
                 </div>
             </div>
-            <div className='flex-grow-[3]'>
+            <div className=' lg:row-span-3'>
                 <div className='container mx-auto py-24'>
                     {/* <div className='p-10 md:p-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'> */}
-                    <div className='flex flex-wrap gap-5 py-20 justify-center items-center'>
+                    <div className='flex flex-wrap gap-5 py-5 md:py-10 justify-center items-center'>
                         {features.map((feature, index) => (
                             <div key={index} className='h-full grid place-items-center'>
-                                <FeatureCard
+                                <CoreFeatureCard
                                     icon={feature.icon}
                                     title={feature.title}
                                     description={feature.description}

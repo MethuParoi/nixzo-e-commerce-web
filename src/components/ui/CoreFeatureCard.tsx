@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FeatureCard = ({ icon, title, description }) => {
+const CoreFeatureCard = ({ icon, title, description }) => {
     return (
         <div className='bg-primary border border-secondary-light shadow-md rounded-lg p-6 text-center grid grid-cols-9 place-items-center place-content-center w-[30rem] md:w-[40rem] h-[9rem] md:h-[9rem] group hover:scale-105 transition-transform duration-300'>
             <div className='col-span-2 text-7xl  text-accent mb-4 group-hover:transform group-hover:scale-105 transition-transform duration-300'>
@@ -14,4 +14,4 @@ const FeatureCard = ({ icon, title, description }) => {
     );
 }
 
-export default FeatureCard;
+export default CoreFeatureCard;
