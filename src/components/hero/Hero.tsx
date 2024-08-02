@@ -95,9 +95,10 @@ const Hero = () => {
             </div>
             <div className='flex-grow-[3]'>
                 <div className='container mx-auto py-24'>
-                    <div className='p-10 md:p-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+                    {/* <div className='p-10 md:p-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'> */}
+                    <div className='flex flex-wrap gap-5 py-20 justify-center items-center'>
                         {features.map((feature, index) => (
-                            <div key={index} className='md:px-10 h-full grid place-items-center'>
+                            <div key={index} className='h-full grid place-items-center'>
                                 <FeatureCard
                                     icon={feature.icon}
                                     title={feature.title}
