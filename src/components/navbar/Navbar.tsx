@@ -108,7 +108,10 @@ function Navbar() {
           <p className="text-[1rem]">Shopping Bag</p>
         </button>
 
-        <button className="flex flex-col items-center cursor-pointer text-secondary hover:text-secondary-dark">
+        <button
+          onClick={() => router.push("/signin")}
+          className="flex flex-col items-center cursor-pointer text-secondary hover:text-secondary-dark"
+        >
           <CiUser className="text-[3.2rem] " />
           <p className="text-[1rem]">Profile</p>
         </button>
