@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../globals.css";
+import "./globals.css";
 import { StoreProvider } from "@/store/StoreProvider";
+import ClientProvider from "@/components/redux/ClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +17,12 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <StoreProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </StoreProvider>
+    // <ClientProvider>
+    //   <StoreProvider>
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+    //   </StoreProvider>
+    // </ClientProvider>
   );
 }

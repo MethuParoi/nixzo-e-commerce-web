@@ -6,6 +6,9 @@ import signupImage from "../../../../public/signup.svg";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { increment } from "@/store/features/auth/authSlice";
 
 function SignUp() {
   const router = useRouter();

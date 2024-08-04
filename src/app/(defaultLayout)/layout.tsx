@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+import { StoreProvider } from "@/store/StoreProvider";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
+import ClientProvider from "@/components/redux/ClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // <ClientProvider>
+    //   <StoreProvider>
     <html lang="en">
       <body className={inter.className}>
         {/* mx-auto */}
@@ -27,5 +33,7 @@ export default function RootLayout({
         </div>
       </body>
     </html>
+    //   </StoreProvider>
+    // </ClientProvider>
   );
 }

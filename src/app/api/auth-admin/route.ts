@@ -110,6 +110,15 @@ export async function POST(req: NextRequest) {
     .eq("admin_password", password)
     .single();
 
+  // If successful
+  if (!error || user) {
+    return NextResponse.json({
+      success: true,
+      message: "Login successful",
+      user: "admin",
+    });
+  }
+
   if (error || !user) {
     return NextResponse.json({
       success: false,
@@ -124,7 +133,4 @@ export async function POST(req: NextRequest) {
   //     message: "Invalid username or password",
   //   });
   // }
-
-  // If successful
-  return NextResponse.json({ success: true, message: "Login successful" });
 }
