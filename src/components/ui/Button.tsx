@@ -4,11 +4,16 @@ import Link from "next/link";
 interface ButtonProps {
   onClick?: () => void;
   href?: string; // Optional href prop for link functionality
-  type?: "auth" | "submit" | "reset" | "button";
+  type?: "auth" | "submit" | "reset" | "button" | "default";
   label: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, href, type = "button", label }) => {
+const Button: React.FC<ButtonProps> = ({
+  onClick,
+  href,
+  type = "button",
+  label,
+}) => {
   let buttonClass = "p-4 rounded-md text-white font-semibold";
 
   switch (type) {
@@ -25,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, href, type = "button", label }
     case "button":
       buttonClass += " bg-blue-500 hover:bg-blue-600";
       break;
-    default:
+    case "default":
       buttonClass += " bg-gray-500 hover:bg-gray-600";
       break;
   }
@@ -47,7 +52,9 @@ const Button: React.FC<ButtonProps> = ({ onClick, href, type = "button", label }
   return (
     <button
       onClick={onClick}
-      type={type === "submit" ? "submit" : type === "reset" ? "reset" : "button"}
+      type={
+        type === "submit" ? "submit" : type === "reset" ? "reset" : "button"
+      }
       className={buttonClass}
       aria-label={label} // Add aria-label for accessibility
     >

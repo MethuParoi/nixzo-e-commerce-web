@@ -16,10 +16,10 @@ export async function POST(req: NextRequest) {
 
   // Fetch the user from the database
   const { data: user, error } = await supabase
-    .from("admin_table")
+    .from("user_table")
     .select("*")
-    .eq("admin_contact", contact)
-    .eq("admin_password", password)
+    .eq("user_contact", contact)
+    .eq("user_password", password)
     .single();
 
   // If successful
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Login successful",
-      user: "admin",
+      user: "general",
     });
   }
 
@@ -37,12 +37,4 @@ export async function POST(req: NextRequest) {
       message: "Invalid username or password",
     });
   }
-
-  // Check the password
-  // if (password !== user.password) {
-  //   return NextResponse.json({
-  //     success: false,
-  //     message: "Invalid username or password",
-  //   });
-  // }
 }
