@@ -24,19 +24,6 @@ export default function AuthLayout({
   const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
 
-  // useEffect(() => {
-  //   if (user !== "admin") {
-  //     // router.push("/");
-  //     return (
-  //       <html lang="en">
-  //         <body>
-  //           <h1>Unauthorized</h1>
-  //         </body>
-  //       </html>
-  //     );
-  //   }
-  // }, [user, router]);
-
   if (user !== "admin") {
     return (
       <html lang="en">
@@ -55,7 +42,12 @@ export default function AuthLayout({
     <Provider store={store}>
       <StoreProvider>
         <html lang="en">
-          <body>{children}</body>
+          <body>
+            {/* mx-auto */}
+            <div className="px-5 md:px-0 pt-[1rem] md:pt-[2rem] md:container md:mx-auto xl:max-w-[120rem] 2xl:max-w-[150rem]">
+              {children}
+            </div>
+          </body>
         </html>
       </StoreProvider>
     </Provider>

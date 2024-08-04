@@ -21,12 +21,7 @@ export default function RootLayout({
     <ClientProvider>
       <StoreProvider>
         <html lang="en">
-          <body className={inter.className}>
-            {/* mx-auto */}
-            <div className="px-5 md:px-0 pt-[1rem] md:pt-[2rem] md:container md:mx-auto xl:max-w-[120rem] 2xl:max-w-[150rem]">
-              {children}
-            </div>
-          </body>
+          <body className={inter.className}>{children}</body>
         </html>
       </StoreProvider>
     </ClientProvider>
