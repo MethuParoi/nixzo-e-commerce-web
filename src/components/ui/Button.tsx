@@ -4,7 +4,7 @@ import Link from "next/link";
 interface ButtonProps {
   onClick?: () => void;
   href?: string; // Optional href prop for link functionality
-  type?: "auth" | "submit" | "reset" | "button" | "default";
+  type?: "auth" | "submit" | "reset" | "button" | "default" | "card";
   label: string;
 }
 
@@ -14,21 +14,25 @@ const Button: React.FC<ButtonProps> = ({
   type = "button",
   label,
 }) => {
-  let buttonClass = "p-4 rounded-md text-white font-semibold";
+  let buttonClass = "p-4 rounded-md  font-semibold";
 
   switch (type) {
     case "auth":
       buttonClass +=
-        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark active:bg-accent text-primary";
+        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark active:bg-accent text-primary text-white";
       break;
     case "submit":
-      buttonClass += " bg-green-500 hover:bg-green-600";
+      buttonClass += " bg-green-500 hover:bg-green-600 text-white";
       break;
     case "reset":
-      buttonClass += " bg-red-500 hover:bg-red-600";
+      buttonClass += " bg-red-500 hover:bg-red-600 text-white";
       break;
     case "button":
-      buttonClass += " bg-blue-500 hover:bg-blue-600";
+      buttonClass += " bg-blue-500 hover:bg-blue-600 text-white";
+      break;
+    case "card":
+      buttonClass +=
+        " bg-transparent hover:bg-gray-600 hover:text-gray-50 text-gray-600 border-2 border-gray-600";
       break;
     case "default":
       buttonClass += " bg-gray-500 hover:bg-gray-600";
