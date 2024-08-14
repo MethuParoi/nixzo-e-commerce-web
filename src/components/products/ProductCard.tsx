@@ -1,8 +1,10 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import img from "../../../public/images/categories/classic-2.jpg";
 import Button from "../ui/Button";
 import { IoStar } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 function ProductCard() {
   return (
@@ -28,7 +30,22 @@ function ProductCard() {
         </p>
         {/* add to cart */}
         <div className="flex items-center justify-between mt-4 mr-4">
-          <Button type="card" label="Add to cart" />
+          <Button
+            onClick={() => {
+              toast.success("Item added to the cart", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            }}
+            type="card"
+            label="Add to cart"
+          />
           <p className="text-[3rem] text-gray-900 font-semibold">৳ 599</p>
         </div>
       </div>

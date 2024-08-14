@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAdmin } from "@/store/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
+import { toast } from "react-toastify";
 
 function SignIn() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -36,10 +37,19 @@ function SignIn() {
 
       if (data.success) {
         route.push("/admin/dashboard");
-        alert("Signin successful!");
         dispatch(setAdmin());
       } else {
-        alert("Invalid username or password");
+        // alert("Invalid username or password");
+        toast.error("Invalid username or password!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -85,15 +95,6 @@ function SignIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button onClick={handleSignin} label={"Sign in"} type="auth" />
-          {/* <p className="mt-[1.5rem] text[1.2rem]">
-            Don't have an account?
-            <span className="font-semibold underline ml-[1rem]">
-              <Link href="/signup">sign up</Link>
-            </span>
-          </p>
-          <p className="font-semibold underline my-[1rem]">
-            <Link href="/signin">forgot password</Link>
-          </p> */}
           <div className="md:hidden p-[1rem] flex items-center justify-center">
             <Button
               type="default"

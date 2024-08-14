@@ -35,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
         " bg-transparent hover:bg-gray-600 hover:text-gray-50 text-gray-600 border-2 border-gray-600";
       break;
     case "default":
-      buttonClass += " bg-gray-500 hover:bg-gray-600";
+      buttonClass += " bg-gray-500 hover:bg-gray-600 text-gray-50";
       break;
   }
 
