@@ -1,5 +1,6 @@
 import React from "react";
 import SortProducts from "@/components/products/SortProducts";
+import Loader from "../ui/Loader/Loader";
 
 function SortRows() {
   interface Option {
@@ -22,6 +23,9 @@ function SortRows() {
   ];
   return (
     <div>
+      {/* <div>
+        <Loader />
+      </div> */}
       <div className="border-b-2 border-gray-300 mr-[2rem] pt-[1rem]">
         <SortProducts label={"Price"} Options={PriceOptions} />
       </div>
