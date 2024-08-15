@@ -21,30 +21,6 @@ function ProductsPage() {
           </div>
 
           <SortRows />
-
-          {/* <div className="border-b-2 border-gray-300 mr-[2rem] py-[1rem]">
-            <select
-              className="px-2 py-1 border-2 border-gray-200 rounded-md"
-              name="sort"
-              id="sort"
-            >
-              <option value="price">Price</option>
-              <option value="rating">Rating</option>
-              <option value="popularity">Popularity</option>
-            </select>
-          </div> */}
-
-          {/* <div className="border-b-2 border-gray-300 mr-[2rem] py-[1rem]">
-            <select
-              className="px-2 py-1 border-2 border-gray-200 rounded-md"
-              name="sort"
-              id="sort"
-            >
-              <option value="price">Price</option>
-              <option value="rating">Rating</option>
-              <option value="popularity">Popularity</option>
-            </select>
-          </div> */}
         </div>
         <div className="col-span-4 mr-[10rem]">
           <ProductsRow />

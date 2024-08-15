@@ -1,11 +1,14 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 
 interface ButtonProps {
-  onClick?: () => void;
+  onClick?: () => void | string; // Optional onClick prop for button functionality
   href?: string; // Optional href prop for link functionality
-  type?: "auth" | "submit" | "reset" | "button" | "default" | "card";
+  type?: "auth" | "submit" | "reset" | "size" | "button" | "default" | "card";
   label: string;
+  isActive: boolean;
+  setActiveButton: (label: string) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -13,29 +16,45 @@ const Button: React.FC<ButtonProps> = ({
   href,
   type = "button",
   label,
+  isActive,
+  setActiveButton,
 }) => {
-  let buttonClass = "p-4 rounded-md  font-semibold";
+  const handleClick = () => {
+    if (type === "size") {
+      setActiveButton(label);
+    }
+    if (onClick) {
+      onClick();
+    }
+  };
+
+  let buttonClass = "p-4  font-semibold";
 
   switch (type) {
     case "auth":
       buttonClass +=
-        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark active:bg-accent text-primary text-white";
+        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark active:bg-accent text-primary text-white rounded-md";
       break;
     case "submit":
-      buttonClass += " bg-green-500 hover:bg-green-600 text-white";
+      buttonClass += " bg-green-500 hover:bg-green-600 text-white rounded-md";
       break;
     case "reset":
-      buttonClass += " bg-red-500 hover:bg-red-600 text-white";
+      buttonClass += " bg-red-500 hover:bg-red-600 text-white rounded-md";
+      break;
+    case "size":
+      buttonClass += isActive
+        ? " bg-red-500 text-primary-light text-[1.8rem] font-normal w-[7rem] border-2 border-gray-300 rounded-[2rem] py-2 px-3"
+        : " bg-transparent hover:bg-red-500 active:bg-red-500 hover:text-primary-light text-secondary-light text-[1.8rem] font-normal w-[7rem] border-2 border-gray-300 rounded-[2rem] py-2 px-3";
       break;
     case "button":
-      buttonClass += " bg-blue-500 hover:bg-blue-600 text-white";
+      buttonClass += " bg-blue-500 hover:bg-blue-600 text-white rounded-md";
       break;
     case "card":
       buttonClass +=
-        " bg-transparent hover:bg-gray-600 hover:text-gray-50 text-gray-600 border-2 border-gray-600";
+        " bg-transparent hover:bg-gray-600 hover:text-gray-50 text-gray-600 border-2 border-gray-600 rounded-md";
       break;
     case "default":
-      buttonClass += " bg-gray-500 hover:bg-gray-600 text-gray-50";
+      buttonClass += " bg-gray-500 hover:bg-gray-600 text-gray-50 rounded-md";
       break;
   }
 
@@ -55,7 +74,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       type={
         type === "submit" ? "submit" : type === "reset" ? "reset" : "button"
       }
@@ -68,7 +87,6 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 export default Button;
-
 
 // import React from "react";
 

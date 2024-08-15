@@ -13,8 +13,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // <ClientProvider>
-    //   <StoreProvider>
     <html lang="en">
       <body className={inter.className}>
         {/* mx-auto */}
@@ -37,7 +35,5 @@ export default function RootLayout({
         />
       </body>
     </html>
-    //   </StoreProvider>
-    // </ClientProvider>
   );
 }
