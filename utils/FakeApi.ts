@@ -1,8 +1,14 @@
 // import supabase from "./supabase";
+let cachedProducts = null;
 
 async function getAllProducts() {
+  if (cachedProducts) {
+    return cachedProducts;
+  }
+
   const response = await fetch("https://fakestoreapi.com/products");
   const data = await response.json();
+  cachedProducts = data;
   return data;
 
   //   const { data, error } = await supabase.from("products").select("*");

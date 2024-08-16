@@ -15,31 +15,35 @@ import l3 from '../../../public/images/categories/ladies-3.jpg';
 import CategoryCard from '../ui/CategoryCard';
 
 const products = [
-    {
-        title: 'Trendies',
-        description: 'Elegance meets practicality in our collection of bags—crafted for every journey..',
-        images: [t1, t2, t3],
-        btnLink: '/',
-    },
-    {
-        title: 'Classics',
-        description: 'Experience sophistication with our wallets—where timeless design meets everyday function..',
-        images: [c1, c2, c3],
-        btnLink: '/',
-    },
-    {
-        title: 'Mens',
-        description: 'Step confidently in our shoes—designed for comfort and style with every stride.',
-        images: [m1, m2, m3],
-        btnLink: '/',
-    },
-    {
-        title: 'Ladies',
-        description: 'Step confidently in our shoes—designed for comfort and style with every stride.',
-        images: [l1, l2, l3],
-        btnLink: '/',
-    }
-    // Add more product objects as needed
+  {
+    title: "Trendies",
+    description:
+      "Elegance meets practicality in our collection of bags—crafted for every journey..",
+    images: [t1, t2, t3],
+    btnLink: "/products",
+  },
+  {
+    title: "Classics",
+    description:
+      "Experience sophistication with our wallets—where timeless design meets everyday function..",
+    images: [c1, c2, c3],
+    btnLink: "/products",
+  },
+  {
+    title: "Mens",
+    description:
+      "Step confidently in our shoes—designed for comfort and style with every stride.",
+    images: [m1, m2, m3],
+    btnLink: "/products",
+  },
+  {
+    title: "Ladies",
+    description:
+      "Step confidently in our shoes—designed for comfort and style with every stride.",
+    images: [l1, l2, l3],
+    btnLink: "/products",
+  },
+  // Add more product objects as needed
 ];
 
 const Categories = () => {
