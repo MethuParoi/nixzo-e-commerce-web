@@ -5,10 +5,22 @@ import React from "react";
 import Button from "../ui/Button";
 import { IoStar } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 function ProductCard({ id, img, category, title, price, description, rating }) {
+  // const router = useRouter();
+
+  // const handleClick = () => {
+  //   router.push({
+  //     pathname: `/product-details/${id}`,
+  //     query: { img, category, title, price, description, rating },
+  //   });
+  // };
   return (
-    <div className="w-[29rem] rounded-2xl p-4 shadow-2xl border-2 border-gray-100">
+    <div
+      // onClick={handleClick}
+      className="w-[29rem] rounded-2xl p-4 shadow-2xl border-2 border-gray-100"
+    >
       <div>
         <Image
           className="w-[100%] h-[40rem] object-contain"
