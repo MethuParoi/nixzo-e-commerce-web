@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import img from "../../../public/images/categories/mens-1.jpg";
 import SizeButtons from "./SizeButtons";
 import Button from "../ui/Button";
+import ReactImageMagnify from "react-image-magnify";
 
 function ProductDetails() {
   return (
@@ -23,8 +24,37 @@ function ProductDetails() {
             <Image className="w-[5rem] rounded-xl" src={img} />
           </button>
         </div>
-        <div>
-          <Image className="w-[50rem] " src={img} />
+        <div className="w-[50rem] ">
+          <ReactImageMagnify
+            {...{
+              smallImage: {
+                alt: "product image",
+                isFluidWidth: true,
+                src: img.src,
+              },
+              imageStyle: {
+                objectFit: "fill",
+                width: "100%",
+                height: "100%",
+              },
+              largeImage: {
+                src: img.src,
+                width: 900,
+                height: 1400,
+              },
+              enlargedImageContainerDimensions: {
+                width: "300%",
+                height: "300%",
+              },
+              enlargedImagePosition: "over",
+              enlargedImageContainerStyle: {
+                position: "absolute",
+                background: "#fff",
+                zIndex: 9999,
+              },
+            }}
+          />
+          {/* <Image className="w-[50rem] " src={img} /> */}
         </div>
       </div>
       <div className="ml-[3rem]">
