@@ -9,6 +9,7 @@ import { setAdmin } from "@/store/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
 
+
 function SignIn() {
   // const user = useSelector((state: RootState) => state.auth.user);
   // const dispatch = useDispatch();
@@ -35,9 +36,7 @@ function SignIn() {
       const data = await response.json();
 
       if (data.success) {
-        // route.push("/admin/dashboard");
         alert("Signin successful!");
-        // dispatch(setAdmin());
       } else {
         alert("Invalid username or password");
       }
@@ -46,6 +45,36 @@ function SignIn() {
       alert("An error occurred. Please try again.");
     }
   };
+
+  // const handleSignin = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch("/api/auth-user-signin/", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ contact, password }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await response.json();
+
+  //     if (data.success) {
+  //       // route.push("/admin/dashboard");
+  //       alert("Signin successful!");
+  //       // dispatch(setAdmin());
+  //     } else {
+  //       alert("Invalid username or password");
+  //     }
+  //   } catch (error) {
+  //     console.error("There was a problem with the fetch operation:", error);
+  //     alert("An error occurred. Please try again.");
+  //   }
+  // };
 
   return (
     <div className="grid md:grid-cols-2 h-[100dvh]">
