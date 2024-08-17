@@ -100,7 +100,10 @@ function Navbar() {
           <p className="text-[1rem]">Search</p>
         </button>
 
-        <button className="flex flex-col items-center">
+        <button
+          onClick={() => router.push("/cart")}
+          className="flex flex-col items-center"
+        >
           <HiOutlineShoppingBag
             className="text-[3.2rem]"
             style={{ strokeWidth: 0.9 }}

@@ -10,31 +10,50 @@ function ProductsRow() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const selectedCategories = useSelector(
     (state) => state.sortProduct.selectedOptions
   );
-  // console.log(selectedCategories);
 
   useEffect(() => {
     async function fetchProducts() {
-      const data = await getAllProducts();
-      setProducts(data);
-      setLoading(false);
+      try {
+        const data = await getAllProducts();
+        setProducts(data);
+        setLoading(false);
+      } catch (err) {
+        setError(true); // Set error state if fetching fails
+      }
     }
     fetchProducts();
   }, []);
 
   useEffect(() => {
-    if (selectedCategories.length === 0) {
-      setFilteredProducts(products);
-    } else {
-      setFilteredProducts(
-        products.filter((product) =>
-          selectedCategories.includes(product.category)
-        )
-      );
+    try {
+      if (selectedCategories.length === 0) {
+        setFilteredProducts(products);
+      } else {
+        setFilteredProducts(
+          products.filter((product) =>
+            selectedCategories.includes(product.category)
+          )
+        );
+      }
+    } catch (err) {
+      setError(true); // Set error state if filtering fails
     }
   }, [selectedCategories, products]);
+
+  if (error) {
+    //automatically reloads
+    () => window.location.reload();
+    // return (
+    //   <div>
+    //     <p>An error occurred. Please refresh the page.</p>
+    //     <button onClick={() => window.location.reload()}>Refresh</button>
+    //   </div>
+    // );
+  }
 
   if (loading)
     return (

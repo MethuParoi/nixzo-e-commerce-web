@@ -26,7 +26,7 @@ function SignIn() {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(`Network response was not ok: ${response.statusText}`);
       }
 
       const data = await response.json();
@@ -41,6 +41,34 @@ function SignIn() {
       alert("An error occurred. Please try again.");
     }
   };
+
+  // const handleSignin = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch("/api/auth-user-signin/", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ contact, password }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await response.json();
+
+  //     if (data.success) {
+  //       alert("Signin successful!");
+  //     } else {
+  //       alert("Invalid username or password");
+  //     }
+  //   } catch (error) {
+  //     console.error("There was a problem with the fetch operation:", error);
+  //     alert("An error occurred. Please try again.");
+  //   }
+  // };
 
   return (
     <>
