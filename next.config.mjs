@@ -11,9 +11,9 @@ const nextConfig = {
     ],
   },
 
-  env: {
-    __NEXT_REACT_DEV_OVERLAY: false,
-  },
+  // env: {
+  //   __NEXT_REACT_DEV_OVERLAY: false,
+  // },
 };
 
 
