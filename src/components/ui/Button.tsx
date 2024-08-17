@@ -5,7 +5,15 @@ import Link from "next/link";
 interface ButtonProps {
   onClick?: () => void | string; // Optional onClick prop for button functionality
   href?: string; // Optional href prop for link functionality
-  type?: "auth" | "submit" | "reset" | "size" | "button" | "default" | "card";
+  type?:
+    | "auth"
+    | "auth-transparent"
+    | "submit"
+    | "reset"
+    | "size"
+    | "button"
+    | "default"
+    | "card";
   label: string;
   isActive: boolean;
   setActiveButton: (label: string) => void;
@@ -33,7 +41,11 @@ const Button: React.FC<ButtonProps> = ({
   switch (type) {
     case "auth":
       buttonClass +=
-        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark active:bg-accent text-primary text-white rounded-md";
+        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark  active:bg-accent text-primary text-white rounded-md";
+      break;
+    case "auth-transparent":
+      buttonClass +=
+        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-primary-light hover:bg-primary-dark  active:bg-accent text-secondary-light  rounded-md border-2 border-gray-300 shadow-md";
       break;
     case "submit":
       buttonClass += " bg-green-500 hover:bg-green-600 text-white rounded-md";
