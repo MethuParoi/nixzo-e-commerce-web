@@ -1,19 +1,48 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
 import Logo from "../../../public/images/logo/logo-wbg.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import getAllProducts from "../../../utils/FakeApi";
+import searchContext from "../../context-api/searchContext";
 
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
 
+  //ContextApi hooks
+  const { setFilteredProducts } = useContext(searchContext);
+  const [ProductDesc, setProductDesc] = useState<any[]>([]);
+
+  // Fetch products and set state
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        setProductDesc(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (ProductDesc && ProductDesc.length > 0 && searchValue) {
+      const filtered = ProductDesc.filter((item) =>
+        item.title.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [ProductDesc, searchValue]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -43,14 +72,21 @@ function Navbar() {
         <input
           className="z-10 h-[4.5rem] xl:w-[50rem] md:w-[30rem] rounded-l-[1rem] border-2 bor px-[1rem]"
           type="text"
-          onChange={(e) => setInputValue(e.target.value)}
-          value={inputValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            router.push("/search");
+            if (!e.target.value) {
+              router.push("/products");
+            }
+          }}
+          value={searchValue}
           onFocus={() => setIsFocused(true)}
           onBlur={() => {
             setIsFocused(false);
+            setSearchValue("");
           }}
         />
-        {!inputValue && !isFocused && (
+        {!searchValue && !isFocused && (
           <div className="absolute top-[.7rem] left-[1.5rem] flex items-center gap-x-4 pointer-events-none opacity-50">
             <IoIosSearch className="text-[3.2rem] text-secondary" />
             <p className="text-[2rem] text-secondary">search...</p>
@@ -68,14 +104,14 @@ function Navbar() {
             <input
               className="z-10 h-[4.5rem] max-w-[18rem] rounded-l-[1rem] border-2 border-secondary px-[1rem]"
               type="text"
-              onChange={(e) => setInputValue(e.target.value)}
-              value={inputValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              value={searchValue}
               onFocus={() => setIsFocused(true)}
               onBlur={() => {
                 setIsFocused(false);
               }}
             />
-            {!inputValue && !isFocused && (
+            {!searchValue && !isFocused && (
               <div className="absolute top-[.7rem] left-[1.5rem] flex items-center gap-x-4 pointer-events-none opacity-50">
                 <IoIosSearch className="text-[3.2rem]secondary" />
                 <p className="text-[2rem] text-secondary">search...</p>
