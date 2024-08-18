@@ -19,8 +19,8 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const route = useRouter();
 
-  const handleSignin = async (e) => {
-    e.preventDefault();
+  const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
+    // e.preventDefault();
     try {
       const response = await fetch("/api/auth-admin/", {
         method: "POST",

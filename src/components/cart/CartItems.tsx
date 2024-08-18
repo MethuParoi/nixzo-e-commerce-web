@@ -19,6 +19,7 @@ function CartItems({ item }) {
     img,
     description,
   } = item;
+  console.log("productID", productId);
 
   //using redux store
   const dispatch = useDispatch();

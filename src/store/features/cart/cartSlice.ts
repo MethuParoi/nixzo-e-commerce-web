@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const cartData = localStorage.getItem("cart");
-const cart = cartData ? JSON.parse(cartData) : [];
+let cart = [];
+
+if (typeof window !== "undefined") {
+  const cartData = localStorage.getItem("cart");
+  cart = cartData ? JSON.parse(cartData) : [];
+}
 
 const initialState = {
   cart,
@@ -16,16 +20,26 @@ const cartSlice = createSlice({
     addItem(state, action) {
       //payload = newItem
       const newItem = action.payload;
-      if (
-        typeof newItem.unitPrice !== "number" ||
-        typeof newItem.quantity !== "number"
-      ) {
-        console.error(
-          `Invalid unitPrice or quantity for item with id ${newItem.productId}: unitPrice = ${newItem.unitPrice}, quantity = ${newItem.quantity}`
-        );
+      const existingItem = state.cart.find(
+        (item) => item.productId === newItem.productId
+      );
+
+      if (existingItem) {
+        existingItem.quantity += newItem.quantity;
+        existingItem.totalPrice =
+          existingItem.unitPrice * existingItem.quantity;
       } else {
-        newItem.totalPrice = newItem.unitPrice * newItem.quantity; // calculate totalPrice here
-        state.cart.push(newItem);
+        if (
+          typeof newItem.unitPrice !== "number" ||
+          typeof newItem.quantity !== "number"
+        ) {
+          console.error(
+            `Invalid unitPrice or quantity for item with id ${newItem.productId}: unitPrice = ${newItem.unitPrice}, quantity = ${newItem.quantity}`
+          );
+        } else {
+          newItem.totalPrice = newItem.unitPrice * newItem.quantity; // calculate totalPrice here
+          state.cart.push(newItem);
+        }
       }
       // Save to localStorage
       localStorage.setItem("cart", JSON.stringify(state.cart));
@@ -97,7 +111,7 @@ export const getTotalCartQunatity = (state) =>
   state.cart.cart.reduce((sum, item) => sum + item.quantity, 0);
 
 export const getCurrentQuantityById = (id) => (state) =>
-  state.cart.cart.find((item) => item.productId === id)?.quantity || 0;
+  state.cart.cart.find((item) => item.productId === id)?.quantity;
 
 export const getTotalCartPrice = (state) =>
   state.cart.cart.reduce((sum, item) => {

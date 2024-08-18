@@ -6,6 +6,13 @@ import SizeButtons from "../../../../components/product-details/SizeButtons";
 import Button from "../../../../components/ui/Button";
 import ReactImageMagnify from "react-image-magnify";
 import Loader from "../../../../components/ui/Loader/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  getCurrentQuantityById,
+} from "@/store/features/cart/cartSlice";
+import QuantityButton from "@/components/ui/QuantityButton";
+import { toast } from "react-toastify";
 
 interface Product {
   id: string;
@@ -23,6 +30,8 @@ const ProductDetails = () => {
   const [productDetails, setProductDetails] = useState<Product | null>(null);
   const [productId, setProductId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showButton, setShowButton] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const url = window.location.href;
@@ -34,17 +43,47 @@ const ProductDetails = () => {
     if (productId) {
       fetch(`https://fakestoreapi.com/products/${productId}`)
         .then((res) => res.json())
-        .then((data) => setProductDetails(data));
-      setLoading(false);
+        .then((data) => setProductDetails(data))
+        .then(() => setLoading(false));
     }
   }, [productId]);
 
-  if (loading)
+  const productID = productDetails?.id; // Use productDetails to get the productId
+  const currentQuantity = useSelector(getCurrentQuantityById(productID));
+
+  useEffect(() => {
+    if (currentQuantity === 0) {
+      setShowButton(true);
+    }
+    if (currentQuantity > 0) {
+      setShowButton(false);
+    }
+  }, [currentQuantity]);
+
+  const handleAddToCart = () => {
+    if (productDetails) {
+      const newItem = {
+        productId: productId,
+        title: productDetails.title,
+        quantity: 1,
+        unitPrice: productDetails.price,
+        img: productDetails.image,
+        category: productDetails.category,
+        description: productDetails.description,
+      };
+      dispatch(addItem(newItem));
+    } else {
+      console.error("Product details are not available");
+    }
+  };
+
+  if (loading) {
     return (
       <div className="flex items-center justify-center">
         <Loader />
       </div>
     );
+  }
 
   return (
     <>
@@ -151,7 +190,30 @@ const ProductDetails = () => {
               </p>
             </div>
             <div className="mt-[3rem]">
-              <Button type="auth" label="Add to cart" />
+              {showButton ? (
+                <Button
+                  onClick={() => {
+                    handleAddToCart();
+                    toast.success("Item added to the cart", {
+                      position: "top-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "colored",
+                    });
+                  }}
+                  type="auth"
+                  label="Add to cart"
+                />
+              ) : (
+                <QuantityButton
+                  currentQuantity={currentQuantity}
+                  productId={productID}
+                />
+              )}
             </div>
           </div>
         </div>
