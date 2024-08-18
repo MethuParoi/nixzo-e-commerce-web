@@ -4,10 +4,20 @@ import React, { useEffect, useState } from "react";
 import CartItems from "./CartItems";
 import Button from "../ui/Button";
 import { MdDiscount } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCart,
+  getTotalCartPrice,
+  getTotalCartQunatity,
+} from "@/store/features/cart/cartSlice";
 
 class NotFoundError extends Error {}
 
 function Cart() {
+  const dispatch = useDispatch();
+  const cart = useSelector(getCart);
+  const totalCartQuantity = useSelector(getTotalCartQunatity);
+  const totalCartPrice = useSelector(getTotalCartPrice);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -16,6 +26,13 @@ function Cart() {
       console.log("refresh done");
     }
   }, [error]);
+
+  if (!cart.length)
+    return (
+      <div className="flex items-center justify-center h-[60rem]">
+        <h1 className="text-[3rem] font-medium">Your cart is empty</h1>
+      </div>
+    );
 
   try {
     return (
@@ -29,9 +46,13 @@ function Cart() {
             <hr className="lg:w-[96rem] h-1 border-0 rounded bg-gray-400 mt-2" />
           </div>
           {/* map function */}
-          <CartItems />
+          {/* <CartItems /> */}
+          {cart.map((item) => (
+            <CartItems item={item} key={item.product_id} />
+          ))}
         </div>
 
+        {/* Cart total */}
         <div className="border-l-[.3rem] border-l-gray-400 pl-[4rem]">
           <div className="flex items-center justify-start">
             <h2 className="text-[2rem] font-medium">CART TOTALS</h2>
@@ -41,14 +62,15 @@ function Cart() {
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Subtotal
             </p>
-            <p className="text-[1.8rem] font-bold">৳ 540.00</p>
+            <p className="text-[1.8rem] font-bold">৳ {totalCartPrice}</p>
           </div>
           <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
           <div className="flex items-center justify-between mt-[2rem]">
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Shipping
             </p>
-            <p className="text-[1.8rem] font-bold">৳ 0.00</p>
+            {/* shipping cost to be updated */}
+            <p className="text-[1.8rem] font-bold">৳ 00</p>
           </div>
 
           <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
@@ -56,7 +78,7 @@ function Cart() {
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Total
             </p>
-            <p className="text-[1.8rem] font-bold">৳ 540.00</p>
+            <p className="text-[1.8rem] font-bold">৳ {totalCartPrice}</p>
           </div>
           <Button type="auth" label="PROCEED TO CHECKOUT" />
           {/* Coupons section */}

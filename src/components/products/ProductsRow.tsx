@@ -71,7 +71,8 @@ function ProductsRow() {
               <Link href={`/products/${product.id}`} key={product.id}>
                 <ProductCard
                   // key={product.product_id}
-                  key={product.id} // for fake api only
+                  key={product.id}
+                  product_id={product.id} // for fake api only
                   // product_id={product.product_id}
                   img={product.image}
                   category={product.category}
@@ -95,7 +96,8 @@ function ProductsRow() {
             <Link href={`/products/${product.id}`} key={product.id}>
               <ProductCard
                 // key={product.product_id}
-                key={product.id} // for fake api only
+                key={product.id}
+                product_id={product.id} // for fake api only
                 // product_id={product.product_id}
                 img={product.image}
                 category={product.category}
