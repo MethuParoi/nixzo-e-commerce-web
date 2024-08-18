@@ -5,13 +5,13 @@ import React, { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import { IoStar } from "react-icons/io5";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addItem,
   getCurrentQuantityById,
 } from "@/store/features/cart/cartSlice";
 import QuantityButton from "../ui/QuantityButton";
+import { useRouter } from "next/navigation";
 
 function ProductCard({
   product_id: id,
@@ -22,14 +22,11 @@ function ProductCard({
   description,
   rating,
 }) {
-  // const router = useRouter();
+  const router = useRouter();
 
-  // const handleClick = () => {
-  //   router.push({
-  //     pathname: `/product-details/${id}`,
-  //     query: { img, category, title, price, description, rating },
-  //   });
-  // };
+  const handleClick = () => {
+    router.push(`/products/${id}`);
+  };
   const dispatch = useDispatch();
 
   const [showButton, setShowButton] = useState(true);
@@ -57,11 +54,8 @@ function ProductCard({
     dispatch(addItem(newItem));
   };
   return (
-    <div
-      // onClick={handleClick}
-      className="w-[29rem] rounded-2xl p-4 shadow-2xl border-2 border-gray-100"
-    >
-      <div>
+    <div className="w-[29rem] rounded-2xl p-4 shadow-2xl border-2 border-gray-100">
+      <div onClick={handleClick} className="cursor-pointer">
         <Image
           className="w-[100%] h-[40rem] object-contain"
           src={img}
@@ -71,7 +65,10 @@ function ProductCard({
         />
       </div>
       <div>
-        <div className="flex items-center justify-between">
+        <div
+          onClick={handleClick}
+          className="flex items-center justify-between cursor-pointer"
+        >
           <h1 className="text-[2rem] font-semibold text-gray-600 line-clamp-1">
             {/* Men's casual blazer */}
             {title}
