@@ -16,11 +16,13 @@ interface ButtonProps {
     | "card";
   label: string;
   isActive: boolean;
+  disabled?: boolean;
   setActiveButton: (label: string) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
   onClick,
+  disabled,
   href,
   type = "button",
   label,
@@ -87,6 +89,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       onClick={handleClick}
+      disabled={disabled}
       type={
         type === "submit" ? "submit" : type === "reset" ? "reset" : "button"
       }
