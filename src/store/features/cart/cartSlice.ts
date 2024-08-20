@@ -121,7 +121,7 @@ export const getCurrentQuantityById = (id) => (state) => {
 export const getTotalCartPrice = (state) =>
   state.cart.cart.reduce((sum, item) => {
     if (typeof item.totalPrice === "number") {
-      return sum + item.totalPrice;
+      return Math.round(sum + item.totalPrice);
     } else {
       console.error(
         `Invalid totalPrice for item with id ${item.productId}: ${item.totalPrice}`

@@ -163,7 +163,7 @@ function Cart() {
                       <MdDiscount />
                     </div>
                     <h2 className="text-[2rem] text-secondary-light font-medium">
-                      Coupon Applied
+                      {couponData[0].discount_precent}% Discount Applied
                     </h2>
                   </div>
                   <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />

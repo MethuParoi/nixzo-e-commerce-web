@@ -61,7 +61,8 @@ function CartItems({ item }) {
       <div className="flex items-start justify-between mr-[1rem]">
         <p className="text-[2rem] font-medium">
           {" "}
-          <span className="font-bold">৳</span> {unitPrice * currentQuantity}
+          <span className="font-bold">৳</span>{" "}
+          {Math.round(unitPrice * currentQuantity)}
         </p>
         <button
           onClick={() => dispatch(deleteItem(productId))}
