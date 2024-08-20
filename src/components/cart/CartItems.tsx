@@ -24,8 +24,8 @@ function CartItems({ item }) {
   //using redux store
   const dispatch = useDispatch();
   const currentQuantity = useSelector(getCurrentQuantityById(productId));
-  console.log("Current Quantity in Cart:", currentQuantity);
-  console.log("ID:", productId);
+  // console.log("Current Quantity in Cart:", currentQuantity);
+  // console.log("ID:", productId);
 
   return (
     <div className="grid grid-cols-7 my-[1rem]">

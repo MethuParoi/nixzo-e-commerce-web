@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import getAllProducts from "../../../utils/FakeApi";
 import searchContext from "../../context-api/searchContext";
+import { useSelector } from "react-redux";
+import { getTotalCartQunatity } from "@/store/features/cart/cartSlice";
 
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
@@ -18,6 +20,10 @@ function Navbar() {
   //ContextApi hooks
   const { setFilteredProducts } = useContext(searchContext);
   const [ProductDesc, setProductDesc] = useState<any[]>([]);
+
+  //get all added products from cart
+  const CartItem = useSelector(getTotalCartQunatity);
+  // console.log("Cart Items:", CartItem);
 
   // Fetch products and set state
   useEffect(() => {
@@ -138,8 +144,11 @@ function Navbar() {
 
         <button
           onClick={() => router.push("/cart")}
-          className="flex flex-col items-center"
+          className="flex flex-col items-center relative"
         >
+          <div className="absolute w-[2.2rem] h-[2.2rem] rounded-[50%] bg-accent bottom-4 left-2 flex items-center justify-center">
+            <p className="text-primary-light font-medium">{CartItem}</p>
+          </div>
           <HiOutlineShoppingBag
             className="text-[3.2rem]"
             style={{ strokeWidth: 0.9 }}
