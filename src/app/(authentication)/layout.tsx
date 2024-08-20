@@ -15,23 +15,23 @@ export default function AuthLayout({
 }) {
   return (
     <StoreProvider>
-      <html lang="en">
-        <body>
-          {children}
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
-        </body>
-      </html>
+      {/* <html lang="en">
+        <body> */}
+      {children}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      {/* </body>
+      </html> */}
     </StoreProvider>
   );
 }
