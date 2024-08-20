@@ -1,20 +1,22 @@
+//Version 2------------------------------------------------
+
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-// import img from "../../../public/images/categories/classic-2.jpg";
 import Button from "../ui/Button";
 import { IoStar } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addItem,
+  getCart,
   getCurrentQuantityById,
 } from "@/store/features/cart/cartSlice";
 import QuantityButton from "../ui/QuantityButton";
 import { useRouter } from "next/navigation";
 
 function ProductCard({
-  product_id: id,
+  product_id: productId,
   img,
   category,
   title,
@@ -24,26 +26,65 @@ function ProductCard({
 }) {
   const router = useRouter();
 
-  const handleClick = () => {
-    router.push(`/products/${id}`);
-  };
-  const dispatch = useDispatch();
+  // State to manage product IDs and Pid
+  const [pids, setPids] = useState<string[]>([]);
+  const [Pid, setPid] = useState<string | null>(null);
+  const [currentQuantity, setCurrentQuantity] = useState(0);
 
-  const [showButton, setShowButton] = useState(true);
-  const currentQuantity = useSelector(getCurrentQuantityById(id));
+  const cart = useSelector(getCart);
 
+  // Effect to set the product IDs in the cart
   useEffect(() => {
-    if (currentQuantity === 0) {
+    if (cart.length > 0) {
+      const pidsArray = cart.map((item) => item.productId);
+      setPids(pidsArray);
+    } else {
+      setPids([]);
+    }
+  }, [cart]);
+
+  // Effect to check if the productId is in the cart and set Pid accordingly
+  useEffect(() => {
+    if (productId && pids.includes(productId)) {
+      setPid(productId);
+    }
+  }, [productId, pids]);
+  console.log("Pids:", pids);
+
+  const dispatch = useDispatch();
+  const [showButton, setShowButton] = useState(true);
+
+  // Use Pid if available, otherwise use productId
+  // const currentQuantity = useSelector(
+  //   getCurrentQuantityById(pids ? pids[0] : productId)
+  // );
+  console.log("Current Quantity in ProductCard:", currentQuantity);
+
+  const quantity = useSelector(getCurrentQuantityById(productId));
+  useEffect(() => {
+    setCurrentQuantity(quantity);
+
+    if (quantity > 0) {
+      setShowButton(false);
+    } else {
       setShowButton(true);
     }
-    if (currentQuantity > 0) {
-      setShowButton(false);
-    }
-  }, [currentQuantity]);
+  }, [cart, productId]);
 
+  // Update the showButton state based on currentQuantity
+  // useEffect(() => {
+  //   if (currentQuantity === 0) {
+  //     setShowButton(true);
+  //   }
+  //   if (currentQuantity > 0) {
+  //     setShowButton(false);
+  //   }
+  // }, [currentQuantity]);
+
+  // Handle adding to cart
   const handleAddToCart = () => {
     const newItem = {
-      productId: id,
+      productId: Pid ? Pid : productId,
       title,
       quantity: 1,
       unitPrice: price,
@@ -53,6 +94,12 @@ function ProductCard({
     };
     dispatch(addItem(newItem));
   };
+
+  // Handle card click
+  const handleClick = () => {
+    router.push(`/products/${productId}`);
+  };
+
   return (
     <div className="w-[29rem] rounded-2xl p-4 shadow-2xl border-2 border-gray-100">
       <div onClick={handleClick} className="cursor-pointer">
@@ -70,22 +117,14 @@ function ProductCard({
           className="flex items-center justify-between cursor-pointer"
         >
           <h1 className="text-[2rem] font-semibold text-gray-600 line-clamp-1">
-            {/* Men's casual blazer */}
             {title}
           </h1>
-          {/* Rating section */}
           <div className="flex items-center justify-center gap-x-2 bg-green-400 w-[6rem] h-[2.6rem] text-gray-50">
-            <div>
-              <IoStar className="text-[2rem] " />
-            </div>
+            <IoStar className="text-[2rem] " />
             <p className="font-semibold ">{rating}</p>
           </div>
         </div>
-        <p className="text-gray-600 line-clamp-1">
-          {/* Mens black casual blazer with graphical printing */}
-          {description}
-        </p>
-        {/* add to cart */}
+        <p className="text-gray-600 line-clamp-1">{description}</p>
         <div className="flex items-center justify-between mt-4 mr-4">
           {showButton ? (
             <Button
@@ -106,7 +145,10 @@ function ProductCard({
               label="Add to cart"
             />
           ) : (
-            <QuantityButton currentQuantity={currentQuantity} productId={id} />
+            <QuantityButton
+              currentQuantity={currentQuantity}
+              productId={productId}
+            />
           )}
           <p className="text-[3rem] text-gray-900 font-semibold">৳ {price}</p>
         </div>

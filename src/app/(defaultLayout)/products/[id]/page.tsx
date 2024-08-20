@@ -9,6 +9,7 @@ import Loader from "../../../../components/ui/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addItem,
+  getCart,
   getCurrentQuantityById,
 } from "@/store/features/cart/cartSlice";
 import QuantityButton from "@/components/ui/QuantityButton";
@@ -29,15 +30,33 @@ interface Product {
 const ProductDetails = () => {
   const [productDetails, setProductDetails] = useState<Product | null>(null);
   const [productId, setProductId] = useState<string | null>(null);
+  const [pids, setPids] = useState<string[]>([]);
+  const [Pid, setPid] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showButton, setShowButton] = useState(true);
   const dispatch = useDispatch();
+  const cart = useSelector(getCart);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const pidsArray = cart.map((item) => item.productId);
+      setPids(pidsArray);
+    } else {
+      setPids([]);
+    }
+  }, [cart]);
 
   useEffect(() => {
     const url = window.location.href;
     const id = url.split("/").pop();
     setProductId(id || null);
   }, []);
+
+  useEffect(() => {
+    if (productId && pids.includes(productId)) {
+      setPid(productId);
+    }
+  }, [productId, pids]);
 
   useEffect(() => {
     if (productId) {
@@ -48,16 +67,14 @@ const ProductDetails = () => {
     }
   }, [productId]);
 
-  const productID = productDetails?.id; // Use productDetails to get the productId
-  const currentQuantity = useSelector(getCurrentQuantityById(productID));
+  const productID = productDetails?.id;
+
+  // Determine which ID to use for fetching the current quantity
+  const quantityId = Pid ? Pid : productID;
+  const currentQuantity = useSelector(getCurrentQuantityById(quantityId));
 
   useEffect(() => {
-    if (currentQuantity === 0) {
-      setShowButton(true);
-    }
-    if (currentQuantity > 0) {
-      setShowButton(false);
-    }
+    setShowButton(currentQuantity === 0);
   }, [currentQuantity]);
 
   const handleAddToCart = () => {
@@ -211,7 +228,7 @@ const ProductDetails = () => {
               ) : (
                 <QuantityButton
                   currentQuantity={currentQuantity}
-                  productId={productID}
+                  productId={Pid ? Pid : productID} // Conditionally set productId
                 />
               )}
             </div>
