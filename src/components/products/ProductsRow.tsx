@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import getAllProducts from "../../../utils/FakeApi";
 import ProductCard from "./ProductCard";
 import Loader from "../ui/Loader/Loader";
-import Link from "next/link";
 import { useSelector } from "react-redux";
 
 function ProductsRow() {
@@ -65,10 +64,9 @@ function ProductsRow() {
   if (selectedCategories) {
     return (
       <div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[1rem] md:gap-x-40 gap-y-20 mx-auto max-w-screen-2xl">
+        <div className="grid grid-cols-1 justify-items-center sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-[1rem] md:gap-x-40 gap-y-20 mx-auto max-w-screen-2xl">
           {filteredProducts &&
             filteredProducts.map((product) => (
-              // <Link href={`/products/${product.id}`} key={product.id}>
               <ProductCard
                 // key={product.product_id}
                 key={product.id}
@@ -81,7 +79,6 @@ function ProductsRow() {
                 description={product.description}
                 rating={product.rating.rate}
               />
-              // </Link>
             ))}
         </div>
       </div>
@@ -93,7 +90,6 @@ function ProductsRow() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[1rem] md:gap-x-40 gap-y-20 mx-auto max-w-screen-2xl">
         {products &&
           products.map((product) => (
-            // <Link href={`/products/${product.id}`} key={product.id}>
             <ProductCard
               // key={product.product_id}
               key={product.id}
@@ -106,7 +102,6 @@ function ProductsRow() {
               description={product.description}
               rating={product.rating.rate}
             />
-            // </Link>
           ))}
       </div>
     </div>

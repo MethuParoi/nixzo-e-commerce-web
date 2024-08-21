@@ -98,7 +98,10 @@ function Navbar() {
             <p className="text-[2rem] text-secondary">search...</p>
           </div>
         )}
-        <button className="h-[4.5rem] md:w-[7rem] lg:w-[10rem] ml-[-2px] bg-secondary hover:bg-secondary-dark text-primary rounded-r-[1rem]">
+        <button
+          onClick={() => router.push("/search")}
+          className="h-[4.5rem] md:w-[7rem] lg:w-[10rem] ml-[-2px] bg-secondary hover:bg-secondary-dark text-primary rounded-r-[1rem]"
+        >
           Search
         </button>
       </div>
@@ -108,11 +111,17 @@ function Navbar() {
         <div className="absolute top-[1rem] right-[1rem] md:hidden">
           <div className="search-container">
             <input
-              className="z-10 h-[4.5rem] max-w-[18rem] rounded-l-[1rem] border-2 border-secondary px-[1rem]"
+              className="z-10 h-[4.8rem] max-w-[18rem] rounded-l-[1rem] border-2 border-secondary px-[1rem]"
               type="text"
-              onChange={(e) => setSearchValue(e.target.value)}
-              value={searchValue}
               onFocus={() => setIsFocused(true)}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                router.push("/search");
+                if (!e.target.value) {
+                  router.push("/products");
+                }
+              }}
+              value={searchValue}
               onBlur={() => {
                 setIsFocused(false);
               }}
@@ -123,14 +132,17 @@ function Navbar() {
                 <p className="text-[2rem] text-secondary">search...</p>
               </div>
             )}
-            <button className="h-[4.5rem] w-[7rem] ml-[-2px] bg-secondary hover:bg-secondary-dark hover:text-primary-light text-primary text-md rounded-r-[1rem]">
+            <button
+              onClick={() => router.push("/search")}
+              className="h-[4.8rem] w-[7rem] ml-[-2px] bg-secondary hover:bg-secondary-dark hover:text-primary-light text-primary text-md rounded-r-[1rem]"
+            >
               Search
             </button>
           </div>
         </div>
       )}
 
-      <div className="flex items-center gap-x-[2rem] cursor-pointer text-secondary hover:text-secondary-dark">
+      <div className="flex items-center gap-x-[1rem] sm:gap-x-[2rem] cursor-pointer text-secondary hover:text-secondary-dark">
         <button
           onClick={() => setSearchClicked(!searchClicked)}
           className="md:hidden flex flex-col items-center"
@@ -142,19 +154,21 @@ function Navbar() {
           <p className="text-[1rem]">Search</p>
         </button>
 
-        <button
-          onClick={() => router.push("/cart")}
-          className="flex flex-col items-center relative"
-        >
-          <div className="absolute w-[2.2rem] h-[2.2rem] rounded-[50%] bg-accent bottom-4 left-2 flex items-center justify-center">
-            <p className="text-primary-light font-medium">{CartItem}</p>
-          </div>
-          <HiOutlineShoppingBag
-            className="text-[3.2rem]"
-            style={{ strokeWidth: 0.9 }}
-          />
-          <p className="text-[1rem]">Shopping Bag</p>
-        </button>
+        {!searchClicked && (
+          <button
+            onClick={() => router.push("/cart")}
+            className="flex flex-col items-center relative"
+          >
+            <div className="absolute w-[2.2rem] h-[2.2rem] rounded-[50%] bg-accent bottom-4 left-2 flex items-center justify-center">
+              <p className="text-primary-light font-medium">{CartItem}</p>
+            </div>
+            <HiOutlineShoppingBag
+              className="text-[3.2rem]"
+              style={{ strokeWidth: 0.9 }}
+            />
+            <p className="text-[1rem]">Shopping Bag</p>
+          </button>
+        )}
 
         <button
           onClick={() => router.push("/signin")}

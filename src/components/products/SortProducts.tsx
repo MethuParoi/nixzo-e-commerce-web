@@ -1,6 +1,5 @@
-// SortProducts.js
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedOptions } from "../../store/features/sort-products/sortProductSlice";
@@ -21,6 +20,7 @@ const SortProducts: React.FC<SortProductsProps> = ({ Options, label }) => {
     (state) => state.sortProduct.selectedOptions
   );
   const [expandList, setExpandList] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -33,11 +33,29 @@ const SortProducts: React.FC<SortProductsProps> = ({ Options, label }) => {
     );
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setExpandList(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="p-4">
+    <div ref={ref} className="p-4 bg-primary-light">
       <div className="mb-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-[1.6rem] font-medium">{label}</h2>
+          <h2
+            onClick={() => setExpandList(!expandList)}
+            className="text-[1.6rem] lg:text-[1.8rem] font-medium"
+          >
+            {label}
+          </h2>
           <button
             onClick={() => setExpandList(!expandList)}
             className="text-[3rem]"
@@ -71,6 +89,8 @@ const SortProducts: React.FC<SortProductsProps> = ({ Options, label }) => {
 };
 
 export default SortProducts;
+
+//-------------------------------------------------
 
 // "use client";
 // import { useState } from "react";

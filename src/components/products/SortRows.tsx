@@ -61,7 +61,7 @@ function SortRows() {
   // ];
   return (
     <div>
-      <div className="border-b-2 border-gray-300 mr-[2rem] pt-[1rem]">
+      <div className="xl:border-b-2 border-gray-300 mr-[2rem] pt-[1rem]">
         <SortProducts label={"Sort by Category"} Options={SOC} />
       </div>
       {/* <div className="border-b-2 border-gray-300 mr-[2rem] pt-[1rem]">
