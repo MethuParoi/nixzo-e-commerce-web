@@ -105,12 +105,12 @@ const ProductDetails = () => {
   return (
     <>
       {productDetails && (
-        <div className="flex items-start my-[5rem]">
-          <div className="flex gap-x-6">
-            <div className="flex flex-col gap-y-2">
-              <button className="border-2 border-gray-400 rounded-xl">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-y-[4rem] lg:gap-y-0 my-[5rem]">
+          <div className="flex flex-col-reverse md:flex-row gap-y-6 md:gap-y-0 md:gap-x-6">
+            <div className="flex flex-row justify-center md:justify-normal md:flex-col gap-x-4 md:gap-x-0 md:gap-y-2">
+              <button className="border-2 border-gray-400 rounded-xl h-[4.5rem] md:h-[8rem]">
                 <Image
-                  className="w-[5rem] rounded-xl"
+                  className="w-[2.8rem] md:w-[5rem] rounded-xl"
                   src={productDetails.image}
                   alt={productDetails.title}
                   width={50}
@@ -118,9 +118,9 @@ const ProductDetails = () => {
                 />
               </button>
 
-              <button className="border-2 border-gray-400 rounded-xl">
+              <button className="border-2 border-gray-400 rounded-xl h-[4.5rem] md:h-[8rem]">
                 <Image
-                  className="w-[5rem] rounded-xl"
+                  className="w-[2.8rem] md:w-[5rem] rounded-xl"
                   src={productDetails.image}
                   alt={productDetails.title}
                   width={50}
@@ -128,9 +128,9 @@ const ProductDetails = () => {
                 />
               </button>
 
-              <button className="border-2 border-gray-400 rounded-xl">
+              <button className="border-2 border-gray-400 rounded-xl h-[4.5rem] md:h-[8rem]">
                 <Image
-                  className="w-[5rem] rounded-xl"
+                  className="w-[2.8rem] md:w-[5rem] rounded-xl"
                   src={productDetails.image}
                   alt={productDetails.title}
                   width={50}
@@ -138,7 +138,7 @@ const ProductDetails = () => {
                 />
               </button>
             </div>
-            <div className="w-[50rem] ">
+            <div className="w-[30rem] sm:w-[40rem] lg:w-[42rem] xl:w-[50rem] border-2 border-gray-200 p-5 rounded-xl">
               <ReactImageMagnify
                 {...{
                   smallImage: {
@@ -170,8 +170,10 @@ const ProductDetails = () => {
               />
             </div>
           </div>
+
+          {/* Product details */}
           <div className="ml-[3rem]">
-            <h1 className="text-[2.4rem] text-secondary-light font-bold">
+            <h1 className="text-[2.4rem] text-secondary-light font-bold lg:max-w-[50rem] xl:max-w-screen-xl line-clamp-1">
               {productDetails.title}
             </h1>
             <p className="text-[3rem] text-secondary-dark font-semibold">
@@ -180,15 +182,15 @@ const ProductDetails = () => {
               </span>{" "}
               {productDetails.price}
             </p>
-            <hr className="border-1 w-[60rem] my-[1rem]" />
+            <hr className="border-1 lg:w-[50rem] xl:w-[60rem] my-[1rem]" />
             <p className="text-[1.8rem] text-secondary-light font-semibold">
               Category: {productDetails.category}
             </p>
-            <hr className="border-1 w-[60rem] my-[1rem]" />
+            <hr className="border-1 lg:w-[50rem] xl:w-[60rem] my-[1rem]" />
             <p className="text-[1.8rem] text-secondary-light font-semibold">
               Color: Gray{" "}
             </p>
-            <hr className="border-1 w-[60rem] my-[1rem]" />{" "}
+            <hr className="border-1 lg:w-[50rem] xl:w-[60rem] my-[1rem]" />{" "}
             <div>
               {" "}
               <p className="text-[1.8rem] text-secondary-light font-semibold">
