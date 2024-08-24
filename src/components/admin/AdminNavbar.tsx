@@ -14,11 +14,22 @@ function AdminNavbar() {
   const router = useRouter();
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between pb-4 border-b-[.3rem] border-b-gray-500">
       <div className="flex items-center gap-x-[2rem]">
-        <h1>Admin</h1>
-        <button>overview</button>
-        <button>products</button>
+        <Button label="Overview" type="button" />
+        <Button
+          onClick={() => {
+            router.push("/admin/manage-products");
+          }}
+          label="Manage Products"
+          type="button"
+        />
+      </div>
+
+      <div>
+        <h1 className="text-secondary-dark text-[2rem] mr-[8rem] font-semibold">
+          Admin Dashboard
+        </h1>
       </div>
 
       <div>
@@ -27,7 +38,7 @@ function AdminNavbar() {
             dispatch(setGeneral());
             router.push("/");
           }}
-          label="logout"
+          label="Logout"
           type="reset"
         />
       </div>

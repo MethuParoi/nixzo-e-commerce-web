@@ -23,8 +23,10 @@ export default function AuthLayout({
 }) {
   const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
+  const username = typeof user === "string" ? user : user?.user;
+  console.log(username);
 
-  if (user !== "admin") {
+  if (username !== "admin") {
     return (
       <html lang="en">
         <body>

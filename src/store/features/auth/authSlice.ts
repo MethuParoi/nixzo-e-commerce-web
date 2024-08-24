@@ -5,8 +5,16 @@ export interface AuthState {
   user: string;
 }
 
+let user = "general";
+
+if (typeof window !== "undefined") {
+  const userData = localStorage.getItem("auth");
+  user = userData ? JSON.parse(userData) : "general";
+}
+// console.log(user);
+
 const initialState: AuthState = {
-  user: "general",
+  user,
 };
 
 export const authSlice = createSlice({
@@ -15,9 +23,13 @@ export const authSlice = createSlice({
   reducers: {
     setAdmin: (state, action: PayloadAction<void>) => {
       state.user = "admin";
+      // Save to localStorage
+      localStorage.setItem("auth", JSON.stringify(state));
     },
     setGeneral: (state, action: PayloadAction<void>) => {
       state.user = "general";
+      // Save to localStorage
+      localStorage.removeItem("auth");
     },
   },
 });
