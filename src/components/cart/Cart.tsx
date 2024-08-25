@@ -14,6 +14,11 @@ import { toast } from "react-toastify";
 import { getCoupon } from "../../../utils/coupon";
 import Loader from "../ui/Loader/Loader";
 import { useRouter } from "next/navigation";
+import {
+  setSubtotal,
+  setShippingCost,
+  setTotal,
+} from "../../store/features/checkout/checkout";
 
 class NotFoundError extends Error {}
 
@@ -30,6 +35,9 @@ function Cart() {
   const [discount, setDiscount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(totalCartPrice);
   const [couponApplied, setCouponApplied] = useState(false);
+  useEffect(() => {
+    setTotalPrice(totalCartPrice);
+  }, [totalCartPrice]);
 
   useEffect(() => {
     if (error) {
@@ -99,6 +107,13 @@ function Cart() {
       alert("An error occurred. Please try again.");
     }
   };
+
+  //setting redux state
+  useEffect(() => {
+    dispatch(setSubtotal(totalCartPrice));
+    dispatch(setShippingCost(0)); // Assuming shipping cost is 0 for now
+    dispatch(setTotal(totalPrice));
+  }, [totalCartPrice, totalPrice, totalCartQuantity]);
 
   if (!cart.length)
     return (

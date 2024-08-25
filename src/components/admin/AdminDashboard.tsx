@@ -13,6 +13,7 @@ import { getOrders } from "../../../utils/placeOrder";
 
 function AdminDashboard() {
   const [orderData, setOrderData] = useState([]);
+  const [extractedItems, setExtractedItems] = useState([]);
 
   useEffect(() => {
     async function fetchOrders() {
@@ -51,6 +52,26 @@ function AdminDashboard() {
     };
   }, []);
 
+  // Extract required fields from ordered_items
+  useEffect(() => {
+    const allExtractedItems = orderData.flatMap((order) => {
+      if (order.ordered_items) {
+        const items = JSON.parse(order.ordered_items);
+        return items.map((item) => ({
+          order_id: order.id,
+          productId: item.productId,
+          title: item.title,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+        }));
+      }
+      return [];
+    });
+    setExtractedItems(allExtractedItems);
+  }, [orderData]);
+
+  //   console.log("extractd data:", extractedItems);
+
   //format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -59,9 +80,9 @@ function AdminDashboard() {
 
   //--------------------------
 
-  useEffect(() => {
-    console.log(orderData); // Log orderData whenever it changes
-  }, [orderData]);
+  //   useEffect(() => {
+  //     console.log(orderData); // Log orderData whenever it changes
+  //   }, [orderData]);
 
   return (
     <div className="mt-[4rem]">
@@ -83,7 +104,7 @@ function AdminDashboard() {
             <SortOrder />
           </div>
         </div>
-        <div className="mt-[2rem] grid grid-cols-5 w-[100rem] gap-4 justify-items-center">
+        <div className="mt-[2rem] grid grid-cols-6 w-full gap-4 justify-items-center">
           <div>
             <h1 className="text-[2rem] font-semibold text-gray-500">
               Order Date
@@ -96,11 +117,18 @@ function AdminDashboard() {
           </div>
           <div>
             <h1 className="text-[2rem] font-semibold text-gray-500">
-              Customer
+              Customer Name
             </h1>
           </div>
           <div>
-            <h1 className="text-[2rem] font-semibold text-gray-500">Total</h1>
+            <h1 className="text-[2rem] font-semibold text-gray-500">
+              Total Price
+            </h1>
+          </div>
+          <div>
+            <h1 className="text-[2rem] font-semibold text-gray-500">
+              Phone No.
+            </h1>
           </div>
           <div>
             <h1 className="text-[2rem] font-semibold text-gray-500">Status</h1>
@@ -114,9 +142,18 @@ function AdminDashboard() {
               <OrderTable
                 order_id={order.id}
                 order_date={formatDate(order.created_at)}
-                customer={order.first_name}
-                total={244}
+                first_name={order.first_name}
+                last_name={order.last_name}
+                total={order.total_price}
+                phone={order.mobile_number}
                 status={"Pending"}
+                district={order.district}
+                town_city={order.town_city}
+                street_address={order.street_address}
+                // extractedItems={extractedItems}
+                extractedItems={extractedItems.filter(
+                  (item) => item.order_id === order.id
+                )}
               />
             ))}
         </div>

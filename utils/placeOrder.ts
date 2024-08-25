@@ -1,3 +1,4 @@
+import { Cart } from "@/components/cart/Cart";
 import { createClient } from "@supabase/supabase-js";
 
 // Initialize Supabase client
@@ -13,6 +14,8 @@ export async function placeOrder({
   District,
   Mobile_number,
   Email,
+  Total_price,
+  Cart_items,
 }) {
   const { data, error } = await supabase
     .from("order_table")
@@ -25,6 +28,8 @@ export async function placeOrder({
         district: District,
         mobile_number: Mobile_number,
         email: Email,
+        total_price: Total_price,
+        ordered_items: Cart_items,
       },
     ])
     .select();
@@ -38,18 +43,6 @@ export async function placeOrder({
 
 export async function getOrders() {
   const { data, error } = await supabase.from("order_table").select("*");
-
-  //   const orders = client
-  //     .channel("custom-all-channel")
-  //     .on(
-  //       "postgres_changes",
-  //       { event: "*", schema: "public", table: "order_table" },
-  //       (payload) => {
-  //         console.log("Received event", payload);
-  //         messages.value.push(payload.new);
-  //       }
-  //     )
-  //     .subscribe();
 
   if (error) {
     console.error("Error fetching orders:", error);
