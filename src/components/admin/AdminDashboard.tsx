@@ -5,22 +5,14 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-import React, { use, useEffect } from "react";
+import React, { use, useEffect, useState } from "react";
 import HotProductCard from "../ui/HotProductCard";
 import SortOrder from "./SortOrder";
 import OrderTable from "./OrderTable";
 import { getOrders } from "../../../utils/placeOrder";
 
 function AdminDashboard() {
-  const [orderData, setOrderData] = React.useState([]);
-
-  //   async function fetchOrders() {
-  //     const allOrders = await getOrders();
-  //     setOrderData(allOrders);
-  //     console.log(allOrders);
-  //   }
-
-  //   fetchOrders();
+  const [orderData, setOrderData] = useState([]);
 
   useEffect(() => {
     async function fetchOrders() {
@@ -58,6 +50,13 @@ function AdminDashboard() {
       supabase.removeChannel(ordersChannel);
     };
   }, []);
+
+  //format date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
+
   //--------------------------
 
   useEffect(() => {
@@ -107,28 +106,19 @@ function AdminDashboard() {
             <h1 className="text-[2rem] font-semibold text-gray-500">Status</h1>
           </div>
         </div>
-        <div>
-          <OrderTable
-            order_id={52355}
-            order_date={"26 aug"}
-            customer={"Methu Paroi"}
-            total={244}
-            status={"Pending"}
-          />
-          <OrderTable
-            order_id={52355}
-            order_date={"26 aug"}
-            customer={"Methu Paroi"}
-            total={244}
-            status={"Pending"}
-          />
-          <OrderTable
-            order_id={52355}
-            order_date={"26 aug"}
-            customer={"Methu Paroi"}
-            total={244}
-            status={"Pending"}
-          />
+        <div className="h-[70dvh] overflow-y-scroll">
+          {orderData
+            .slice()
+            .reverse()
+            .map((order) => (
+              <OrderTable
+                order_id={order.id}
+                order_date={formatDate(order.created_at)}
+                customer={order.first_name}
+                total={244}
+                status={"Pending"}
+              />
+            ))}
         </div>
       </div>
     </div>

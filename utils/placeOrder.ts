@@ -18,13 +18,13 @@ export async function placeOrder({
     .from("order_table")
     .insert([
       {
-        "First name": First_name,
-        "Last name": Last_name,
-        "Street address": Street_address,
-        "Town/City": Town_City,
-        District: District,
-        "Mobile number": Mobile_number,
-        Email: Email,
+        first_name: First_name,
+        last_name: Last_name,
+        street_address: Street_address,
+        town_city: Town_City,
+        district: District,
+        mobile_number: Mobile_number,
+        email: Email,
       },
     ])
     .select();
