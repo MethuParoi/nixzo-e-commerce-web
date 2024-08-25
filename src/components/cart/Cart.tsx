@@ -13,7 +13,7 @@ import {
 import { toast } from "react-toastify";
 import { getCoupon } from "../../../utils/coupon";
 import Loader from "../ui/Loader/Loader";
-import { DiVim } from "react-icons/di";
+import { useRouter } from "next/navigation";
 
 class NotFoundError extends Error {}
 
@@ -37,6 +37,8 @@ function Cart() {
       // console.log("refresh done");
     }
   }, [error]);
+
+  const router = useRouter();
 
   // Fetch coupon data from the supabase database
   useEffect(() => {
@@ -202,7 +204,15 @@ function Cart() {
                 </div>
               )}
             </div>
-            <Button type="auth" label="PROCEED TO CHECKOUT" />
+            <Button
+              onClick={() => {
+                if (totalCartQuantity > 0) {
+                  router.push("cart/checkout");
+                }
+              }}
+              type="auth"
+              label="PROCEED TO CHECKOUT"
+            />
           </div>
         </div>
       </div>

@@ -7,10 +7,11 @@ const HomePage = () => {
   return (
     <main>
       <Hero />
-      <Categories />
-
+      <div className="mt-[-8rem]">
+        <Categories />
+      </div>
     </main>
-  )
+  );
 }
 
 export default HomePage

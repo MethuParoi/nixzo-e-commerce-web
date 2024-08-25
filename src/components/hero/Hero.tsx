@@ -63,8 +63,8 @@ const Hero = () => {
   };
 
   return (
-    <section className="md:min-h-screen grid lg:grid-rows-9 ">
-      <div className="lg:row-span-6">
+    <section className="md:min-h-screen grid lg:grid-rows-5 ">
+      <div className="lg:row-span-3">
         <div className="relative h-[30rem] md:h-[53rem] w-full">
           <Image
             src={slides[page].src}
@@ -101,7 +101,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className=" lg:row-span-3">
+      <div className=" lg:row-span-2">
         <div className="container mx-auto py-24">
           {/* <div className='p-10 md:p-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'> */}
           <div className="flex flex-wrap gap-5 py-5 md:py-10 justify-center items-center">
