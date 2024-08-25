@@ -1,9 +1,69 @@
-import React from "react";
+import { createClient } from "@supabase/supabase-js";
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+import React, { use, useEffect } from "react";
 import HotProductCard from "../ui/HotProductCard";
 import SortOrder from "./SortOrder";
 import OrderTable from "./OrderTable";
+import { getOrders } from "../../../utils/placeOrder";
 
 function AdminDashboard() {
+  const [orderData, setOrderData] = React.useState([]);
+
+  //   async function fetchOrders() {
+  //     const allOrders = await getOrders();
+  //     setOrderData(allOrders);
+  //     console.log(allOrders);
+  //   }
+
+  //   fetchOrders();
+
+  useEffect(() => {
+    async function fetchOrders() {
+      const allOrders = await getOrders();
+      setOrderData(allOrders);
+    }
+
+    fetchOrders();
+  }, []);
+
+  //---------------------------
+
+  useEffect(() => {
+    async function fetchOrders() {
+      const allOrders = await getOrders();
+      setOrderData(allOrders);
+    }
+
+    fetchOrders();
+    // Set up real-time subscription
+    const ordersChannel = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "order_table" },
+        (payload) => {
+          console.log("Received event", payload);
+          setOrderData((prevOrders) => [...prevOrders, payload.new]);
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(ordersChannel);
+    };
+  }, []);
+  //--------------------------
+
+  useEffect(() => {
+    console.log(orderData); // Log orderData whenever it changes
+  }, [orderData]);
+
   return (
     <div className="mt-[4rem]">
       {/* card section */}
