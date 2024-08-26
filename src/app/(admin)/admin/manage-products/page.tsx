@@ -1,7 +1,12 @@
 import React from "react";
+import ProductsForm from "../../../../components/admin/ProductsForm";
 
 function page() {
-  return <div>Manage Products</div>;
+  return (
+    <div>
+      <ProductsForm />
+    </div>
+  );
 }
 
 export default page;
