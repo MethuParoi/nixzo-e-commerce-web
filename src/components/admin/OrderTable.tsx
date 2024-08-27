@@ -75,8 +75,9 @@ function OrderTable({
               </div>
             </div>
             <div>
-              {extractedItems.map((item) => (
+              {extractedItems.map((item, index) => (
                 <OrderedItemTable
+                  key={index}
                   title={item.title}
                   id={item.productId}
                   quantity={item.quantity}

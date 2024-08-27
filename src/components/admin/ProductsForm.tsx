@@ -1,396 +1,18 @@
-// // import Input from "../../ui/Input";
-// // import Form from "../../ui/Form";
-// // import FormRow from "../../ui/FormRow";
-// // import Button from "../../ui/Button";
-// // import FileInput from "../../ui/FileInput";
-// // import Textarea from "../../ui/Textarea";
-// import { useForm } from "react-hook-form";
-// // import { useCreateCabin } from "./useCreateCabin";
-// // import { useEditCabin } from "./useEditCabin";
-// import { useState } from "react";
-// import Button from "../ui/Button";
-
-// function ProductsForm({ cabinToEdit = {}, onClose }) {
-//   //useCreateCabin and useEditCabin, importing custom hooks
-// //   const { isCreating, createCabinForm } = useCreateCabin();
-// //   const { editCabinForm, isEditingData } = useEditCabin();
-// //temp---------------
-// const { isCreating, createCabinForm } = useState(true);
-//   const { editCabinForm, isEditingData } = useState(false);
-// //------------------
-//   const isWorking = isCreating || isEditingData;
-
-//   const { id: editId, ...editValue } = cabinToEdit;
-//   const isEditing = Boolean(editId);
-
-//   const { register, handleSubmit, reset, getValues, formState } = useForm({
-//     defaultValues: isEditing ? editValue : {},
-//   });
-//   const { errors } = formState;
-
-//   //Onclick handler for the submit button
-//   function onSubmit(data) {
-//     const image = typeof data.image === "string" ? data.image : data.image[0];
-
-//     if (isEditing)
-//       editCabinForm(
-//         { newCabinData: { ...data, image }, id: editId },
-//         {
-//           onSuccess: (data) => {
-//             onClose();
-//             reset();
-//           },
-//         }
-//       );
-//     else
-//       createCabinForm(
-//         { ...data, image: image },
-//         {
-//           onSuccess: (data) => {
-//             onClose();
-//             reset();
-//           },
-//         }
-//       );
-//   }
-
-//   function onError(errors) {
-//     console.error(errors);
-//   }
-
-//   return (
-//     <div>
-//       <form
-//       onSubmit={handleSubmit(onSubmit, onError)}
-//       type={onClose ? "modal" : "regular"}
-//     >
-//       <div className="mb-[3.5rem] relative">
-//         {/* error={errors?.name?.message} */}
-//         <p className="text-gray-600 font-medium">Cabin name*</p>
-//         <input
-//           className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//           type="text"
-//           id="name"
-//           disabled={isWorking}
-//           {...register("name", { required: "Cabin name is required" })}
-//         />
-//         {errors.name && (
-//           <p className="text-red-500 absolute">{errors.name.message}</p>
-//         )}
-//       </div>
-//       <div className="mb-[3.5rem] relative">
-//         <p className="text-gray-600 font-medium">Maximum capacity*</p>
-
-//         <input
-//           className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//           type="number"
-//           id="maxCapacity"
-//           disabled={isWorking}
-//           {...register("maxCapacity", {
-//             required: "Maximum capacity is required",
-//             min: { value: 1, message: "capcity should be atleast 1" },
-//           })}
-//         />
-//         {errors.maxCapacity && (
-//           <p className="text-red-500 absolute">{errors.maxCapacity.message}</p>
-//         )}
-//       </div>
-//       <div className="mb-[3.5rem] relative">
-//         <p className="text-gray-600 font-medium">Regular price*</p>
-
-//         <input
-//           className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//           type="number"
-//           id="regularPrice"
-//           disabled={isWorking}
-//           {...register("regularPrice", {
-//             required: "Regular price is required",
-//           })}
-//         />
-//         {errors.regularPrice && (
-//           <p className="text-red-500 absolute">{errors.regularPrice.message}</p>
-//         )}
-//       </div>
-//       <div className="mb-[3.5rem] relative">
-//         <p className="text-gray-600 font-medium">Discount</p>
-//         <input
-//           className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//           type="number"
-//           id="discount"
-//           disabled={isWorking}
-//           defaultValue={0}
-//           {...register("discount", {
-//             required: "Discounted amount is required",
-//             validate: (value) => {
-//               if (Number(value) > Number(getValues().regularPrice)) {
-//                 return "Discounted amount should be less than regular price";
-//               }
-//               if (Number(value) < 0) {
-//                 return "Discounted amount should be greater than 0";
-//               }
-//               return true;
-//             },
-//             // validate: (value) =>
-//             //   Number(value) <= Number(getValues().regularPrice) ||
-//             //   "Discounted amount should be less than regular price",
-//             //   Number(value) >= 0 || "Discounted amount should be greater than 0",
-//           })}
-//         />
-//         {errors.discount && (
-//           <p className="text-red-500 absolute">{errors.discount.message}</p>
-//         )}
-//       </div>
-//       <div className="mb-[3.5rem] relative">
-//         <p className="text-gray-600 font-medium">Description for website</p>
-
-//         <textarea
-//           className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//           type="text"
-//           id="description"
-//           defaultValue=""
-//           disabled={isWorking}
-//           {...register("description", { required: "Description is required" })}
-//         />
-//         {errors.description && (
-//           <p className="text-red-500 absolute">{errors.description.message}</p>
-//         )}
-//       </div>
-
-//       <div className="mb-[3.5rem] relative">
-//         <p className="text-gray-600 font-medium">Cabin photo</p>
-
-//         <input.attrs({ type: "file" })
-//           id="image"
-//           accept="image/*"
-//           {...register("image", {
-//             required: isEditing ? false : "cabin photo is required",
-//           })}
-//         />
-//         {errors.image && (
-//           <p className="text-red-500 absolute">{errors.image.message}</p>
-//         )}
-//       </div>
-//       <div>
-//         {/* type is an HTML attribute! */}
-//         <Button label={"Cancel"} onClick={onClose}  type="reset"/>
-
-//         <Button label={isEditing ? "Edit cabin" : "Add a new cabin"} disabled={isWorking}/>
-
-//       </div>
-//     </form>
-//     </div>
-//   );
-// }
-
-// export default ProductsForm;
-
-//--------------V2--------------------------------------------------
-
-// "use client";
-
-// import { useForm } from "react-hook-form";
-// import { useRef, useState } from "react";
-// import Button from "../ui/Button";
-
-// function ProductsForm({ cabinToEdit = {}, onClose }) {
-//   //useCreateCabin and useEditCabin, importing custom hooks
-//   const { isCreating, createCabinForm } = useCreateCabin();
-//   const { editCabinForm, isEditingData } = useEditCabin();
-//   // const { isCreating, createCabinForm } = useState(true);
-//   // const { editCabinForm, isEditingData } = useState(false);
-//   const isWorking = isCreating || isEditingData;
-
-//   const formRef = useRef(null);
-
-//   const { id: editId, ...editValue } = cabinToEdit;
-//   const isEditing = Boolean(editId);
-
-//   const { register, handleSubmit, reset, getValues, formState } = useForm({
-//     defaultValues: isEditing ? editValue : {},
-//   });
-//   const { errors } = formState;
-
-//   // Onclick handler for the submit button
-//   function onSubmit(data) {
-//     console.log(data); // Log the form data
-
-//     const image = typeof data.image === "string" ? data.image : data.image[0];
-
-//     if (isEditing)
-//       editCabinForm(
-//         { newCabinData: { ...data, image }, id: editId },
-//         {
-//           onSuccess: (data) => {
-//             onClose();
-//             reset();
-//           },
-//         }
-//       );
-//     else
-//       createCabinForm(
-//         { ...data, image: image },
-//         {
-//           onSuccess: (data) => {
-//             onClose();
-//             reset();
-//           },
-//         }
-//       );
-//   }
-
-//   function onError(errors) {
-//     console.error(errors);
-//   }
-
-//   return (
-//     <div>
-//       <form
-//         ref={formRef}
-//         onSubmit={handleSubmit(onSubmit, onError)}
-//         type={onClose ? "modal" : "regular"}
-//       >
-//         <div className="mb-[3.5rem] relative">
-//           <p className="text-gray-600 font-medium">Cabin name*</p>
-//           <input
-//             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//             type="text"
-//             id="name"
-//             disabled={isWorking}
-//             {...register("name", { required: "Cabin name is required" })}
-//           />
-//           {errors.name && (
-//             <p className="text-red-500 absolute">{errors.name.message}</p>
-//           )}
-//         </div>
-//         <div className="mb-[3.5rem] relative">
-//           <p className="text-gray-600 font-medium">Maximum capacity*</p>
-//           <input
-//             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//             type="number"
-//             id="maxCapacity"
-//             disabled={isWorking}
-//             {...register("maxCapacity", {
-//               required: "Maximum capacity is required",
-//               min: { value: 1, message: "Capacity should be at least 1" },
-//             })}
-//           />
-//           {errors.maxCapacity && (
-//             <p className="text-red-500 absolute">
-//               {errors.maxCapacity.message}
-//             </p>
-//           )}
-//         </div>
-//         <div className="mb-[3.5rem] relative">
-//           <p className="text-gray-600 font-medium">Regular price*</p>
-//           <input
-//             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//             type="number"
-//             id="regularPrice"
-//             disabled={isWorking}
-//             {...register("regularPrice", {
-//               required: "Regular price is required",
-//             })}
-//           />
-//           {errors.regularPrice && (
-//             <p className="text-red-500 absolute">
-//               {errors.regularPrice.message}
-//             </p>
-//           )}
-//         </div>
-//         <div className="mb-[3.5rem] relative">
-//           <p className="text-gray-600 font-medium">Discount</p>
-//           <input
-//             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//             type="number"
-//             id="discount"
-//             disabled={isWorking}
-//             defaultValue={0}
-//             {...register("discount", {
-//               required: "Discounted amount is required",
-//               validate: (value) => {
-//                 if (Number(value) > Number(getValues().regularPrice)) {
-//                   return "Discounted amount should be less than regular price";
-//                 }
-//                 if (Number(value) < 0) {
-//                   return "Discounted amount should be greater than 0";
-//                 }
-//                 return true;
-//               },
-//             })}
-//           />
-//           {errors.discount && (
-//             <p className="text-red-500 absolute">{errors.discount.message}</p>
-//           )}
-//         </div>
-//         <div className="mb-[3.5rem] relative">
-//           <p className="text-gray-600 font-medium">Description for website</p>
-//           <textarea
-//             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-//             id="description"
-//             defaultValue=""
-//             disabled={isWorking}
-//             {...register("description", {
-//               required: "Description is required",
-//             })}
-//           />
-//           {errors.description && (
-//             <p className="text-red-500 absolute">
-//               {errors.description.message}
-//             </p>
-//           )}
-//         </div>
-//         <div className="mb-[3.5rem] relative">
-//           <p className="text-gray-600 font-medium">Cabin photo</p>
-//           <input
-//             type="file"
-//             id="image"
-//             accept="image/*"
-//             {...register("image", {
-//               required: isEditing ? false : "Cabin photo is required",
-//             })}
-//           />
-//           {errors.image && (
-//             <p className="text-red-500 absolute">{errors.image.message}</p>
-//           )}
-//         </div>
-//         <div>
-//           <input type="submit" className="font-bold" />
-//         </div>
-//         <div>
-//           <Button label={"Cancel"} onClick={onClose} type="reset" />
-//           <Button
-//             onClick={() => {
-//               if (formRef.current) {
-//                 handleSubmit(onSubmit)();
-//               }
-//             }}
-//             label={isEditing ? "Edit cabin" : "Add a new cabin"}
-//             disabled={isWorking}
-//           />
-//         </div>
-//       </form>
-//     </div>
-//   );
-// }
-
-// export default ProductsForm;
-
-//--------------V3--------------------------------------------------
-
 "use client";
 
 import { useForm } from "react-hook-form";
 import { useRef, useState } from "react";
 import Button from "../ui/Button";
-import { createCabin } from "../../../utils/manageProducts";
+import { createProduct } from "../../../utils/manageProducts";
+import { IoCloseSharp } from "react-icons/io5";
 
-function useCreateCabin() {
+function useCreateProduct() {
   const [isCreating, setIsCreating] = useState(false);
 
-  const createCabinForm = async (newCabinData, { onSuccess }) => {
+  const createProductForm = async (newProductData, { onSuccess }) => {
     setIsCreating(true);
     try {
-      const data = await createCabin(newCabinData);
+      const data = await createProduct(newProductData);
       onSuccess(data);
     } catch (error) {
       console.error(error);
@@ -399,16 +21,16 @@ function useCreateCabin() {
     }
   };
 
-  return { isCreating, createCabinForm };
+  return { isCreating, createProductForm };
 }
 
-function useEditCabin() {
+function useEditProduct() {
   const [isEditingData, setIsEditingData] = useState(false);
 
-  const editCabinForm = async ({ newCabinData, id }, { onSuccess }) => {
+  const editProductForm = async ({ newProductData, id }, { onSuccess }) => {
     setIsEditingData(true);
     try {
-      const data = await editCabin(newCabinData, id);
+      const data = await editProduct(newProductData, id);
       onSuccess(data);
     } catch (error) {
       console.error(error);
@@ -417,17 +39,17 @@ function useEditCabin() {
     }
   };
 
-  return { isEditingData, editCabinForm };
+  return { isEditingData, editProductForm };
 }
 
-function ProductsForm({ cabinToEdit = {}, onClose }) {
-  const { isCreating, createCabinForm } = useCreateCabin();
-  const { editCabinForm, isEditingData } = useEditCabin();
+function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
+  const { isCreating, createProductForm } = useCreateProduct();
+  const { editProductForm, isEditingData } = useEditProduct();
   const isWorking = isCreating || isEditingData;
 
   const formRef = useRef(null);
 
-  const { id: editId, ...editValue } = cabinToEdit;
+  const { id: editId, ...editValue } = productToEdit;
   const isEditing = Boolean(editId);
 
   const { register, handleSubmit, reset, getValues, formState } = useForm({
@@ -442,8 +64,8 @@ function ProductsForm({ cabinToEdit = {}, onClose }) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
     if (isEditing)
-      editCabinForm(
-        { newCabinData: { ...data, image }, id: editId },
+      editProductForm(
+        { newProductData: { ...data, image }, id: editId },
         {
           onSuccess: (data) => {
             onClose();
@@ -452,7 +74,7 @@ function ProductsForm({ cabinToEdit = {}, onClose }) {
         }
       );
     else
-      createCabinForm(
+      createProductForm(
         { ...data, image: image },
         {
           onSuccess: (data) => {
@@ -468,132 +90,144 @@ function ProductsForm({ cabinToEdit = {}, onClose }) {
   }
 
   return (
-    <div>
-      <form
-        ref={formRef}
-        onSubmit={handleSubmit(onSubmit, onError)}
-        type={onClose ? "modal" : "regular"}
-      >
-        <div className="mb-[3.5rem] relative">
-          <p className="text-gray-600 font-medium">Cabin name*</p>
-          <input
-            className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-            type="text"
-            id="name"
-            disabled={isWorking}
-            {...register("name", { required: "Cabin name is required" })}
-          />
-          {errors.name && (
-            <p className="text-red-500 absolute">{errors.name.message}</p>
-          )}
-        </div>
-        <div className="mb-[3.5rem] relative">
-          <p className="text-gray-600 font-medium">Maximum capacity*</p>
-          <input
-            className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-            type="number"
-            id="maxCapacity"
-            disabled={isWorking}
-            {...register("maxCapacity", {
-              required: "Maximum capacity is required",
-              min: { value: 1, message: "Capacity should be at least 1" },
-            })}
-          />
-          {errors.maxCapacity && (
-            <p className="text-red-500 absolute">
-              {errors.maxCapacity.message}
+    <div className=" inset-0 bg-opacity-30 backdrop-blur-sm flex flex-col justify-center items-center">
+      <div className="place-self-end">
+        <button onClick={modalHandler}>
+          <IoCloseSharp className="text-gray-300" size={"5rem"} />
+        </button>
+      </div>
+      <div className="bg-gray-100 w-[80rem] h-[80rem] p-[2rem] shadow-xl rounded-[2rem] border-2 border-gray-200">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit(onSubmit, onError)}
+          type={onClose ? "modal" : "regular"}
+        >
+          <div className="mb-[3.5rem] relative">
+            <p className="text-gray-600 font-medium">Product title*</p>
+            <input
+              className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+              type="text"
+              id="productTitle"
+              disabled={isWorking}
+              {...register("productTitle", {
+                required: "Product title is required",
+              })}
+            />
+            {errors.productTitle && (
+              <p className="text-red-500 absolute">
+                {errors.productTitle.message}
+              </p>
+            )}
+          </div>
+          <div className="mb-[3.5rem] relative">
+            <p className="text-gray-600 font-medium">Product Category*</p>
+            <input
+              className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+              type="text"
+              id="productCategory"
+              disabled={isWorking}
+              {...register("productCategory", {
+                required: "Product category is required",
+              })}
+            />
+            {errors.productCategory && (
+              <p className="text-red-500 absolute">
+                {errors.productCategory.message}
+              </p>
+            )}
+          </div>
+          <div className="mb-[3.5rem] relative">
+            <p className="text-gray-600 font-medium">Product price*</p>
+            <input
+              className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+              type="number"
+              id="regularPrice"
+              disabled={isWorking}
+              {...register("regularPrice", {
+                required: "Product price is required",
+              })}
+            />
+            {errors.regularPrice && (
+              <p className="text-red-500 absolute">
+                {errors.regularPrice.message}
+              </p>
+            )}
+          </div>
+          <div className="mb-[3.5rem] relative">
+            <p className="text-gray-600 font-medium">
+              Product rating (optional)
             </p>
-          )}
-        </div>
-        <div className="mb-[3.5rem] relative">
-          <p className="text-gray-600 font-medium">Regular price*</p>
-          <input
-            className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-            type="number"
-            id="regularPrice"
-            disabled={isWorking}
-            {...register("regularPrice", {
-              required: "Regular price is required",
-            })}
-          />
-          {errors.regularPrice && (
-            <p className="text-red-500 absolute">
-              {errors.regularPrice.message}
+            <input
+              className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+              type="number"
+              id="rating"
+              disabled={isWorking}
+              defaultValue={0}
+              {...register("rating", {
+                validate: (value) => {
+                  if (Number(value) > 5) {
+                    return "rating should be less than 5";
+                  }
+                  if (Number(value) < 0) {
+                    return "rating should be greater than 0";
+                  }
+                  return true;
+                },
+              })}
+            />
+            {errors.rating && (
+              <p className="text-red-500 absolute">{errors.rating.message}</p>
+            )}
+          </div>
+          <div className="mb-[3.5rem] relative">
+            <p className="text-gray-600 font-medium">
+              Description of product(optional)
             </p>
-          )}
-        </div>
-        <div className="mb-[3.5rem] relative">
-          <p className="text-gray-600 font-medium">Discount</p>
-          <input
-            className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-            type="number"
-            id="discount"
-            disabled={isWorking}
-            defaultValue={0}
-            {...register("discount", {
-              required: "Discounted amount is required",
-              validate: (value) => {
-                if (Number(value) > Number(getValues().regularPrice)) {
-                  return "Discounted amount should be less than regular price";
+            <textarea
+              className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+              id="description"
+              defaultValue=""
+              disabled={isWorking}
+              {...register("description")}
+            />
+            {errors.description && (
+              <p className="text-red-500 absolute">
+                {errors.description.message}
+              </p>
+            )}
+          </div>
+          <div className="mb-[3.5rem] relative">
+            <p className="text-gray-600 font-medium">Product photo</p>
+            <input
+              className="text-[1.4rem] rounded-sm font-medium file:text-gray-100 file:mt-[.5rem] file:px-3 file:py-2 file:mr-3 file:rounded-lg file:border-none file:text-brand-50 file:bg-blue-400 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-brand-700"
+              type="file"
+              id="image"
+              accept="image/*"
+              {...register("image", {
+                required: isEditing ? false : "Product photo is required",
+              })}
+            />
+            {errors.image && (
+              <p className="text-red-500 absolute">{errors.image.message}</p>
+            )}
+          </div>
+          <div>
+            <input type="submit" className="hidden" />
+          </div>
+          <div className="flex items-center gap-x-6">
+            <Button
+              onClick={() => {
+                if (formRef.current) {
+                  handleSubmit(onSubmit)();
                 }
-                if (Number(value) < 0) {
-                  return "Discounted amount should be greater than 0";
-                }
-                return true;
-              },
-            })}
-          />
-          {errors.discount && (
-            <p className="text-red-500 absolute">{errors.discount.message}</p>
-          )}
-        </div>
-        <div className="mb-[3.5rem] relative">
-          <p className="text-gray-600 font-medium">Description for website</p>
-          <textarea
-            className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-            id="description"
-            defaultValue=""
-            disabled={isWorking}
-            {...register("description", {
-              required: "Description is required",
-            })}
-          />
-          {errors.description && (
-            <p className="text-red-500 absolute">
-              {errors.description.message}
-            </p>
-          )}
-        </div>
-        <div className="mb-[3.5rem] relative">
-          <p className="text-gray-600 font-medium">Cabin photo</p>
-          <input
-            type="file"
-            id="image"
-            accept="image/*"
-            {...register("image", {
-              required: isEditing ? false : "Cabin photo is required",
-            })}
-          />
-          {errors.image && (
-            <p className="text-red-500 absolute">{errors.image.message}</p>
-          )}
-        </div>
-        <div>
-          <input type="submit" className="font-bold" />
-        </div>
-        <div>
-          <Button label={"Cancel"} onClick={onClose} type="reset" />
-          <Button
-            onClick={() => {
-              if (formRef.current) {
-                handleSubmit(onSubmit)();
-              }
-            }}
-            label={isEditing ? "Edit cabin" : "Add a new cabin"}
-            disabled={isWorking}
-          />
-        </div>
-      </form>
+              }}
+              label={isEditing ? "Edit product" : "Add a new Product"}
+              disabled={isWorking}
+            />
+            <Button label={"Cancel"} onClick={onClose} type="reset" />
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

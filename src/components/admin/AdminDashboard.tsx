@@ -138,8 +138,9 @@ function AdminDashboard() {
           {orderData
             .slice()
             .reverse()
-            .map((order) => (
+            .map((order, index) => (
               <OrderTable
+                key={index}
                 order_id={order.id}
                 order_date={formatDate(order.created_at)}
                 first_name={order.first_name}
