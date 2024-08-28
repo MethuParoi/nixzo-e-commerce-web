@@ -12,10 +12,12 @@ import ProductsForm from "../../../../components/admin/ProductsForm";
 import { getProducts } from "../../../../../utils/showProducts";
 import ProductsTable from "../../../../components/admin/ProductsTable";
 import Button from "@/components/ui/Button";
+import { deleteProduct } from "../../../../../utils/manageProducts";
 
 function Page() {
   const [modal, setModal] = useState(false);
   const [productData, setProductData] = useState([]);
+  const [productToEdit, setProductToEdit] = useState(null);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -44,10 +46,37 @@ function Page() {
         { event: "*", schema: "public", table: "products_table" },
         (payload) => {
           console.log("Received event", payload);
-          setProductData((prevProducts) => [...prevProducts, payload.new]);
+          if (payload.eventType === "INSERT") {
+            setProductData((prevProducts) => [...prevProducts, payload.new]);
+          } else if (payload.eventType === "UPDATE") {
+            setProductData((prevProducts) =>
+              prevProducts.map((product) =>
+                product.product_id === payload.new.product_id
+                  ? payload.new
+                  : product
+              )
+            );
+          } else if (payload.eventType === "DELETE") {
+            setProductData((prevProducts) =>
+              prevProducts.filter(
+                (product) => product.product_id !== payload.old.product_id
+              )
+            );
+          }
         }
       )
       .subscribe();
+    // const productsChannel = supabase
+    //   .channel("custom-all-channel")
+    //   .on(
+    //     "postgres_changes",
+    //     { event: "*", schema: "public", table: "products_table" },
+    //     (payload) => {
+    //       console.log("Received event", payload);
+    //       setProductData((prevProducts) => [...prevProducts, payload.new]);
+    //     }
+    //   )
+    //   .subscribe();
 
     // Cleanup subscription on unmount
     return () => {
@@ -59,8 +88,22 @@ function Page() {
     setModal(!modal);
   };
 
+  const handleEditProduct = (product) => {
+    setProductToEdit(product);
+    setModal(true);
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await deleteProduct(productId);
+      setProductData(productData.filter((p) => p.product_id !== productId));
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
+  };
+
   return (
-    <div className="min-h-screen w-full flex flex-col items-center container mx-auto relative ">
+    <div className="h-[87vh] w-full flex flex-col items-center container mx-auto mt-[2rem] relative ">
       {/* table header */}
       <div className="grid grid-cols-5 w-full gap-x-4 gap-y-2 justify-items-center bg-gray-200 py-[1rem] rounded-2xl mb-[2rem]">
         <div>
@@ -86,14 +129,22 @@ function Page() {
             : "bg-gray-100 w-full px-[2rem] max-h-[80vh] overflow-y-auto"
         } flex flex-col items-center rounded-2xl`}
       >
-        <ProductsTable productData={productData} />
+        <ProductsTable
+          productData={productData}
+          onEditProduct={handleEditProduct}
+          onDeleteProduct={handleDeleteProduct}
+        />
       </div>
       <div className="self-start mt-[2rem]">
         <Button label="Add Product" onClick={() => modalHandler()} />
       </div>
       {modal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <ProductsForm modalHandler={modalHandler} />
+          <ProductsForm
+            modalHandler={modalHandler}
+            productToEdit={productToEdit}
+            onClose={modalHandler}
+          />
         </div>
       )}
     </div>

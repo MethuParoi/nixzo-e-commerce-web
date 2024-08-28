@@ -21,9 +21,15 @@ export async function createProduct(newProduct, id) {
   const hasImagePath = newProduct.image?.startsWith?.(supabaseUrl);
 
   //generating the image URL for supabase bucket
-  const imageName = `${Math.floor(Math.random() * 1000)}-${
-    newProduct.image.name
-  }`.replaceAll("/", "");
+  const imageName = hasImagePath
+    ? newProduct.image.split("/").pop()
+    : `${Math.floor(Math.random() * 1000)}-${newProduct.image.name}`.replaceAll(
+        "/",
+        ""
+      );
+  //   const imageName = `${Math.floor(Math.random() * 1000)}-${
+  //     newProduct.image.name
+  //   }`.replaceAll("/", "");
 
   const imagePath = hasImagePath
     ? newProduct.image
@@ -44,7 +50,7 @@ export async function createProduct(newProduct, id) {
   if (id) {
     ({ data, error } = await query
       .update({ ...newProduct, image: imagePath })
-      .eq("id", id)
+      .eq("product_id", id)
       .select()
       .single());
   }
@@ -82,9 +88,45 @@ export async function createProduct(newProduct, id) {
 }
 
 export async function deleteProduct(id) {
-  const { error } = await supabase.from("products_table").delete().eq("id", id);
-  if (error) {
-    console.error(error);
+  // Fetch the product to get the image path before deleting it
+  const { data: product, error: fetchError } = await supabase
+    .from("products_table")
+    .select("image")
+    .eq("product_id", id)
+    .single();
+
+  if (fetchError) {
+    console.error(fetchError);
+    throw new Error("An error occurred while fetching the product");
+  }
+
+  // Delete the product from the database
+  const { error: deleteError } = await supabase
+    .from("products_table")
+    .delete()
+    .eq("product_id", id);
+
+  if (deleteError) {
+    console.error(deleteError);
     throw new Error("An error occurred while deleting the product");
   }
+
+  // If the product had an associated image, delete it from the Supabase storage
+  if (product?.image) {
+    const imageName = product.image.split("/").pop(); // Extract the image name from the URL
+
+    const { error: storageError } = await supabase.storage
+      .from("product_images")
+      .remove([imageName]);
+
+    if (storageError) {
+      console.error(storageError);
+      throw new Error("An error occurred while deleting the product image");
+    }
+  }
+  //   const { error } = await supabase.from("products_table").delete().eq("id", id);
+  //   if (error) {
+  //     console.error(error);
+  //     throw new Error("An error occurred while deleting the product");
+  //   }
 }

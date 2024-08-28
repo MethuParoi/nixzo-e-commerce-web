@@ -8,6 +8,7 @@ import { Provider, useSelector } from "react-redux";
 import { RootState, store } from "@/store/store";
 import { useEffect } from "react";
 import ClientProvider from "@/components/redux/ClientProvider";
+import AdminNavbar from "@/components/admin/AdminNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,6 +48,7 @@ export default function AuthLayout({
           <body>
             {/* mx-auto */}
             <div className="px-5 md:px-0 pt-[1rem] md:pt-[2rem] md:container md:mx-auto xl:max-w-[120rem] 2xl:max-w-[150rem]">
+              <AdminNavbar />
               {children}
             </div>
           </body>

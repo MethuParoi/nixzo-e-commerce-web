@@ -16,7 +16,13 @@ function AdminNavbar() {
   return (
     <div className="flex items-center justify-between pb-4 border-b-[.3rem] border-b-gray-500">
       <div className="flex items-center gap-x-[2rem]">
-        <Button label="Overview" type="button" />
+        <Button
+          onClick={() => {
+            router.push("/admin/dashboard");
+          }}
+          label="Overview"
+          type="button"
+        />
         <Button
           onClick={() => {
             router.push("/admin/manage-products");

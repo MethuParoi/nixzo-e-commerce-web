@@ -6,50 +6,30 @@ import Button from "../ui/Button";
 import { createProduct } from "../../../utils/manageProducts";
 import { IoCloseSharp } from "react-icons/io5";
 
-function useCreateProduct() {
-  const [isCreating, setIsCreating] = useState(false);
+function useCreateOrEditProduct() {
+  const [isWorking, setIsWorking] = useState(false);
 
-  const createProductForm = async (newProductData, { onSuccess }) => {
-    setIsCreating(true);
+  const handleProductForm = async (productData, id, { onSuccess }) => {
+    setIsWorking(true);
     try {
-      const data = await createProduct(newProductData);
+      const data = await createProduct(productData, id);
       onSuccess(data);
     } catch (error) {
       console.error(error);
     } finally {
-      setIsCreating(false);
+      setIsWorking(false);
     }
   };
 
-  return { isCreating, createProductForm };
-}
-
-function useEditProduct() {
-  const [isEditingData, setIsEditingData] = useState(false);
-
-  const editProductForm = async ({ newProductData, id }, { onSuccess }) => {
-    setIsEditingData(true);
-    try {
-      const data = await editProduct(newProductData, id);
-      onSuccess(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsEditingData(false);
-    }
-  };
-
-  return { isEditingData, editProductForm };
+  return { isWorking, handleProductForm };
 }
 
 function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
-  const { isCreating, createProductForm } = useCreateProduct();
-  const { editProductForm, isEditingData } = useEditProduct();
-  const isWorking = isCreating || isEditingData;
+  const { isWorking, handleProductForm } = useCreateOrEditProduct();
 
   const formRef = useRef(null);
 
-  const { id: editId, ...editValue } = productToEdit;
+  const { product_id: editId, ...editValue } = productToEdit;
   const isEditing = Boolean(editId);
 
   const { register, handleSubmit, reset, getValues, formState } = useForm({
@@ -59,30 +39,14 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
 
   // Onclick handler for the submit button
   function onSubmit(data) {
-    console.log(data); // Log the form data
-
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
-    if (isEditing)
-      editProductForm(
-        { newProductData: { ...data, image }, id: editId },
-        {
-          onSuccess: (data) => {
-            onClose();
-            reset();
-          },
-        }
-      );
-    else
-      createProductForm(
-        { ...data, image: image },
-        {
-          onSuccess: (data) => {
-            onClose();
-            reset();
-          },
-        }
-      );
+    handleProductForm({ ...data, image }, isEditing ? editId : null, {
+      onSuccess: (data) => {
+        onClose();
+        reset();
+      },
+    });
   }
 
   function onError(errors) {

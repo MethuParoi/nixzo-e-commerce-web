@@ -1,11 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { PiDotsThreeOutlineVerticalBold } from "react-icons/pi";
+import { MdModeEditOutline } from "react-icons/md";
+import { RiDeleteBin6Fill } from "react-icons/ri";
 
-function ProductsTable({ productData }) {
+function ProductsTable({ productData, onEditProduct, onDeleteProduct }) {
+  const [popupVisible, setPopupVisible] = useState(null);
+
+  function togglePopup(productId) {
+    setPopupVisible((prev) => (prev === productId ? null : productId));
+  }
+
+  //   function handleEdit(productId) {
+  //     // Handle edit logic here
+  //     console.log("Edit product with ID:", productId);
+  //   }
+
+  //   function handleDelete(productId) {
+  //     // Handle delete logic here
+  //     console.log("Delete product with ID:", productId);
+  //   }
   return (
-    <div className=" py-[.5rem] rounded-xl">
+    <div className=" py-[.5rem] rounded-xl w-full">
       {/* row data */}
       {productData
         .slice()
@@ -13,7 +31,7 @@ function ProductsTable({ productData }) {
         .map((product) => (
           <div
             key={product.product_id}
-            className="grid grid-cols-5 w-full gap-x-4 gap-y-2 justify-items-center cursor-pointer bg-gray-200 my-[2rem] py-[1rem] rounded-2xl"
+            className="grid grid-cols-5 w-full gap-x-4 gap-y-2 justify-items-center cursor-pointer bg-gray-200 my-[2rem] py-[1rem] rounded-2xl relative"
           >
             <div className="row-span-2 flex items-center justify-center">
               <Image
@@ -38,10 +56,36 @@ function ProductsTable({ productData }) {
                 ${product.regularPrice}
               </h1>
             </div>
-            <div>
-              <h1 className="text-[2rem] font-medium text-gray-700">
+            <div className="flex items-center gap-x-[4rem]">
+              <h1 className="text-[2rem] font-medium text-gray-700 ">
                 {product.rating}
               </h1>
+              <div
+                onClick={() => togglePopup(product.product_id)}
+                className="absolute top-3 right-4 cursor-pointer"
+              >
+                <PiDotsThreeOutlineVerticalBold className="text-[2.5rem] text-gray-600" />
+                {popupVisible === product.product_id && (
+                  <div className="absolute top-12 right-4 w-[10rem] bg-white shadow-md rounded-md z-10">
+                    <ul>
+                      <li
+                        onClick={() => onEditProduct(product)}
+                        className="p-2 cursor-pointer hover:bg-gray-200 flex items-center gap-x-3"
+                      >
+                        <MdModeEditOutline className="text-[2rem] text-gray-700" />
+                        <p>Edit</p>
+                      </li>
+                      <li
+                        onClick={() => onDeleteProduct(product.product_id)}
+                        className="p-2 cursor-pointer hover:bg-gray-200 flex items-center gap-x-3"
+                      >
+                        <RiDeleteBin6Fill className="text-[2rem] text-gray-700" />
+                        <p>Delete</p>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="col-start-2 col-end-6 grid-cols-4 place-self-start border-t-2 border-t-gray-300 w-full">
