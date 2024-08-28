@@ -29,7 +29,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
 
   const formRef = useRef(null);
 
-  const { product_id: editId, ...editValue } = productToEdit;
+  const { product_id: editId, ...editValue } = productToEdit || {};
   const isEditing = Boolean(editId);
 
   const { register, handleSubmit, reset, getValues, formState } = useForm({
@@ -39,15 +39,52 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
 
   // Onclick handler for the submit button
   function onSubmit(data) {
-    const image = typeof data.image === "string" ? data.image : data.image[0];
+    const images = [];
+    for (let i = 0; i < 3; i++) {
+      if (data[`image${i + 1}`]?.[0]) {
+        images.push(data[`image${i + 1}`][0]);
+      }
+    }
 
-    handleProductForm({ ...data, image }, isEditing ? editId : null, {
-      onSuccess: (data) => {
-        onClose();
-        reset();
-      },
-    });
+    //filter
+    const filteredData = Object.keys(data)
+      .filter(
+        (key) =>
+          key === "description" ||
+          key === "productCategory" ||
+          key === "productTitle" ||
+          key === "rating" ||
+          key === "regularPrice" ||
+          key === "image"
+      )
+      .reduce((obj, key) => {
+        obj[key] = data[key];
+        return obj;
+      }, {});
+
+    // Pass the images array to the handleProductForm function
+    handleProductForm(
+      { ...filteredData, image: images },
+      isEditing ? editId : null,
+      {
+        onSuccess: (data) => {
+          onClose();
+          reset();
+        },
+      }
+    );
   }
+
+  // function onSubmit(data) {
+  //   const image = typeof data.image === "string" ? data.image : data.image[0];
+
+  //   handleProductForm({ ...data, image }, isEditing ? editId : null, {
+  //     onSuccess: (data) => {
+  //       onClose();
+  //       reset();
+  //     },
+  //   });
+  // }
 
   function onError(errors) {
     console.error(errors);
@@ -160,19 +197,25 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
               </p>
             )}
           </div>
+          {/* photo */}
           <div className="mb-[3.5rem] relative">
-            <p className="text-gray-600 font-medium">Product photo</p>
-            <input
-              className="text-[1.4rem] rounded-sm font-medium file:text-gray-100 file:mt-[.5rem] file:px-3 file:py-2 file:mr-3 file:rounded-lg file:border-none file:text-brand-50 file:bg-blue-400 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-brand-700"
-              type="file"
-              id="image"
-              accept="image/*"
-              {...register("image", {
-                required: isEditing ? false : "Product photo is required",
-              })}
-            />
-            {errors.image && (
-              <p className="text-red-500 absolute">{errors.image.message}</p>
+            <p className="text-gray-600 font-medium">Product photos</p>
+            {[...Array(3)].map((_, index) => (
+              <input
+                key={index}
+                className="text-[1.4rem] rounded-sm font-medium file:text-gray-100 file:mt-[.5rem] file:px-3 file:py-2 file:mr-3 file:rounded-lg file:border-none file:text-brand-50 file:bg-blue-400 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-brand-700"
+                type="file"
+                id={`image${index + 1}`}
+                accept="image/*"
+                {...register(`image${index + 1}`, {
+                  required: isEditing
+                    ? false
+                    : index === 0 && "At least one product photo is required",
+                })}
+              />
+            ))}
+            {errors.image1 && (
+              <p className="text-red-500 absolute">{errors.image1.message}</p>
             )}
           </div>
           <div>
@@ -190,6 +233,37 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
             />
             <Button label={"Cancel"} onClick={onClose} type="reset" />
           </div>
+          {/*single photo upload  */}
+          {/* <div className="mb-[3.5rem] relative">
+            <p className="text-gray-600 font-medium">Product photo</p>
+            <input
+              className="text-[1.4rem] rounded-sm font-medium file:text-gray-100 file:mt-[.5rem] file:px-3 file:py-2 file:mr-3 file:rounded-lg file:border-none file:text-brand-50 file:bg-blue-400 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-brand-700"
+              type="file"
+              id="image"
+              accept="image/*"
+              {...register("image", {
+                required: isEditing ? false : "Product photo is required",
+              })}
+            />
+            {errors.image && (
+              <p className="text-red-500 absolute">{errors.image.message}</p>
+            )}
+          </div> */}
+          {/* <div>
+            <input type="submit" className="hidden" />
+          </div>
+          <div className="flex items-center gap-x-6">
+            <Button
+              onClick={() => {
+                if (formRef.current) {
+                  handleSubmit(onSubmit)();
+                }
+              }}
+              label={isEditing ? "Edit product" : "Add a new Product"}
+              disabled={isWorking}
+            />
+            <Button label={"Cancel"} onClick={onClose} type="reset" />
+          </div> */}
         </form>
       </div>
     </div>
@@ -197,3 +271,4 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
 }
 
 export default ProductsForm;
+
