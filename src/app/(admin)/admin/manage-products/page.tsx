@@ -14,6 +14,8 @@ import ProductsTable from "../../../../components/admin/ProductsTable";
 import Button from "@/components/ui/Button";
 import { deleteProduct } from "../../../../../utils/manageProducts";
 import { toast } from "react-toastify";
+import CouponForm from "@/components/admin/CouponForm";
+import AdminForm from "@/components/admin/AdminForm";
 
 function Page() {
   const [modal, setModal] = useState(false);
@@ -127,50 +129,74 @@ function Page() {
   };
 
   return (
-    <div className="h-[87vh] w-full flex flex-col items-center container mx-auto mt-[2rem] relative ">
-      {/* table header */}
-      <div className="grid grid-cols-5 w-full gap-x-4 gap-y-2 justify-items-center bg-gray-200 py-[1rem] rounded-2xl mb-[2rem]">
-        <div>
-          <h1 className="text-[2rem] font-bold text-gray-900">Image</h1>
+    <div className="min-h-[87vh] w-full">
+      {/* product management   */}
+      <div className="h-[87vh] w-full flex flex-col items-center container mx-auto mt-[2rem] relative ">
+        {/* table header */}
+        <div className="grid grid-cols-5 w-full gap-x-4 gap-y-2 justify-items-center bg-gray-200 py-[1rem] rounded-2xl mb-[2rem]">
+          <div>
+            <h1 className="text-[2rem] font-bold text-gray-900">Image</h1>
+          </div>
+          <div>
+            <h1 className="text-[2rem] font-bold text-gray-900">
+              Product Name
+            </h1>
+          </div>
+          <div>
+            <h1 className="text-[2rem] font-bold text-gray-900">Category</h1>
+          </div>
+          <div>
+            <h1 className="text-[2rem] font-bold text-gray-900">Price</h1>
+          </div>
+          <div>
+            <h1 className="text-[2rem] font-bold text-gray-900">Rating</h1>
+          </div>
         </div>
-        <div>
-          <h1 className="text-[2rem] font-bold text-gray-900">Product Name</h1>
-        </div>
-        <div>
-          <h1 className="text-[2rem] font-bold text-gray-900">Category</h1>
-        </div>
-        <div>
-          <h1 className="text-[2rem] font-bold text-gray-900">Price</h1>
-        </div>
-        <div>
-          <h1 className="text-[2rem] font-bold text-gray-900">Rating</h1>
-        </div>
-      </div>
-      <div
-        className={`${
-          modal
-            ? "opacity-50"
-            : "bg-gray-100 w-full px-[2rem] max-h-[80vh] overflow-y-auto"
-        } flex flex-col items-center rounded-2xl`}
-      >
-        <ProductsTable
-          productData={productData}
-          onEditProduct={handleEditProduct}
-          onDeleteProduct={handleDeleteProduct}
-        />
-      </div>
-      <div className="self-start mt-[2rem]">
-        <Button label="Add Product" onClick={() => modalHandler()} />
-      </div>
-      {modal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <ProductsForm
-            modalHandler={modalHandler}
-            productToEdit={productToEdit}
-            onClose={modalHandler}
+        <div
+          className={`${
+            modal
+              ? "opacity-50"
+              : "bg-gray-100 w-full px-[2rem] max-h-[80vh] overflow-y-auto"
+          } flex flex-col items-center rounded-2xl`}
+        >
+          <ProductsTable
+            productData={productData}
+            onEditProduct={handleEditProduct}
+            onDeleteProduct={handleDeleteProduct}
           />
         </div>
-      )}
+        <div className="self-start mt-[2rem]">
+          <Button label="Add Product" onClick={() => modalHandler()} />
+        </div>
+        {modal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <ProductsForm
+              modalHandler={modalHandler}
+              productToEdit={productToEdit}
+              onClose={modalHandler}
+            />
+          </div>
+        )}
+      </div>
+      {/* coupon management */}
+      <div className="flex-col justify-center my-[3rem]">
+        <h1 className="text-[2rem] font-semibold text-gray-600 text-center border-b-2 border-b-gray-700">
+          Manage coupon code
+        </h1>
+        <div className="mt-[3rem]">
+          <CouponForm />
+        </div>
+      </div>
+
+      {/* admin management */}
+      <div className="flex-col justify-center my-[3rem]">
+        <h1 className="text-[2rem] font-semibold text-gray-600 text-center border-b-2 border-b-gray-700">
+          Manage Admin
+        </h1>
+        <div className="mt-[3rem]">
+          <AdminForm />
+        </div>
+      </div>
     </div>
   );
 }
