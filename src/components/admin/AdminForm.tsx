@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../ui/Button";
 import { toast } from "react-toastify";
+import { insertAdmin } from "../../../utils/admin";
 
 function AdminForm() {
   const formRef = useRef(null);
@@ -13,20 +14,48 @@ function AdminForm() {
   });
   const { errors } = formState;
 
-  const onSubmit = (data) => {
-    // Handle form submission
-    console.log(data);
-    toast.success("Admin details submitted successfully!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-    reset(); // Reset the form fields
+  const onSubmit = async (data) => {
+    const filteredData = Object.keys(data)
+      .filter(
+        (key) =>
+          key === "admin_contact" ||
+          key === "admin_password" ||
+          key === "user_type"
+      )
+      .reduce((obj, key) => {
+        obj[key] = data[key];
+        return obj;
+      }, {});
+
+    // Set the user type to admin
+    filteredData.user_type = "admin";
+
+    try {
+      await insertAdmin(filteredData);
+      //   console.log(filteredData);
+      toast.success("Admin added successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      reset(); // Reset the form fields
+    } catch (error) {
+      toast.error("An error occurred while adding the admin.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   const onError = (errors) => {
@@ -51,14 +80,20 @@ function AdminForm() {
           <input
             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
             type="text"
-            id="adminContact"
-            {...register("adminContact", {
+            id="admin_contact"
+            {...register("admin_contact", {
               required: "Admin contact is required",
+              minLength: { value: 11, message: "Minimum length is 11" },
+              maxLength: { value: 11, message: "Maximum length is 11" },
+              pattern: {
+                value: /^01[0-9]{9}$/,
+                message: "Invalid mobile number",
+              },
             })}
           />
-          {errors.adminContact && (
+          {errors.admin_contact && (
             <p className="text-red-500 absolute">
-              {errors.adminContact.message}
+              {errors.admin_contact.message}
             </p>
           )}
         </div>
@@ -67,14 +102,22 @@ function AdminForm() {
           <input
             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
             type="password"
-            id="adminPassword"
-            {...register("adminPassword", {
+            id="admin_password"
+            {...register("admin_password", {
               required: "Admin password is required",
+              validate: {
+                minLength: (value) =>
+                  value.length >= 6 || "Minimum length is 6 characters",
+                maxLength: (value) =>
+                  value.length <= 15 || "Maximum length is 15 characters",
+                hasNumber: (value) =>
+                  /\d/.test(value) || "Password must contain a number",
+              },
             })}
           />
-          {errors.adminPassword && (
+          {errors.admin_password && (
             <p className="text-red-500 absolute">
-              {errors.adminPassword.message}
+              {errors.admin_password.message}
             </p>
           )}
         </div>

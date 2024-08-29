@@ -55,7 +55,7 @@ function Cart() {
       try {
         const data = await getCoupon();
         setCouponData(data);
-        const discount_fraction = data[0].discount_precent / 100;
+        const discount_fraction = data[0].discount_percent / 100;
         const discountValue = totalPrice * discount_fraction;
         const adjustedDiscount = Math.round(discountValue);
         setDiscount(adjustedDiscount);
@@ -180,7 +180,7 @@ function Cart() {
                       <MdDiscount />
                     </div>
                     <h2 className="text-[2rem] text-secondary-light font-medium">
-                      {couponData[0].discount_precent}% Discount Applied
+                      {couponData[0].discount_percent}% Discount Applied
                     </h2>
                   </div>
                   <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />

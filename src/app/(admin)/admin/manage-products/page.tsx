@@ -16,11 +16,16 @@ import { deleteProduct } from "../../../../../utils/manageProducts";
 import { toast } from "react-toastify";
 import CouponForm from "@/components/admin/CouponForm";
 import AdminForm from "@/components/admin/AdminForm";
+import { deleteAdmin, getAdmin } from "../../../../../utils/admin";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { getCoupon } from "../../../../../utils/coupon";
 
 function Page() {
   const [modal, setModal] = useState(false);
   const [productData, setProductData] = useState([]);
   const [productToEdit, setProductToEdit] = useState(null);
+  const [adminData, setAdminData] = useState([]);
+  const [couponData, setCouponData] = useState([]);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -48,7 +53,7 @@ function Page() {
         "postgres_changes",
         { event: "*", schema: "public", table: "products_table" },
         (payload) => {
-          console.log("Received event", payload);
+          // console.log("Received event", payload);
           if (payload.eventType === "INSERT") {
             setProductData((prevProducts) => [...prevProducts, payload.new]);
           } else if (payload.eventType === "UPDATE") {
@@ -85,6 +90,26 @@ function Page() {
     return () => {
       supabase.removeChannel(productsChannel);
     };
+  }, []);
+
+  //fetch admin data
+  useEffect(() => {
+    async function fetchAdmin() {
+      const admin = await getAdmin();
+      setAdminData(admin);
+    }
+
+    fetchAdmin();
+  }, []);
+
+  //fetch coupon data
+  useEffect(() => {
+    async function fetchCoupon() {
+      const coupon = await getCoupon();
+      setCouponData(coupon);
+    }
+
+    fetchCoupon();
   }, []);
 
   const modalHandler = () => {
@@ -183,8 +208,32 @@ function Page() {
         <h1 className="text-[2rem] font-semibold text-gray-600 text-center border-b-2 border-b-gray-700">
           Manage coupon code
         </h1>
-        <div className="mt-[3rem]">
-          <CouponForm />
+        <div className="flex gap-x-[19rem] mt-[3rem]">
+          <div className="">
+            <CouponForm />
+          </div>
+
+          <div>
+            <h1 className="text-[2rem] text-gray-700 text-center font-semibold mb-[1rem]">
+              Existing coupon
+            </h1>
+
+            {couponData.map((coupon) => (
+              <div
+                className="w-[35rem] h-[8rem] bg-gray-200 rounded-xl  shadow-md my-[1rem] mx-auto flex items-center justify-between "
+                key={coupon.admin_id}
+              >
+                <div className="ml-[6rem] p-[3rem]">
+                  <p className="text-gray-700">
+                    Coupon code: {coupon.coupon_code}
+                  </p>
+                  <p className="text-gray-700">
+                    Discount percentage: {coupon.discount_percent}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -193,8 +242,52 @@ function Page() {
         <h1 className="text-[2rem] font-semibold text-gray-600 text-center border-b-2 border-b-gray-700">
           Manage Admin
         </h1>
-        <div className="mt-[3rem]">
-          <AdminForm />
+        <div className="flex gap-x-[8rem] mt-[3rem]">
+          <div className="">
+            <AdminForm />
+          </div>
+
+          {/* existing admins */}
+          <div>
+            <h1 className="text-[2rem] text-gray-700 text-center font-semibold mb-[1rem]">
+              Existing admins
+            </h1>
+            <div className="w-[60rem] h-[20rem] bg-gray-100 rounded-xl overflow-y-auto ">
+              {adminData.map((admin) => (
+                <div
+                  className="w-[40rem] h-[7rem] bg-gray-200 rounded-xl p-[1rem] shadow-md my-[1rem] mx-auto flex items-center justify-between "
+                  key={admin.admin_id}
+                >
+                  <div className="ml-[2rem]">
+                    <p className="text-gray-700">
+                      Admin contact: {admin.admin_contact}
+                    </p>
+                    <p className="text-gray-700">
+                      Admin password: {admin.admin_password}
+                    </p>
+                  </div>
+                  <div
+                    onClick={() => {
+                      deleteAdmin(admin.admin_id);
+                      toast.success("Admin deleted succesfuly!", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                      });
+                    }}
+                    className="mr-[2rem] cursor-pointer"
+                  >
+                    <RiDeleteBin5Fill className="text-[2.5rem]" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

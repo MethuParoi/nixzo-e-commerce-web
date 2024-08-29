@@ -15,16 +15,6 @@ export async function getCoupon() {
   return data;
 }
 
-// async function update() {
-//   const { data, error } = await supabase
-//     .from("coupon_table")
-//     .update({ discount_percent: 20 }) // change just one field
-//     .eq("id", 1);
-
-//   console.log("Update result:", data, error);
-// }
-// update();
-
 export async function upsertCoupon(coupon) {
   const { coupon_code, discount_percent } = coupon;
 
@@ -42,20 +32,5 @@ export async function upsertCoupon(coupon) {
   return data;
 }
 
-// export async function insertCoupon(coupon) {
-//   const { data, error } = await supabase.from("coupon_table").insert(coupon);
-//   if (error) {
-//     console.error(error);
-//     throw new Error("An error occurred while inserting coupon");
-//   }
 
-//   return data;
-// }
-
-
-// const { data, error } = await supabase
-//   .from("coupon_table")
-//   .update({ other_column: "otherValue" })
-//   .eq("some_column", "someValue")
-//   .select();
           
