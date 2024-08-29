@@ -117,3 +117,4 @@ export async function deleteProduct(id) {
   //     throw new Error("An error occurred while deleting the product");
   //   }
 }
+

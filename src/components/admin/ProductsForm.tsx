@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../ui/Button";
 import { createProduct } from "../../../utils/manageProducts";
 import { IoCloseSharp } from "react-icons/io5";
@@ -37,6 +37,17 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
   });
   const { errors } = formState;
 
+  // Reset form when productToEdit changes
+  useEffect(() => {
+    reset(isEditing ? editValue : {});
+  }, [productToEdit, reset]);
+
+  // Reset the form and close modal on success
+  function handleClose() {
+    reset(); // Reset the form fields
+    onClose(); // Close the modal
+  }
+
   // Onclick handler for the submit button
   function onSubmit(data) {
     const images = [];
@@ -68,8 +79,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
       isEditing ? editId : null,
       {
         onSuccess: (data) => {
-          onClose();
-          reset();
+          handleClose();
         },
       }
     );
@@ -91,13 +101,18 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
   }
 
   return (
-    <div className=" inset-0 bg-opacity-30 backdrop-blur-sm flex flex-col justify-center items-center">
+    <div className=" inset-0 bg-opacity-30 flex flex-col justify-center items-center">
       <div className="place-self-end">
-        <button onClick={modalHandler}>
+        <button
+          onClick={() => {
+            modalHandler();
+            handleClose();
+          }}
+        >
           <IoCloseSharp className="text-gray-300" size={"5rem"} />
         </button>
       </div>
-      <div className="bg-gray-100 w-[80rem] h-[80rem] p-[2rem] shadow-xl rounded-[2rem] border-2 border-gray-200">
+      <div className="bg-gray-100 w-[88rem] h-[82rem] py-[2rem] pl-[6rem] shadow-xl rounded-[2rem] border-2 border-gray-200">
         <form
           ref={formRef}
           onSubmit={handleSubmit(onSubmit, onError)}
@@ -271,4 +286,6 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
 }
 
 export default ProductsForm;
+
+
 

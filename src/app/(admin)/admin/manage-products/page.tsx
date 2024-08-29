@@ -85,6 +85,9 @@ function Page() {
   }, []);
 
   const modalHandler = () => {
+     if (modal) {
+       setProductToEdit(null); // Reset productToEdit when closing the modal
+     }
     setModal(!modal);
   };
 
