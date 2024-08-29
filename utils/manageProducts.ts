@@ -20,7 +20,7 @@ export async function getProducts() {
 export async function createProduct(newProduct, id) {
   let imageUrls = [];
 
-  if (newProduct.image) {
+  if (newProduct.image && newProduct.image.length > 0) {
     for (const image of newProduct.image) {
       const hasImagePath = image?.startsWith?.(supabaseUrl);
 
@@ -48,6 +48,20 @@ export async function createProduct(newProduct, id) {
         }
       }
     }
+  } else if (id) {
+    // If no new images are provided and it's an edit, retain the existing images
+    const { data: existingProduct, error: fetchError } = await supabase
+      .from("products_table")
+      .select("image")
+      .eq("product_id", id)
+      .single();
+
+    if (fetchError) {
+      console.error(fetchError);
+      throw new Error("An error occurred while fetching the existing product");
+    }
+
+    imageUrls = existingProduct.image ? existingProduct.image.split(",") : [];
   }
 
   let query = supabase.from("products_table");
@@ -73,6 +87,63 @@ export async function createProduct(newProduct, id) {
 
   return data;
 }
+
+// export async function createProduct(newProduct, id) {
+//   let imageUrls = [];
+
+//   if (newProduct.image) {
+//     for (const image of newProduct.image) {
+//       const hasImagePath = image?.startsWith?.(supabaseUrl);
+
+//       const imageName = hasImagePath
+//         ? image.split("/").pop()
+//         : `${Math.floor(Math.random() * 1000)}-${image.name}`.replaceAll(
+//             "/",
+//             ""
+//           );
+
+//       const imagePath = hasImagePath
+//         ? image
+//         : `${supabaseUrl}/storage/v1/object/public/product_images/${imageName}`;
+
+//       imageUrls.push(imagePath);
+
+//       if (!hasImagePath) {
+//         const { data: uploadData, error: uploadError } = await supabase.storage
+//           .from("product_images")
+//           .upload(imageName, image);
+
+//         if (uploadError) {
+//           console.error(uploadError);
+//           throw new Error("An error occurred while uploading the image");
+//         }
+//       }
+//     }
+//   }
+
+//   let query = supabase.from("products_table");
+//   let data, error;
+
+//   if (!id) {
+//     ({ data, error } = await query
+//       .insert([{ ...newProduct, image: imageUrls.join(",") }])
+//       .select()
+//       .single());
+//   } else {
+//     ({ data, error } = await query
+//       .update({ ...newProduct, image: imageUrls.join(",") })
+//       .eq("product_id", id)
+//       .select()
+//       .single());
+//   }
+
+//   if (error) {
+//     console.error(error);
+//     throw new Error("An error occurred while creating the Product");
+//   }
+
+//   return data;
+// }
 
 export async function deleteProduct(id) {
   // Fetch the product to get the image path before deleting it

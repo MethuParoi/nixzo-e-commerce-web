@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../ui/Button";
 import { createProduct } from "../../../utils/manageProducts";
 import { IoCloseSharp } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 function useCreateOrEditProduct() {
   const [isWorking, setIsWorking] = useState(false);
@@ -80,6 +81,16 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
       {
         onSuccess: (data) => {
           handleClose();
+          toast.success("Products added succesfuly!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
         },
       }
     );
@@ -98,6 +109,16 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
 
   function onError(errors) {
     console.error(errors);
+    toast.error("Error occured!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 
   return (

@@ -13,6 +13,7 @@ import { getProducts } from "../../../../../utils/showProducts";
 import ProductsTable from "../../../../components/admin/ProductsTable";
 import Button from "@/components/ui/Button";
 import { deleteProduct } from "../../../../../utils/manageProducts";
+import { toast } from "react-toastify";
 
 function Page() {
   const [modal, setModal] = useState(false);
@@ -85,9 +86,9 @@ function Page() {
   }, []);
 
   const modalHandler = () => {
-     if (modal) {
-       setProductToEdit(null); // Reset productToEdit when closing the modal
-     }
+    if (modal) {
+      setProductToEdit(null); // Reset productToEdit when closing the modal
+    }
     setModal(!modal);
   };
 
@@ -100,8 +101,28 @@ function Page() {
     try {
       await deleteProduct(productId);
       setProductData(productData.filter((p) => p.product_id !== productId));
+      toast.success("Products deleted succesfuly!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } catch (error) {
       console.error("Failed to delete product:", error);
+      toast.error("Failed to delete product!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
