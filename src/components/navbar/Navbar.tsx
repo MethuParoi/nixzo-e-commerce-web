@@ -11,11 +11,17 @@ import getAllProducts from "../../../utils/FakeApi";
 import searchContext from "../../context-api/searchContext";
 import { useSelector } from "react-redux";
 import { getTotalCartQunatity } from "@/store/features/cart/cartSlice";
+import supabaseClient from "../../../utils/supabaseClient";
+import { User } from "@supabase/supabase-js";
+import { error } from "console";
 
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
+  //google auth
+  const [user, setUser] = useState<User>();
+  const [isMounted, setIsMounted] = useState(false);
 
   //ContextApi hooks
   const { setFilteredProducts } = useContext(searchContext);
@@ -66,6 +72,30 @@ function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [searchClicked]);
+
+  //get user--------------------------------
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const {
+        data: { session },
+      } = await supabaseClient.auth.getSession();
+
+      if (session) {
+        setUser(session.user);
+      }
+    };
+
+    getCurrentUser();
+    setIsMounted(true);
+  }, []);
+
+  const handleSignOut = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (!error) setUser(undefined);
+    router.push("/");
+  };
+
+  //------------------------------
 
   return (
     <nav className="flex items-center justify-between pb-[2rem]">
@@ -171,7 +201,9 @@ function Navbar() {
         )}
 
         <button
-          onClick={() => router.push("/signin")}
+          onClick={() => {
+            router.push("/signin");
+          }}
           className="flex flex-col items-center cursor-pointer text-secondary hover:text-secondary-dark"
         >
           <CiUser className="text-[3.2rem] " />

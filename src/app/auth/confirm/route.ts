@@ -36,6 +36,7 @@ export async function GET(request: NextRequest) {
       token_hash,
     });
     if (!error) {
+      // Redirect to profile page upon successful sign-in
       return NextResponse.redirect(redirectTo);
     }
   }
