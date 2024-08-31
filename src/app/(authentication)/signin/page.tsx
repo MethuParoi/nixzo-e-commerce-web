@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Provider } from "react";
 import signupImage from "../../../../public/signup.svg";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAdmin } from "@/store/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
+import supabaseClient from "../../../../utils/supabaseClient";
+import { Provider } from "@supabase/supabase-js";
 
 function SignIn() {
   const [contact, setContact] = useState("");
@@ -42,33 +44,14 @@ function SignIn() {
     }
   };
 
-  // const handleSignin = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch("/api/auth-user-signin/", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ contact, password }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const data = await response.json();
-
-  //     if (data.success) {
-  //       alert("Signin successful!");
-  //     } else {
-  //       alert("Invalid username or password");
-  //     }
-  //   } catch (error) {
-  //     console.error("There was a problem with the fetch operation:", error);
-  //     alert("An error occurred. Please try again.");
-  //   }
-  // };
+  async function socialAuth(provider: Provider) {
+    await supabaseClient.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
+  }
 
   return (
     <>
@@ -98,6 +81,15 @@ function SignIn() {
               Sign in to your account
             </h1>
             <p className="text-gray-600 text-[1.6rem] line-clamp-3 text-center px-[1rem]">
+              sign in with your google account
+            </p>
+            <Button
+              onClick={socialAuth.bind(this, "google")}
+              label={"Sign in with Google"}
+              type="auth"
+            />
+            {/* <Button onClick={socialAuth.bind(this, "google")}>GOOGLE</Button> */}
+            {/* <p className="text-gray-600 text-[1.6rem] line-clamp-3 text-center px-[1rem]">
               Enter your contact no and password below to sign in to your
               account
             </p>
@@ -122,7 +114,7 @@ function SignIn() {
             </p>
             <p className="font-semibold underline my-[1rem]">
               <Link href="/signin">forgot password</Link>
-            </p>
+            </p> */}
           </div>
           <div className="md:hidden p-[1rem] flex items-center justify-center">
             <Button
