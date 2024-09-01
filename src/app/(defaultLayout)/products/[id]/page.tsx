@@ -14,6 +14,7 @@ import {
 } from "@/store/features/cart/cartSlice";
 import QuantityButton from "@/components/ui/QuantityButton";
 import { toast } from "react-toastify";
+import { setCart } from "../../../../../utils/cart";
 
 interface Product {
   id: string;
@@ -36,6 +37,15 @@ const ProductDetails = () => {
   const [showButton, setShowButton] = useState(true);
   const dispatch = useDispatch();
   const cart = useSelector(getCart);
+
+  //updating cart to user account
+  const user = useSelector((state: RootState) => state.user.user);
+
+  useEffect(() => {
+    setCart(cart, user.user_id);
+  }, [cart, user]);
+
+  //--------------------------------
 
   useEffect(() => {
     if (cart.length > 0) {

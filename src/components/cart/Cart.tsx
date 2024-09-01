@@ -19,6 +19,7 @@ import {
   setShippingCost,
   setTotal,
 } from "../../store/features/checkout/checkout";
+import { getUserCart, setCart } from "../../../utils/cart";
 
 class NotFoundError extends Error {}
 
@@ -35,6 +36,22 @@ function Cart() {
   const [discount, setDiscount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(totalCartPrice);
   const [couponApplied, setCouponApplied] = useState(false);
+
+  //updating cart to user account
+  const [userCart, setUserCart] = useState([]);
+  const user = useSelector((state: RootState) => state.user.user);
+
+  useEffect(() => {
+    setCart(cart, user.user_id);
+
+    async function fetchUserCart() {
+      const userCart = await getUserCart(user.user_id);
+      setUserCart(userCart);
+    }
+    fetchUserCart();
+  }, [cart, user]);
+
+  //--------------------------------
   useEffect(() => {
     setTotalPrice(totalCartPrice);
   }, [totalCartPrice]);

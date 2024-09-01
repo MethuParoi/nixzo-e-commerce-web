@@ -14,14 +14,33 @@ import { getTotalCartQunatity } from "@/store/features/cart/cartSlice";
 import supabaseClient from "../../../utils/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import { error } from "console";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
-  //google auth
-  const [user, setUser] = useState<User>();
-  const [isMounted, setIsMounted] = useState(false);
+
+  //google auth user ----------------------------------
+
+  const user = useSelector((state: RootState) => state.user.user);
+
+  useEffect(() => {
+    console.log("User:", user);
+    if (user.user_id !== undefined) {
+      toast.success(`Welcome, ${user.user_id}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  }, [user]);
+  //-------------------------------------------------
 
   //ContextApi hooks
   const { setFilteredProducts } = useContext(searchContext);
@@ -74,26 +93,26 @@ function Navbar() {
   }, [searchClicked]);
 
   //get user--------------------------------
-  useEffect(() => {
-    const getCurrentUser = async () => {
-      const {
-        data: { session },
-      } = await supabaseClient.auth.getSession();
+  // useEffect(() => {
+  //   const getCurrentUser = async () => {
+  //     const {
+  //       data: { session },
+  //     } = await supabaseClient.auth.getSession();
 
-      if (session) {
-        setUser(session.user);
-      }
-    };
+  //     if (session) {
+  //       setUser(session.user);
+  //     }
+  //   };
 
-    getCurrentUser();
-    setIsMounted(true);
-  }, []);
+  //   getCurrentUser();
+  //   setIsMounted(true);
+  // }, []);
 
-  const handleSignOut = async () => {
-    const { error } = await supabaseClient.auth.signOut();
-    if (!error) setUser(undefined);
-    router.push("/");
-  };
+  // const handleSignOut = async () => {
+  //   const { error } = await supabaseClient.auth.signOut();
+  //   if (!error) setUser(undefined);
+  //   router.push("/");
+  // };
 
   //------------------------------
 

@@ -5,6 +5,8 @@ import { FaGreaterThan, FaLessThan, FaShippingFast, FaHeadset } from 'react-icon
 import { BsCashCoin } from "react-icons/bs";
 import Image from 'next/image';
 import CoreFeatureCard from '../ui/CoreFeatureCard';
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/features/auth/userSlice";
 
 // Define the data array with objects containing src, title, and description
 const slides = [
@@ -43,8 +45,18 @@ const features = [
   },
 ];
 
-const Hero = () => {
+const Hero = ({ user_id }) => {
   const [page, setPage] = useState(0);
+  // console.log("user:", user_id);
+
+  // Set user_id to redux store
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setUser(user_id));
+  }, [user_id, dispatch]);
+
+  //-------------------- Auto Slide --------------------
 
   useEffect(() => {
     const int = setInterval(() => {

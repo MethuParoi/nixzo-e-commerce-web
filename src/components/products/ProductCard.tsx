@@ -14,6 +14,7 @@ import {
 } from "@/store/features/cart/cartSlice";
 import QuantityButton from "../ui/QuantityButton";
 import { useRouter } from "next/navigation";
+import { setCart } from "../../../utils/cart";
 
 function ProductCard({
   product_id: productId,
@@ -25,13 +26,21 @@ function ProductCard({
   rating,
 }) {
   const router = useRouter();
+  const cart = useSelector(getCart);
+
+  //updating cart to user account
+  const user = useSelector((state: RootState) => state.user.user);
+
+  useEffect(() => {
+    setCart(cart, user.user_id);
+  }, [cart, user]);
+
+  //--------------------------------
 
   // State to manage product IDs and Pid
   const [pids, setPids] = useState<string[]>([]);
   const [Pid, setPid] = useState<string | null>(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
-
-  const cart = useSelector(getCart);
 
   // Effect to set the product IDs in the cart
   useEffect(() => {
