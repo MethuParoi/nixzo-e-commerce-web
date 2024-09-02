@@ -42,10 +42,10 @@ function Cart() {
   const user = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
-    setCart(cart, user.user_id);
+    setCart(cart, user.user_id.id);
 
     async function fetchUserCart() {
-      const userCart = await getUserCart(user.user_id);
+      const userCart = await getUserCart(user.user_id.id);
       setUserCart(userCart);
     }
     fetchUserCart();

@@ -45,16 +45,27 @@ const features = [
   },
 ];
 
-const Hero = ({ user_id }) => {
+const Hero = () => {
   const [page, setPage] = useState(0);
-  // console.log("user:", user_id);
-
+  // api call to get user_id
   // Set user_id to redux store
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setUser(user_id));
-  }, [user_id, dispatch]);
+    const fetchUser = async () => {
+      const response = await fetch("/api/supabase-client");
+      const data = await response.json();
+      // setUser(data.user);
+      // console.log("User:", data.user);
+      dispatch(setUser(data.user));
+    };
+
+    fetchUser();
+  }, [dispatch]);
+
+  // useEffect(() => {
+
+  // }, [user_id, dispatch]);
 
   //-------------------- Auto Slide --------------------
 

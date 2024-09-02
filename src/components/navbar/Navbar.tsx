@@ -24,11 +24,11 @@ function Navbar() {
   //google auth user ----------------------------------
 
   const user = useSelector((state: RootState) => state.user.user);
+  // console.log("User:", user.user_id.id);
 
   useEffect(() => {
-    console.log("User:", user);
-    if (user.user_id !== undefined) {
-      toast.success(`Welcome, ${user.user_id}`, {
+    if (user.user_id.id !== undefined) {
+      toast.success(`Welcome, ${user.user_id.id}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

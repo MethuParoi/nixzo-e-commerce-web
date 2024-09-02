@@ -32,7 +32,7 @@ function ProductCard({
   const user = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
-    setCart(cart, user.user_id);
+    setCart(cart, user.user_id.id);
   }, [cart, user]);
 
   //--------------------------------
