@@ -43,7 +43,7 @@ const ProductDetails = () => {
   console.log("User:", user);
 
   useEffect(() => {
-    setCart(cart, user.user_id.id);
+    if (user.user_id) setCart(cart, user.user_id.id);
   }, [cart, user]);
 
   //--------------------------------

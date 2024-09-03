@@ -9,35 +9,87 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import getAllProducts from "../../../utils/FakeApi";
 import searchContext from "../../context-api/searchContext";
-import { useSelector } from "react-redux";
-import { getTotalCartQunatity } from "@/store/features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  fetchUserCart,
+  getTotalCartQuantity,
+} from "@/store/features/cart/cartSlice";
 import supabaseClient from "../../../utils/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import { error } from "console";
 import { toast } from "react-toastify";
+import { getUserCart } from "../../../utils/cart";
 
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
+  const [userCart, setUserCart] = useState([]);
+  const [cartDispatched, setCartDispatched] = useState(false);
 
   //google auth user ----------------------------------
-
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
-  // console.log("User:", user.user_id.id);
+  //get all added products from cart
+  const CartItem = useSelector(getTotalCartQuantity);
+  console.log("Cart Items:", CartItem);
 
   useEffect(() => {
-    if (user.user_id.id !== undefined) {
-      toast.success(`Welcome, ${user.user_id.id}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
+    async function fetchUserCart() {
+      if (user.user_id) {
+        try {
+          const userCartData = await getUserCart(user.user_id.id);
+          setUserCart(userCartData[0].user_cart);
+        } catch (error) {
+          console.error("Error fetching user cart:", error);
+          toast.error("Failed to fetch user cart.");
+        }
+      }
+    }
+
+    if (user && CartItem === 0 && userCart.length === 0) {
+      fetchUserCart();
+    }
+  }, [CartItem, user, dispatch]);
+
+  console.log("User Cart:", userCart);
+
+  useEffect(() => {
+    if (userCart.length > 0 && !cartDispatched) {
+      userCart.forEach((item) => {
+        const newItem = {
+          productId: item.productId,
+          title: item.title,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          img: item.img,
+          category: item.category,
+          description: item.description,
+        };
+        dispatch(addItem(newItem));
+        console.log("newItem", newItem);
       });
+      setCartDispatched(true); //to prevent dispatching multiple times
+    }
+  }, [userCart, dispatch]);
+
+  //------------------
+
+  useEffect(() => {
+    if (user.user_id) {
+      if (user.user_id.id !== undefined) {
+        toast.success(`Welcome, ${user.user_id.id}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     }
   }, [user]);
   //-------------------------------------------------
@@ -45,10 +97,6 @@ function Navbar() {
   //ContextApi hooks
   const { setFilteredProducts } = useContext(searchContext);
   const [ProductDesc, setProductDesc] = useState<any[]>([]);
-
-  //get all added products from cart
-  const CartItem = useSelector(getTotalCartQunatity);
-  // console.log("Cart Items:", CartItem);
 
   // Fetch products and set state
   useEffect(() => {
@@ -91,30 +139,6 @@ function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [searchClicked]);
-
-  //get user--------------------------------
-  // useEffect(() => {
-  //   const getCurrentUser = async () => {
-  //     const {
-  //       data: { session },
-  //     } = await supabaseClient.auth.getSession();
-
-  //     if (session) {
-  //       setUser(session.user);
-  //     }
-  //   };
-
-  //   getCurrentUser();
-  //   setIsMounted(true);
-  // }, []);
-
-  // const handleSignOut = async () => {
-  //   const { error } = await supabaseClient.auth.signOut();
-  //   if (!error) setUser(undefined);
-  //   router.push("/");
-  // };
-
-  //------------------------------
 
   return (
     <nav className="flex items-center justify-between pb-[2rem]">

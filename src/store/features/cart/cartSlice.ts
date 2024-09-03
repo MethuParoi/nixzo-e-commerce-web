@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getUserCart } from "../../../../utils/cart";
+import { useSelector } from "react-redux";
 
-let cart = [];
+let cart: any[] = [];
 
 if (typeof window !== "undefined") {
   const cartData = localStorage.getItem("cart");
@@ -107,7 +109,7 @@ export const {
 
 export const getCart = (state) => state.cart.cart;
 
-export const getTotalCartQunatity = (state) =>
+export const getTotalCartQuantity = (state) =>
   state.cart.cart.reduce((sum, item) => sum + item.quantity, 0);
 
 // export const getCurrentQuantityById = (id) => (state) =>
@@ -131,3 +133,4 @@ export const getTotalCartPrice = (state) =>
   }, 0);
 
 export default cartSlice.reducer;
+

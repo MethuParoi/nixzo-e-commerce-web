@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getCart,
   getTotalCartPrice,
-  getTotalCartQunatity,
+  getTotalCartQuantity,
 } from "@/store/features/cart/cartSlice";
 import { toast } from "react-toastify";
 import { getCoupon } from "../../../utils/coupon";
@@ -26,7 +26,7 @@ class NotFoundError extends Error {}
 function Cart() {
   const dispatch = useDispatch();
   const cart = useSelector(getCart);
-  const totalCartQuantity = useSelector(getTotalCartQunatity);
+  const totalCartQuantity = useSelector(getTotalCartQuantity);
   const totalCartPrice = useSelector(getTotalCartPrice);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,17 +38,16 @@ function Cart() {
   const [couponApplied, setCouponApplied] = useState(false);
 
   //updating cart to user account
-  const [userCart, setUserCart] = useState([]);
   const user = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
-    setCart(cart, user.user_id.id);
+    if (user.user_id) setCart(cart, user.user_id.id);
 
-    async function fetchUserCart() {
-      const userCart = await getUserCart(user.user_id.id);
-      setUserCart(userCart);
-    }
-    fetchUserCart();
+    // async function fetchUserCart() {
+    //   const userCart = await getUserCart(user.user_id.id);
+    //   setUserCart(userCart);
+    // }
+    // fetchUserCart();
   }, [cart, user]);
 
   //--------------------------------
