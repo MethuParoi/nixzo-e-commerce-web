@@ -6,7 +6,11 @@ import { BsCashCoin } from "react-icons/bs";
 import Image from 'next/image';
 import CoreFeatureCard from '../ui/CoreFeatureCard';
 import { useDispatch } from "react-redux";
-import { setUser } from "@/store/features/auth/userSlice";
+import {
+  setUser,
+  setUserAvatar,
+  setUserName,
+} from "@/store/features/auth/userSlice";
 
 // Define the data array with objects containing src, title, and description
 const slides = [
@@ -56,8 +60,12 @@ const Hero = () => {
       const response = await fetch("/api/supabase-client");
       const data = await response.json();
       // setUser(data.user);
-      // console.log("User:", data.user);
-      dispatch(setUser(data.user));
+      // console.log("User avatar:", data.user.user_metadata.avatar_url);
+      if (data.user) {
+        dispatch(setUser(data.user.id));
+        dispatch(setUserName(data.user.user_metadata.full_name));
+        dispatch(setUserAvatar(data.user.user_metadata.avatar_url));
+      }
     };
 
     fetchUser();

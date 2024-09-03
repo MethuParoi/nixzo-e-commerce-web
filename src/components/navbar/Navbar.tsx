@@ -12,6 +12,7 @@ import searchContext from "../../context-api/searchContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addItem,
+  clearCart,
   fetchUserCart,
   getTotalCartQuantity,
 } from "@/store/features/cart/cartSlice";
@@ -20,26 +21,34 @@ import { User } from "@supabase/supabase-js";
 import { error } from "console";
 import { toast } from "react-toastify";
 import { getUserCart } from "../../../utils/cart";
+import Button from "../ui/Button";
+import { setGeneral } from "@/store/features/auth/authSlice";
 
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
+  //state to handle authenticated user cart
   const [userCart, setUserCart] = useState([]);
   const [cartDispatched, setCartDispatched] = useState(false);
+  //state to handle logout button
+  const [showLogout, setShowLogout] = useState(false);
 
   //google auth user ----------------------------------
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user.user);
+  const user_id = useSelector((state: RootState) => state.user.user_id);
+  const userName = useSelector((state: RootState) => state.user.user_name);
+  const userAvatar = useSelector((state: RootState) => state.user.user_avatar);
+  // console.log("User avatar:", userAvatar);
   //get all added products from cart
   const CartItem = useSelector(getTotalCartQuantity);
-  console.log("Cart Items:", CartItem);
+  // console.log("Cart Items:", CartItem);
 
   useEffect(() => {
     async function fetchUserCart() {
-      if (user.user_id) {
+      if (user_id) {
         try {
-          const userCartData = await getUserCart(user.user_id.id);
+          const userCartData = await getUserCart(user_id);
           setUserCart(userCartData[0].user_cart);
         } catch (error) {
           console.error("Error fetching user cart:", error);
@@ -48,15 +57,16 @@ function Navbar() {
       }
     }
 
-    if (user && CartItem === 0 && userCart.length === 0) {
+    if (user_id && CartItem === 0 && userCart.length === 0) {
       fetchUserCart();
     }
-  }, [CartItem, user, dispatch]);
+  }, [CartItem, user_id, dispatch]);
 
-  console.log("User Cart:", userCart);
+  // console.log("User Cart:", userCart);
+  // console.log("User Id:", user_id);
 
   useEffect(() => {
-    if (userCart.length > 0 && !cartDispatched) {
+    if (userCart != null && userCart.length > 0 && !cartDispatched) {
       userCart.forEach((item) => {
         const newItem = {
           productId: item.productId,
@@ -68,7 +78,7 @@ function Navbar() {
           description: item.description,
         };
         dispatch(addItem(newItem));
-        console.log("newItem", newItem);
+        // console.log("newItem", newItem);
       });
       setCartDispatched(true); //to prevent dispatching multiple times
     }
@@ -77,21 +87,19 @@ function Navbar() {
   //------------------
 
   useEffect(() => {
-    if (user.user_id) {
-      if (user.user_id.id !== undefined) {
-        toast.success(`Welcome, ${user.user_id.id}`, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      }
+    if (user_id !== undefined) {
+      toast.success(`Welcome, ${userName}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
-  }, [user]);
+  }, [user_id]);
   //-------------------------------------------------
 
   //ContextApi hooks
@@ -243,15 +251,66 @@ function Navbar() {
           </button>
         )}
 
-        <button
-          onClick={() => {
-            router.push("/signin");
-          }}
-          className="flex flex-col items-center cursor-pointer text-secondary hover:text-secondary-dark"
-        >
-          <CiUser className="text-[3.2rem] " />
-          <p className="text-[1rem]">Profile</p>
-        </button>
+        <div>
+          {userAvatar ? (
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setShowLogout(!showLogout);
+                }}
+                className="flex flex-col items-center cursor-pointer text-secondary hover:text-secondary-dark"
+              >
+                <Image
+                  className="w-[3.2rem] h-[3.2rem] rounded-[50%] border-2 border-secodary"
+                  src={userAvatar}
+                  width={50}
+                  height={50}
+                  alt="user avatar"
+                />
+                <p className="text-[1rem]">Profile</p>
+              </button>
+
+              <div className="absolute z-10 top-[0] right-[-8rem]">
+                {showLogout && (
+                  <Button
+                    onClick={() => {
+                      // Clear all cookies
+                      document.cookie.split(";").forEach((cookie) => {
+                        const eqPos = cookie.indexOf("=");
+                        const name =
+                          eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                        document.cookie =
+                          name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                      });
+
+                      // Clear localStorage
+                      localStorage.clear();
+
+                      // Clear redux store
+                      dispatch(setGeneral());
+                      dispatch(clearCart());
+
+                      //reload the page
+                      window.location.reload();
+                    }}
+                    label="Logout"
+                    type="reset"
+                  />
+                )}
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                router.push("/signin");
+              }}
+              className="flex flex-col items-center cursor-pointer text-secondary hover:text-secondary-dark"
+            >
+              <CiUser className="text-[3.2rem] " />
+              <p className="text-[1rem]">Profile</p>
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   );
