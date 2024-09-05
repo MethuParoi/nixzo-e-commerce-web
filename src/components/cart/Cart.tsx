@@ -38,17 +38,17 @@ function Cart() {
   const [couponApplied, setCouponApplied] = useState(false);
 
   //updating cart to user account
-  const user = useSelector((state: RootState) => state.user.user);
+  const user_id = useSelector((state: RootState) => state.user.user_id);
 
   useEffect(() => {
-    if (user.user_id) setCart(cart, user.user_id.id);
+    if (user_id) setCart(cart, user_id);
 
     // async function fetchUserCart() {
     //   const userCart = await getUserCart(user.user_id.id);
     //   setUserCart(userCart);
     // }
     // fetchUserCart();
-  }, [cart, user]);
+  }, [cart, user_id]);
 
   //--------------------------------
   useEffect(() => {
@@ -166,23 +166,23 @@ function Cart() {
             <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-400 mt-2" />
             <div className="flex items-center justify-between mt-[2rem]">
               <p className="text-[1.8rem] text-secondary-light font-medium">
-                Subtotal
+                {couponApplied ? "Without discount" : "Subtotal"}
               </p>
               <p className="text-[1.8rem] font-bold">৳ {totalCartPrice}</p>
             </div>
-            <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
+            {/* <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
             <div className="flex items-center justify-between mt-[2rem]">
               <p className="text-[1.8rem] text-secondary-light font-medium">
                 Shipping
               </p>
-              {/* shipping cost to be updated */}
+              {/* shipping cost to be updated }
               <p className="text-[1.8rem] font-bold">৳ 00</p>
-            </div>
+            </div> */}
 
             <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
             <div className="flex items-center justify-between mt-[2rem] mb-[2rem]">
               <p className="text-[1.8rem] text-secondary-light font-medium">
-                Total
+                {couponApplied ? "Discounted price" : "Total"}
               </p>
               <p className="text-[1.8rem] font-bold">৳ {totalPrice}</p>
             </div>

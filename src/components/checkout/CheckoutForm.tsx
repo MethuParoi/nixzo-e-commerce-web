@@ -9,7 +9,9 @@ import { getCart } from "@/store/features/cart/cartSlice";
 
 function CheckoutForm() {
   //using redux store
-  const subtotal = useSelector((state) => state.checkout.subtotal);
+  const without_discount_total = useSelector(
+    (state) => state.checkout.subtotal
+  );
   const total = useSelector((state) => state.checkout.total);
   const cart = useSelector(getCart);
   const {
@@ -17,7 +19,8 @@ function CheckoutForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(cart);
+  //get size
+  const size = useSelector((state) => state.checkout.size);
 
   const formRef = useRef(null);
 
@@ -191,6 +194,14 @@ function CheckoutForm() {
             <input
               className="hidden"
               type="text"
+              {...register("Size", {
+                value: size,
+              })}
+            />
+
+            <input
+              className="hidden"
+              type="text"
               {...register("Cart_items", {
                 value: cart,
               })}
@@ -212,7 +223,9 @@ function CheckoutForm() {
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Subtotal
             </p>
-            <p className="text-[1.8rem] font-bold">৳ {subtotal}</p>
+            <p className="text-[1.8rem] font-bold">
+              ৳ {without_discount_total}
+            </p>
           </div>
           <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
           <div className="flex items-center justify-between mt-[2rem]">

@@ -8,6 +8,7 @@ import {
   getCurrentQuantityById,
 } from "@/store/features/cart/cartSlice";
 import { RiDeleteBin6Fill } from "react-icons/ri";
+import SizeButtons from "../product-details/SizeButtons";
 
 function CartItems({ item }) {
   const {
@@ -40,9 +41,12 @@ function CartItems({ item }) {
         </div>
         <div className="ml-[2rem] h-[15rem]">
           <p className="text-[2rem] font-normal line-clamp-1 pr-4">{title}</p>
-          <p className="text-[1.6rem] mt-[1rem] text-secondary-light">
+          {/* <p className="text-[1.6rem] mt-[1rem] text-secondary-light">
             Size: XL
-          </p>
+          </p> */}
+          <div className="mt-[2rem]">
+            <SizeButtons />
+          </div>
         </div>
       </div>
       <div>

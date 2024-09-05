@@ -39,12 +39,12 @@ const ProductDetails = () => {
   const cart = useSelector(getCart);
 
   //updating cart to user account
-  const user = useSelector((state: RootState) => state.user.user);
-  console.log("User:", user);
+  const user_id = useSelector((state: RootState) => state.user.user_id);
+  // console.log("User:", user_id);
 
   useEffect(() => {
-    if (user.user_id) setCart(cart, user.user_id.id);
-  }, [cart, user]);
+    if (user_id) setCart(cart, user_id);
+  }, [cart, user_id]);
 
   //--------------------------------
 
