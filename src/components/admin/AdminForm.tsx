@@ -76,19 +76,15 @@ function AdminForm() {
     <div>
       <form ref={formRef} onSubmit={handleSubmit(onSubmit, onError)}>
         <div className="mb-[3.5rem] relative">
-          <p className="text-gray-600 font-medium">Admin Contact*</p>
+          <p className="text-gray-600 font-medium">Admin Username*</p>
           <input
             className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
             type="text"
             id="admin_contact"
             {...register("admin_contact", {
-              required: "Admin contact is required",
-              minLength: { value: 11, message: "Minimum length is 11" },
-              maxLength: { value: 11, message: "Maximum length is 11" },
-              pattern: {
-                value: /^01[0-9]{9}$/,
-                message: "Invalid mobile number",
-              },
+              required: "Admin username is required",
+              minLength: { value: 3, message: "Minimum length is 3" },
+              maxLength: { value: 15, message: "Maximum length is 15" },
             })}
           />
           {errors.admin_contact && (
