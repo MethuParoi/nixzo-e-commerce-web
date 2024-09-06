@@ -12,14 +12,14 @@ export async function POST(req: NextRequest) {
   //   return res.status(405).json({ message: "Method not allowed" });
   // }
 
-  const { contact, password } = await req.json();
+  const { email, password } = await req.json();
 
   // Fetch the user from the database
   const { data: user, error } = await supabase
-    .from("user_table")
+    .from("email_users")
     .select("*")
-    .eq("user_contact", contact)
-    .eq("user_password", password)
+    .eq("email", email)
+    .eq("password", password)
     .single();
 
   // If successful
@@ -27,7 +27,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Login successful",
-      user: "general",
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userAvatar: user.avatar_url,
     });
   }
 
