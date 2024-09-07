@@ -71,10 +71,6 @@ const Hero = () => {
     fetchUser();
   }, [dispatch]);
 
-  // useEffect(() => {
-
-  // }, [user_id, dispatch]);
-
   //-------------------- Auto Slide --------------------
 
   useEffect(() => {

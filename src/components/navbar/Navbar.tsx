@@ -20,7 +20,7 @@ import supabaseClient from "../../../utils/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import { error } from "console";
 import { toast } from "react-toastify";
-import { getUserCart } from "../../../utils/cart";
+import { getEmailUserCart, getUserCart } from "../../../utils/cart";
 import Button from "../ui/Button";
 import { setGeneral } from "@/store/features/auth/authSlice";
 
@@ -46,9 +46,27 @@ function Navbar() {
 
   useEffect(() => {
     async function fetchUserCart() {
-      if (user_id) {
+      if (
+        userAvatar !=
+          "https://kjqzojrvmhadxwftawlo.supabase.co/storage/v1/object/public/product_images/profile-user.png" &&
+        user_id
+      ) {
         try {
           const userCartData = await getUserCart(user_id);
+          setUserCart(userCartData[0].user_cart);
+        } catch (error) {
+          console.error("Error fetching user cart:", error);
+          toast.error("Failed to fetch user cart.");
+        }
+      }
+
+      if (
+        userAvatar ===
+          "https://kjqzojrvmhadxwftawlo.supabase.co/storage/v1/object/public/product_images/profile-user.png" &&
+        user_id
+      ) {
+        try {
+          const userCartData = await getEmailUserCart(user_id);
           setUserCart(userCartData[0].user_cart);
         } catch (error) {
           console.error("Error fetching user cart:", error);

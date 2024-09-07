@@ -19,7 +19,7 @@ import {
   setShippingCost,
   setTotal,
 } from "../../store/features/checkout/checkout";
-import { getUserCart, setCart } from "../../../utils/cart";
+import { getUserCart, setCart, setEmailUserCart } from "../../../utils/cart";
 
 class NotFoundError extends Error {}
 
@@ -39,16 +39,33 @@ function Cart() {
 
   //updating cart to user account
   const user_id = useSelector((state: RootState) => state.user.user_id);
+  const user_avatar = useSelector((state: RootState) => state.user.user_avatar);
 
   useEffect(() => {
-    if (user_id) setCart(cart, user_id);
+    if (
+      user_avatar !=
+        "https://kjqzojrvmhadxwftawlo.supabase.co/storage/v1/object/public/product_images/profile-user.png" &&
+      user_id
+    ) {
+      setCart(cart, user_id);
+    }
+
+    if (
+      user_avatar ==
+        "https://kjqzojrvmhadxwftawlo.supabase.co/storage/v1/object/public/product_images/profile-user.png" &&
+      user_id
+    ) {
+      {
+        setEmailUserCart(cart, user_id);
+      }
+    }
 
     // async function fetchUserCart() {
     //   const userCart = await getUserCart(user.user_id.id);
     //   setUserCart(userCart);
     // }
     // fetchUserCart();
-  }, [cart, user_id]);
+  }, [cart, user_id, user_avatar]);
 
   //--------------------------------
   useEffect(() => {
