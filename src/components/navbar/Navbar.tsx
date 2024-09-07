@@ -78,7 +78,7 @@ function Navbar() {
     if (user_id && CartItem === 0 && userCart.length === 0) {
       fetchUserCart();
     }
-  }, [CartItem, user_id, dispatch]);
+  }, [CartItem, user_id, dispatch, userAvatar, userCart]);
 
   // console.log("User Cart:", userCart);
   // console.log("User Id:", user_id);
@@ -105,7 +105,7 @@ function Navbar() {
   //------------------
 
   useEffect(() => {
-    if (user_id !== undefined) {
+    if (user_id !== undefined && userName) {
       toast.success(`Welcome, ${userName}`, {
         position: "top-right",
         autoClose: 5000,

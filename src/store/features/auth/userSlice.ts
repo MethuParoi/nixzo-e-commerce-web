@@ -3,11 +3,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
   user: string;
+  user_id: string;
   user_name: string;
   user_avatar: string;
 }
 
 let user = "general";
+let user_id = "";
 let user_name = "";
 let user_avatar = "";
 
@@ -22,6 +24,7 @@ if (typeof window !== "undefined") {
   if (userData) {
     const parsedData = JSON.parse(userData);
     user = parsedData.user || "general";
+    user_id = parsedData.user_id || "";
     user_name = parsedData.user_name || "";
     user_avatar = parsedData.user_avatar || "";
   }
@@ -29,6 +32,7 @@ if (typeof window !== "undefined") {
 
 const initialState: UserState = {
   user,
+  user_id,
   user_name,
   user_avatar,
 };

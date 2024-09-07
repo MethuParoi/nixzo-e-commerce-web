@@ -16,6 +16,7 @@ import {
   setUserAvatar,
   setUserName,
 } from "@/store/features/auth/userSlice";
+import { toast } from "react-toastify";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -55,14 +56,23 @@ function SignIn() {
       const data = await response.json();
       console.log("Data:", data.userId);
 
-      if (data) {
+      if (data.success) {
         dispatch(setUser(data.userId));
         dispatch(setUserName(data.userName));
         dispatch(setUserAvatar(data.userAvatar));
         route.push("/");
         // alert("Signin successful!");
       } else {
-        alert("Invalid username or password");
+        toast.error("Invalid user", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);

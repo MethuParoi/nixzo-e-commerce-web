@@ -50,6 +50,7 @@ function SignIn() {
       const responseData = await response.json();
 
       if (responseData) {
+        // console.log(responseData.userId);
         dispatch(setUser(responseData.userId));
         dispatch(setUserName(responseData.userName));
         dispatch(setUserAvatar(responseData.userAvatar));

@@ -14,7 +14,7 @@ import {
 } from "@/store/features/cart/cartSlice";
 import QuantityButton from "@/components/ui/QuantityButton";
 import { toast } from "react-toastify";
-import { setCart } from "../../../../../utils/cart";
+import { setCart, setEmailUserCart } from "../../../../../utils/cart";
 
 interface Product {
   id: string;
@@ -38,14 +38,28 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const cart = useSelector(getCart);
 
-  //updating cart to user account
+  // Updating cart to user account
   const user_id = useSelector((state: RootState) => state.user.user_id);
-  // console.log("User:", user_id);
+  console.log("User ID:", user_id);
+  const user_avatar = useSelector((state: RootState) => state.user.user_avatar);
 
   useEffect(() => {
-    if (user_id) setCart(cart, user_id);
-  }, [cart, user_id]);
+    const trimmedUserAvatar = user_avatar.trim().toLowerCase();
+    const defaultAvatarUrl =
+      "https://kjqzojrvmhadxwftawlo.supabase.co/storage/v1/object/public/product_images/profile-user.png";
 
+    console.log("User Avatar:", trimmedUserAvatar);
+
+    if (trimmedUserAvatar !== defaultAvatarUrl && user_id) {
+      console.log("Updating cart for regular user");
+      setCart(cart, user_id);
+    }
+
+    if (trimmedUserAvatar === defaultAvatarUrl && user_id) {
+      console.log("Updating cart for email user");
+      setEmailUserCart(cart, user_id);
+    }
+  }, [cart, user_id, user_avatar]);
   //--------------------------------
 
   useEffect(() => {
