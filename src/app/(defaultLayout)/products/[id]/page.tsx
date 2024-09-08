@@ -37,12 +37,12 @@ const ProductDetails = () => {
   const [showButton, setShowButton] = useState(true);
   const dispatch = useDispatch();
   const cart = useSelector(getCart);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   // Updating cart to user account
   const user_id = useSelector((state: RootState) => state.user.user_id);
   console.log("User ID:", user_id);
   const user_avatar = useSelector((state: RootState) => state.user.user_avatar);
-
   useEffect(() => {
     const trimmedUserAvatar = user_avatar.trim().toLowerCase();
     const defaultAvatarUrl =
@@ -103,6 +103,20 @@ const ProductDetails = () => {
   }, [currentQuantity]);
 
   const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Please select a size", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
     if (productDetails) {
       const newItem = {
         productId: productId,
@@ -112,11 +126,23 @@ const ProductDetails = () => {
         img: productDetails.image,
         category: productDetails.category,
         description: productDetails.description,
+        size: selectedSize,
       };
       dispatch(addItem(newItem));
     } else {
       console.error("Product details are not available");
     }
+
+    toast.success("Item added to the cart", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   if (loading) {
@@ -222,7 +248,10 @@ const ProductDetails = () => {
                 Size:{" "}
               </p>{" "}
               <div className="my-[1rem] ">
-                <SizeButtons />{" "}
+                <SizeButtons
+                  setSelectedSize={setSelectedSize}
+                  selectedSize={selectedSize}
+                />{" "}
               </div>{" "}
             </div>
             <div>
@@ -238,16 +267,6 @@ const ProductDetails = () => {
                 <Button
                   onClick={() => {
                     handleAddToCart();
-                    toast.success("Item added to the cart", {
-                      position: "top-right",
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "colored",
-                    });
                   }}
                   type="auth"
                   label="Add to cart"

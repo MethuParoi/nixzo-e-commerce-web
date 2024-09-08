@@ -1,11 +1,12 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import img from "../../../public/images/categories/classic-2.jpg";
 import QuantityButton from "../ui/QuantityButton";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItem,
   getCurrentQuantityById,
+  updateItemSize,
 } from "@/store/features/cart/cartSlice";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import SizeButtons from "../product-details/SizeButtons";
@@ -19,6 +20,7 @@ function CartItems({ item }) {
     totalPrice,
     img,
     description,
+    size,
   } = item;
   console.log("productID", productId);
 
@@ -27,6 +29,19 @@ function CartItems({ item }) {
   const currentQuantity = useSelector(getCurrentQuantityById(productId));
   // console.log("Current Quantity in Cart:", currentQuantity);
   // console.log("ID:", productId);
+
+  // Local state to track the current selected size
+  const [selectedSize, setSelectedSize] = useState(size);
+
+  // Update the Redux store when the size is changed
+  const handleSizeChange = (newSize) => {
+    setSelectedSize(newSize);
+    dispatch(updateItemSize({ productId, size: newSize }));
+  };
+
+  useEffect(() => {
+    setSelectedSize(size); // Initialize size when component mounts or item changes
+  }, [size]);
 
   return (
     <div className="grid grid-cols-7 my-[1rem]">
@@ -45,7 +60,10 @@ function CartItems({ item }) {
             Size: XL
           </p> */}
           <div className="mt-[2rem]">
-            <SizeButtons />
+            <SizeButtons
+              selectedSize={selectedSize}
+              setSelectedSize={(newSize) => handleSizeChange(newSize)}
+            />
           </div>
         </div>
       </div>

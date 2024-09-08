@@ -26,8 +26,8 @@ const Button: React.FC<ButtonProps> = ({
   href,
   type = "button",
   label,
-  isActive,
-  setActiveButton,
+  isActive = false,
+  setActiveButton = () => {},
 }) => {
   const handleClick = () => {
     if (type === "size") {

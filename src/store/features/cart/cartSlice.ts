@@ -20,10 +20,10 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem(state, action) {
-      //payload = newItem
       const newItem = action.payload;
       const existingItem = state.cart.find(
-        (item) => item.productId === newItem.productId
+        (item) =>
+          item.productId === newItem.productId && item.size === newItem.size // Check for product ID and size
       );
 
       if (existingItem) {
@@ -39,12 +39,22 @@ const cartSlice = createSlice({
             `Invalid unitPrice or quantity for item with id ${newItem.productId}: unitPrice = ${newItem.unitPrice}, quantity = ${newItem.quantity}`
           );
         } else {
-          newItem.totalPrice = newItem.unitPrice * newItem.quantity; // calculate totalPrice here
+          newItem.totalPrice = newItem.unitPrice * newItem.quantity;
           state.cart.push(newItem);
         }
       }
-      // Save to localStorage
+
       localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
+    updateItemSize: (state, action) => {
+      const { productId, size } = action.payload;
+      const existingItem = state.cart.find(
+        (item) => item.productId === productId
+      );
+      if (existingItem) {
+        existingItem.size = size; // Update the size in the cart item
+      }
+      localStorage.setItem("cart", JSON.stringify(state.cart)); // Save updated cart
     },
     deleteItem(state, action) {
       //payload = productId
@@ -105,6 +115,7 @@ export const {
   increaseItemQuantity,
   decreaseItemQuantity,
   clearCart,
+  updateItemSize,
 } = cartSlice.actions;
 
 export const getCart = (state) => state.cart.cart;

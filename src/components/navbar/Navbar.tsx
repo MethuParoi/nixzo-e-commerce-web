@@ -25,6 +25,7 @@ import Button from "../ui/Button";
 import { setGeneral } from "@/store/features/auth/authSlice";
 
 function Navbar() {
+  const [hasMounted, setHasMounted] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
@@ -43,6 +44,11 @@ function Navbar() {
   //get all added products from cart
   const CartItem = useSelector(getTotalCartQuantity);
   // console.log("Cart Items:", CartItem);
+
+  // Run this effect only once after the component has mounted
+  useEffect(() => {
+    setHasMounted(true); // Set to true after component mounts
+  }, []);
 
   useEffect(() => {
     async function fetchUserCart() {
@@ -259,7 +265,9 @@ function Navbar() {
             className="flex flex-col items-center relative"
           >
             <div className="absolute w-[2.2rem] h-[2.2rem] rounded-[50%] bg-accent bottom-4 left-2 flex items-center justify-center">
-              <p className="text-primary-light font-medium">{CartItem}</p>
+              <p className="text-primary-light font-medium">
+                {hasMounted ? CartItem : "0"}
+              </p>
             </div>
             <HiOutlineShoppingBag
               className="text-[3.2rem]"

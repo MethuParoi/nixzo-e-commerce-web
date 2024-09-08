@@ -5,24 +5,20 @@ import Button from "../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { setSize } from "@/store/features/checkout/checkout";
 
-function SizeButtons() {
+function SizeButtons({ setSelectedSize, selectedSize }) {
   const [activeButton, setActiveButton] = useState<string | null>(null);
-  const dispatch = useDispatch();
 
-  const size = useSelector((state) => state.checkout.size);
   useEffect(() => {
-    if (size) {
-      setActiveButton(size);
+    if (selectedSize) {
+      setActiveButton(selectedSize);
     }
-  }, [size]);
-
-  const handleSetActiveButton = (label: string) => {
-    setActiveButton(label);
-  };
+  }, [selectedSize]);
 
   const handleClick = (label: string) => {
-    // setActiveButton(label);
-    dispatch(setSize(label));
+    setActiveButton(label);
+    if (setSelectedSize) {
+      setSelectedSize(label); // Update the selected size
+    }
     console.log("Size selected:", label);
   };
 
@@ -33,28 +29,24 @@ function SizeButtons() {
         type="size"
         onClick={() => handleClick("M")}
         isActive={activeButton === "M"}
-        setActiveButton={handleSetActiveButton}
       />
       <Button
         label="L"
         type="size"
         onClick={() => handleClick("L")}
         isActive={activeButton === "L"}
-        setActiveButton={handleSetActiveButton}
       />
       <Button
         label="XL"
         type="size"
         onClick={() => handleClick("XL")}
         isActive={activeButton === "XL"}
-        setActiveButton={handleSetActiveButton}
       />
       <Button
         label="XXL"
         type="size"
         onClick={() => handleClick("XXL")}
         isActive={activeButton === "XXL"}
-        setActiveButton={handleSetActiveButton}
       />
     </div>
   );

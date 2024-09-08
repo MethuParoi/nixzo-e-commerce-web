@@ -41,6 +41,9 @@ function Cart() {
   const user_id = useSelector((state: RootState) => state.user.user_id);
   const user_avatar = useSelector((state: RootState) => state.user.user_avatar);
 
+  //cart
+  console.log("cart:", cart);
+
   useEffect(() => {
     if (
       user_avatar !=

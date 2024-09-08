@@ -4,7 +4,7 @@ const initialState = {
   subtotal: 0,
   shipping_cost: 0,
   total: 0,
-  size: "",
+  // size: "",
 };
 
 const checkoutSlice = createSlice({
@@ -20,12 +20,11 @@ const checkoutSlice = createSlice({
     setTotal: (state, action) => {
       state.total = action.payload;
     },
-    setSize: (state, action) => {
-      state.size = action.payload;
-    },
+    // setSize: (state, action) => {
+    //   state.size = action.payload;
+    // },
   },
 });
 
-export const { setSubtotal, setShippingCost, setTotal, setSize } =
-  checkoutSlice.actions;
+export const { setSubtotal, setShippingCost, setTotal } = checkoutSlice.actions;
 export default checkoutSlice.reducer;
