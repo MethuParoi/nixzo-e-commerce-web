@@ -186,7 +186,7 @@ function Cart() {
             <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-400 mt-2" />
             <div className="flex items-center justify-between mt-[2rem]">
               <p className="text-[1.8rem] text-secondary-light font-medium">
-                {couponApplied ? "Without discount" : "Subtotal"}
+                MRP
               </p>
               <p className="text-[1.8rem] font-bold">৳ {totalCartPrice}</p>
             </div>
@@ -202,7 +202,7 @@ function Cart() {
             <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
             <div className="flex items-center justify-between mt-[2rem] mb-[2rem]">
               <p className="text-[1.8rem] text-secondary-light font-medium">
-                {couponApplied ? "Discounted price" : "Total"}
+                {couponApplied ? "Discounted Amount" : "Total Amount"}
               </p>
               <p className="text-[1.8rem] font-bold">৳ {totalPrice}</p>
             </div>

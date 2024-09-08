@@ -1,28 +1,53 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { placeOrder } from "../../../utils/placeOrder";
 import { useSelector } from "react-redux";
 import Button from "../ui/Button";
 import { getCart } from "@/store/features/cart/cartSlice";
+import Loader from "../ui/Loader/Loader";
 
 function CheckoutForm() {
+  const [grandTotal, setGrandTotal] = useState(0);
   //using redux store
   const without_discount_total = useSelector(
     (state) => state.checkout.subtotal
   );
   const total = useSelector((state) => state.checkout.total);
+  console.log("without_discount_total:", without_discount_total);
+  console.log("total:", total);
   const cart = useSelector(getCart);
+  const formRef = useRef(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm();
-  //get size
-  const size = useSelector((state) => state.checkout.size);
 
-  const formRef = useRef(null);
+  //set shipping cost
+  const [shippingCost, setShippingCost] = useState(0);
+  const districtValue = watch("District");
+
+  useEffect(() => {
+    if (districtValue && districtValue.toLowerCase().trim() === "dhaka") {
+      setShippingCost(60);
+    } else {
+      setShippingCost(100);
+    }
+  }, [districtValue]);
+
+  // Update the shipping_cost field value
+  useEffect(() => {
+    setValue("shipping_cost", shippingCost);
+  }, [shippingCost, setValue]);
+
+  //set grand total
+  useEffect(() => {
+    setGrandTotal(total + shippingCost);
+  }, [total, shippingCost]);
 
   const onSubmit = (data) => {
     const filteredData = Object.keys(data)
@@ -32,7 +57,10 @@ function CheckoutForm() {
           key == "District" ||
           key == "Email" ||
           key == "Total_price" ||
-          key == "Cart_items"
+          key == "Without_discount_price" ||
+          key == "Cart_items" ||
+          key == "zip_code" ||
+          key == "shipping_cost"
       )
       .reduce((obj, key) => {
         obj[key] = data[key];
@@ -87,26 +115,40 @@ function CheckoutForm() {
               </div>
             </div>
 
-            <div className="mb-[3.5rem] relative">
-              <p className="text-gray-600 font-medium">Street address*</p>
-              <input
-                className="w-[74rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-                type="text"
-                placeholder="Street address"
-                {...register("Street_address", {
-                  required: "Street address is required",
-                  minLength: { value: 4, message: "Minimum length is 4" },
-                })}
-              />
-              {errors.Street_address && (
-                <p className="text-red-500 absolute">
-                  {errors.Street_address.message}
+            <div className="flex items-center gap-x-[4rem]">
+              <div className="mb-[3.5rem] relative">
+                <p className="text-gray-600 font-medium">Street address*</p>
+                <input
+                  className="w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                  type="text"
+                  placeholder="Street address"
+                  {...register("Street_address", {
+                    required: "Street address is required",
+                    minLength: { value: 4, message: "Minimum length is 4" },
+                  })}
+                />
+                {errors.Street_address && (
+                  <p className="text-red-500 absolute">
+                    {errors.Street_address.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="mb-[3.5rem] relative">
+                <p className="text-gray-600 font-medium">
+                  Zip/Postal code (optional)
                 </p>
-              )}
+                <input
+                  className="w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                  type="text"
+                  placeholder="Zip/Postal code"
+                  {...register("zip_code", {})}
+                />
+              </div>
             </div>
 
             <div className="mb-[3.5rem] relative">
-              <p className="text-gray-600 font-medium">Town/City*</p>
+              <p className="text-gray-600 font-medium">City/Upazila*</p>
               <input
                 className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                 type="text"
@@ -194,8 +236,16 @@ function CheckoutForm() {
             <input
               className="hidden"
               type="text"
-              {...register("Size", {
-                value: size,
+              {...register("Without_discount_price", {
+                value: without_discount_total,
+              })}
+            />
+
+            <input
+              className="hidden"
+              type="text"
+              {...register("shipping_cost", {
+                value: shippingCost,
               })}
             />
 
@@ -223,17 +273,17 @@ function CheckoutForm() {
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Subtotal
             </p>
-            <p className="text-[1.8rem] font-bold">
-              ৳ {without_discount_total}
-            </p>
+            <p className="text-[1.8rem] font-bold">৳ {total}</p>
           </div>
           <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
           <div className="flex items-center justify-between mt-[2rem]">
             <p className="text-[1.8rem] text-secondary-light font-medium">
-              Shipping
+              {shippingCost === 60
+                ? "Shipping (Inside Dhaka)"
+                : "Shipping (Outside Dhaka)"}
             </p>
             {/* shipping cost to be updated */}
-            <p className="text-[1.8rem] font-bold">৳ 00</p>
+            <p className="text-[1.8rem] font-bold">৳ {shippingCost}</p>
           </div>
 
           <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
@@ -241,7 +291,7 @@ function CheckoutForm() {
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Total
             </p>
-            <p className="text-[1.8rem] font-bold">৳ {total}</p>
+            <p className="text-[1.8rem] font-bold">৳ {grandTotal}</p>
           </div>
 
           <Button
@@ -260,3 +310,5 @@ function CheckoutForm() {
 }
 
 export default CheckoutForm;
+
+

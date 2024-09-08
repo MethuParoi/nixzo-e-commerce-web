@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserCart } from "../../../../utils/cart";
-import { useSelector } from "react-redux";
+
 
 let cart: any[] = [];
 

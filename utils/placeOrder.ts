@@ -11,11 +11,14 @@ export async function placeOrder({
   Last_name,
   Street_address,
   Town_City,
+  zip_code,
   District,
   Mobile_number,
   Email,
   Total_price,
+  Without_discount_price,
   Cart_items,
+  shipping_cost,
 }) {
   const { data, error } = await supabase
     .from("order_table")
@@ -24,12 +27,15 @@ export async function placeOrder({
         first_name: First_name,
         last_name: Last_name,
         street_address: Street_address,
+        zip_code: zip_code,
         town_city: Town_City,
         district: District,
         mobile_number: Mobile_number,
         email: Email,
         total_price: Total_price,
+        without_discount_price: Without_discount_price,
         ordered_items: Cart_items,
+        shipping_cost: shipping_cost,
       },
     ])
     .select();
