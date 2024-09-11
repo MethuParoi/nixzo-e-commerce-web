@@ -16,59 +16,114 @@ import CategoryCard from '../ui/CategoryCard';
 
 const products = [
   {
-    title: "Trendies",
+    title: "Regular t-shirt",
     description:
       "Elegance meets practicality in our collection of bags—crafted for every journey..",
     images: [t1, t2, t3],
     btnLink: "/products",
   },
   {
-    title: "Classics",
+    title: "Super Saver Combo",
     description:
       "Experience sophistication with our wallets—where timeless design meets everyday function..",
     images: [c1, c2, c3],
     btnLink: "/products",
   },
   {
-    title: "Mens",
+    title: "Drop Shoulder t-shirt",
     description:
       "Step confidently in our shoes—designed for comfort and style with every stride.",
     images: [m1, m2, m3],
     btnLink: "/products",
   },
   {
-    title: "Ladies",
+    title: "Premium Polo",
     description:
       "Step confidently in our shoes—designed for comfort and style with every stride.",
     images: [l1, l2, l3],
     btnLink: "/products",
   },
+  {
+    title: "Festival",
+    description:
+      "Elegance meets practicality in our collection of bags—crafted for every journey..",
+    images: [t1, t2, t3],
+    btnLink: "/products",
+  },
+  /*
+  {
+    title: "Hoodi",
+    description:
+      "Experience sophistication with our wallets—where timeless design meets everyday function..",
+    images: [c1, c2, c3],
+    btnLink: "/products",
+  },
+  
+  {
+    title: "Jersey",
+    description:
+      "Elegance meets practicality in our collection of bags—crafted for every journey..",
+    images: [t1, t2, t3],
+    btnLink: "/products",
+  },
+  {
+    title: "Shirt",
+    description:
+      "Experience sophistication with our wallets—where timeless design meets everyday function..",
+    images: [c1, c2, c3],
+    btnLink: "/products",
+  },
+  {
+    title: "Short kurta",
+    description:
+      "Step confidently in our shoes—designed for comfort and style with every stride.",
+    images: [m1, m2, m3],
+    btnLink: "/products",
+  },
+  {
+    title: "Dhuti",
+    description:
+      "Step confidently in our shoes—designed for comfort and style with every stride.",
+    images: [l1, l2, l3],
+    btnLink: "/products",
+  },
+   {
+    title: "Punjabi",
+    description:
+      "Step confidently in our shoes—designed for comfort and style with every stride.",
+    images: [l1, l2, l3],
+    btnLink: "/products",
+  },
+  */
   // Add more product objects as needed
 ];
 
 const Categories = () => {
-    return (
-        <section className='bg-primary' id='category'>
-            <div className='container mx-auto px-4 py-28'>
-                <h2 className='text-5xl font-bold text-center text-accent mb-4'>Shop by Category</h2>
-                <hr className="w-[26rem] h-1 bg-accent mx-auto mb-6" />
-                <p className="text-center text-[1.6rem] text-secondary mb-8">
-                    Explore our premium collection of handpicked items designed for trend and style.
-                </p>
-                {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 place-items-center "> */}
-                <div className="flex flex-wrap gap-2 justify-center ">
-                    {products.map((product, index) => (
-                        <CategoryCard
-                            key={index}
-                            title={product.title}
-                            images={product.images}
-                            btnLink={product.btnLink}
-                        />
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+  return (
+    <section className="bg-primary" id="category">
+      <div className="container mx-auto px-4 py-14 flex flex-col items-center">
+        <h2 className="text-5xl font-bold text-center text-accent mb-4">
+          Shop by Category
+        </h2>
+        <hr className="w-[26rem] h-1 bg-accent mx-auto mb-6" />
+        <p className="text-center text-[1.6rem] text-secondary mb-8">
+          Explore our premium collection of handpicked items designed for trend
+          and style.
+        </p>
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 items-center place-items-center "> */}
+        <div className="flex flex-wrap gap-2 justify-center w-[100rem]">
+          {products.map((product, index) => (
+            <CategoryCard
+              key={index}
+              title={product.title}
+              images={product.images}
+              btnLink={product.btnLink}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Categories;

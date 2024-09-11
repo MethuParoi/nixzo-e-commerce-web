@@ -7,6 +7,7 @@ interface ButtonProps {
   href?: string; // Optional href prop for link functionality
   type?:
     | "auth"
+    | "auth-cart"
     | "auth-transparent"
     | "submit"
     | "reset"
@@ -45,9 +46,13 @@ const Button: React.FC<ButtonProps> = ({
       buttonClass +=
         " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark  active:bg-accent text-primary text-white rounded-md";
       break;
+    case "auth-cart":
+      buttonClass +=
+        " xl:w-[48rem] lg:w-[42rem] sm:w-[32rem] w-[30rem] h-[4.5rem] bg-accent hover:bg-accent-dark  active:bg-accent text-primary text-white rounded-md";
+      break;
     case "auth-transparent":
       buttonClass +=
-        " lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-primary-light hover:bg-primary-dark  active:bg-accent text-secondary-light  rounded-md border-2 border-gray-300 shadow-md";
+        " xl:w-[48rem] lg:w-[42rem] sm:w-[32rem] w-[30rem] h-[4.5rem] bg-primary-light hover:bg-primary-dark  active:bg-accent text-secondary-light  rounded-md border-2 border-gray-300 shadow-md";
       break;
     case "submit":
       buttonClass += " bg-green-500 hover:bg-green-600 text-white rounded-md";

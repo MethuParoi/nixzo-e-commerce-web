@@ -162,29 +162,31 @@ function Cart() {
     return (
       <div>
         {isLoading && <Loader />}
-        <div className="grid grid-cols-3 h-[60rem] xl:w-[120rem] 2xl:w-[150rem] my-[4rem]">
-          <div className="col-span-2">
-            <div className="grid grid-cols-7 text-[2rem] font-medium">
-              <div className="col-span-4 ">PRODUCT</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 md:h-[60rem] min-h-[80rem] xl:w-[120rem] 2xl:w-[150rem] my-[4rem]">
+          <div className="md:col-span-2 ">
+            <div className="hidden md:grid md:grid-cols-5 xl:grid-cols-7  lg:text-[2rem] font-medium">
+              <div className="col-span-2 xl:col-span-4 ">PRODUCT</div>
               <div>PRICE</div>
               <div>QUANTITY</div>
               <div>SUBTOTAL</div>
-              <hr className="lg:w-[96rem] h-1 border-0 rounded bg-gray-400 mt-2" />
+              <hr className="xl:w-[96rem] lg:w-[66rem] md:w-[50rem] h-1 border-0 rounded bg-gray-400 mt-2" />
             </div>
             {/* map function */}
             {/* <CartItems /> */}
-            {cart.map((item) => (
-              <CartItems item={item} key={item.product_id} />
-            ))}
+            <div className="max-h-[60rem] overflow-y-auto">
+              {cart.map((item) => (
+                <CartItems item={item} key={item.product_id} />
+              ))}
+            </div>
           </div>
 
           {/* Cart total */}
-          <div className="border-l-[.3rem] border-l-gray-400 pl-[4rem]">
-            <div className="flex items-center justify-start">
-              <h2 className="text-[2rem] font-medium">CART TOTALS</h2>
+          <div className="md:border-l-[.3rem] md:border-l-gray-400 md:pl-[4rem] container mx-auto">
+            <div className="flex items-center md:justify-start justify-center mx-auto">
+              <h2 className="lg:text-[2rem] font-medium">CART TOTALS</h2>
             </div>
-            <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-400 mt-2" />
-            <div className="flex items-center justify-between mt-[2rem]">
+            <hr className="w-[28rem] sm:w-[32rem] lg:w-[45rem] xl:w-[47rem] h-1 border-0 rounded bg-gray-400 mt-2 mx-auto" />
+            <div className="flex items-center justify-between mt-[2rem] xl:w-[45rem] lg:w-[40rem] sm:w-[30rem] w-[28rem] mx-auto">
               <p className="text-[1.8rem] text-secondary-light font-medium">
                 MRP
               </p>
@@ -199,8 +201,8 @@ function Cart() {
               <p className="text-[1.8rem] font-bold">৳ 00</p>
             </div> */}
 
-            <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
-            <div className="flex items-center justify-between mt-[2rem] mb-[2rem]">
+            <hr className=" xl:w-[47rem] lg:w-[42rem] sm:w-[32rem] w-[28rem] h-1 border-0 rounded bg-gray-300 mt-2 mx-auto" />
+            <div className="flex items-center justify-between mt-[2rem] mb-[2rem] xl:w-[45rem] lg:w-[40rem] md:w-[30rem] w-[28rem] mx-auto">
               <p className="text-[1.8rem] text-secondary-light font-medium">
                 {couponApplied ? "Discounted Amount" : "Total Amount"}
               </p>
@@ -211,16 +213,16 @@ function Cart() {
             <div className="mb-[4rem]">
               {couponApplied ? (
                 <div>
-                  <div className="flex items-center gap-x-4 ">
-                    <div className="text-[2.5rem] text-secondary-light">
+                  <div className="flex items-center gap-x-4 justify-center">
+                    <div className="text-[1.8rem] md:text-[2.5rem] text-secondary-light">
                       <MdDiscount />
                     </div>
-                    <h2 className="text-[2rem] text-secondary-light font-medium">
+                    <h2 className="md:text-[2rem] text-secondary-light font-medium">
                       {couponData[0].discount_percent}% Discount Applied
                     </h2>
                   </div>
-                  <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
-                  <div className="flex items-center justify-between mt-[2rem] mb-[2rem]">
+                  <hr className=" xl:w-[47rem] lg:w-[42rem] sm:w-[32rem] w-[28rem] h-1 border-0 rounded bg-gray-300 mt-2 mx-auto" />
+                  <div className="flex items-center justify-between mt-[2rem] mb-[2rem] xl:w-[45rem] lg:w-[40rem] sm:w-[30rem] w-[28rem] mx-auto">
                     <p className="text-[1.8rem] text-green-500 font-medium">
                       You saved
                     </p>
@@ -231,39 +233,70 @@ function Cart() {
                 </div>
               ) : (
                 <div>
-                  <div className="flex items-center gap-x-4 ">
-                    <div className="text-[2.5rem] text-secondary-light">
+                  <div className="flex items-center justify-center gap-x-4 mx-auto">
+                    <div className="text-[1.8rem] md:text-[2.5rem] text-secondary-light">
                       <MdDiscount />
                     </div>
-                    <h2 className="text-[2rem] text-secondary-light font-medium">
+                    <h2 className="md:text-[2rem] text-secondary-light font-medium">
                       Coupon
                     </h2>
                   </div>
-                  <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
+                  <hr className="xl:w-[47rem] lg:w-[42rem] sm:w-[32rem] w-[30rem] h-1 border-0 rounded bg-gray-300 mt-2 mx-auto" />
+                  <div className="flex items-center justify-center md:hidden">
+                    <input
+                      className="xl:w-[48rem] lg:w-[42rem] sm:w-[32rem] w-[30rem] h-[4.5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[3rem] shadow-md mb-[2rem]"
+                      type="text"
+                      placeholder="Enter coupon code"
+                      onChange={(e) => setCoupon(e.target.value)}
+                    />
+                  </div>
                   <input
-                    className="lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[3rem] shadow-md mb-[2rem]"
+                    className="xl:w-[48rem] lg:w-[42rem] md:w-[32rem] w-[30rem] h-[4.5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[3rem] shadow-md mb-[2rem] hidden md:block"
                     type="text"
                     placeholder="Enter coupon code"
                     onChange={(e) => setCoupon(e.target.value)}
                   />
-                  <Button
-                    disabled={couponApplied}
-                    onClick={handleApplyCoupon}
-                    type="auth-transparent"
-                    label="Apply Coupon"
-                  />
+                  <div className="md:hidden flex justify-center items-center ">
+                    <Button
+                      disabled={couponApplied}
+                      onClick={handleApplyCoupon}
+                      type="auth-transparent"
+                      label="Apply Coupon"
+                    />
+                  </div>
+                  <div className="hidden md:flex justify-center items-center xl:w-[48rem] lg:w-[42rem] md:w-[32rem] w-[30rem]">
+                    <Button
+                      disabled={couponApplied}
+                      onClick={handleApplyCoupon}
+                      type="auth-transparent"
+                      label="Apply Coupon"
+                    />
+                  </div>
                 </div>
               )}
             </div>
-            <Button
-              onClick={() => {
-                if (totalCartQuantity > 0) {
-                  router.push("cart/checkout");
-                }
-              }}
-              type="auth"
-              label="PROCEED TO CHECKOUT"
-            />
+            <div className="md:hidden flex justify-center items-center ">
+              <Button
+                onClick={() => {
+                  if (totalCartQuantity > 0) {
+                    router.push("cart/checkout");
+                  }
+                }}
+                type="auth-cart"
+                label="PROCEED TO CHECKOUT"
+              />
+            </div>
+            <div className="hidden md:flex justify-center items-center xl:w-[48rem] lg:w-[42rem] md:w-[32rem] w-[30rem]">
+              <Button
+                onClick={() => {
+                  if (totalCartQuantity > 0) {
+                    router.push("cart/checkout");
+                  }
+                }}
+                type="auth-cart"
+                label="PROCEED TO CHECKOUT"
+              />
+            </div>
           </div>
         </div>
       </div>
