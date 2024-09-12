@@ -50,8 +50,10 @@ export async function placeOrder({
 
   if (error) {
     console.error("Error placing order:", error);
+    return { success: false, error };
   } else {
-    console.log("Order placed successfully:", data);
+    // console.log("Order placed successfully:", data);
+    return { success: true, data };
   }
 }
 

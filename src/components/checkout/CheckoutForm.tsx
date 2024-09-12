@@ -12,11 +12,14 @@ import Image from "next/image";
 import bkash from "../../../public/images/logo/bkash.png";
 import nagad from "../../../public/images/logo/nagad.png";
 import rocket from "../../../public/images/logo/rocket.png";
+import qr_code from "../../../public/images/logo/qr-code.png";
+import { useRouter } from "next/navigation";
 
 function CheckoutForm() {
   const [grandTotal, setGrandTotal] = useState(0);
   //select COD or OnlinePayment
   const [isSelected, setIsSelected] = useState("");
+  const router = useRouter();
   //using redux store
   const without_discount_total = useSelector(
     (state) => state.checkout.subtotal
@@ -176,8 +179,21 @@ function CheckoutForm() {
       console.log("combined data", combinedData);
 
       // Place the order with the combined data
-      if (!transactionData && isSelected === "cashOnDelivery") {
-        placeOrder(combinedData);
+      if (isSelected === "cashOnDelivery") {
+        const result = await placeOrder(combinedData);
+        if (result.success) {
+          toast.success("Order placed successfully!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          router.push("/cart/checkout/order-placed");
+        }
       }
       if (!transactionData && isSelected != "cashOnDelivery") {
         toast.error(" Enter payment details / Select a payment option", {
@@ -196,7 +212,20 @@ function CheckoutForm() {
         isSelected != "" &&
         transactionData
       ) {
-        placeOrder(combinedData);
+        const result = await placeOrder(combinedData);
+        if (result.success) {
+          toast.success("Order placed successfully!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          router.push("/cart/checkout/order-placed");
+        }
       }
     } catch (error) {
       console.error("Error during form submission", error);
@@ -272,9 +301,9 @@ function CheckoutForm() {
     watchTransaction,
     setValueTransaction,
   ]);
-
+  // 2xl:mr-[12rem] xl:mr-[28rem] lg:mr-[28rem]
   return (
-    <div className="flex items-start justify-between gap-x-[4rem] mr-[12rem]">
+    <div className="flex items-start justify-between gap-x-[4rem] pr-[5rem] 2xl:mr-[0rem] mb-[20rem]">
       <div>
         <h1 className="text-[2.5rem] font-semibold mb-[2rem]">CheckoutForm</h1>
         <div>
@@ -561,7 +590,7 @@ function CheckoutForm() {
                   <h2 id="accordion-collapse-heading-1">
                     <button
                       type="button"
-                      className="flex items-center justify-between w-[48rem] p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3"
+                      className="flex items-center justify-between w-[48rem] p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-200 bg-gray-100  gap-3"
                       data-accordion-target="#accordion-collapse-body-1"
                       aria-expanded={activeIndex === 1}
                       aria-controls="accordion-collapse-body-1"
@@ -596,6 +625,24 @@ function CheckoutForm() {
                     aria-labelledby="accordion-collapse-heading-1"
                   >
                     <div className="p-5 border border-b-0 border-gray-400 bg-gray-200">
+                      <div className="flex flex-col items-center justify-center ">
+                        <p className="text-[2rem] text-green-500 font-semibold mb-[1rem]">
+                          You need to send us ৳ {total_price_with_shipping}
+                        </p>
+                        <Image className="w-[20rem]" src={qr_code} alt="" />
+                        <div className="my-[1rem]">
+                          <p className="text-secondary-light">
+                            Account Type :{"  "}
+                            <span className="font-semibold">
+                              Personal Bkash
+                            </span>
+                          </p>
+                          <p className="text-secondary-light">
+                            Account Number :{"  "}
+                            <span className="font-semibold">01733668841</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="mb-[3.5rem] relative">
                         <p className="text-gray-600 font-medium">
                           Account number*
@@ -665,7 +712,7 @@ function CheckoutForm() {
                   <h2 id="accordion-collapse-heading-2">
                     <button
                       type="button"
-                      className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3"
+                      className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-200 bg-gray-100  gap-3"
                       data-accordion-target="#accordion-collapse-body-2"
                       aria-expanded={activeIndex === 2}
                       aria-controls="accordion-collapse-body-2"
@@ -700,6 +747,24 @@ function CheckoutForm() {
                     aria-labelledby="accordion-collapse-heading-2"
                   >
                     <div className="p-5 border border-b-0 border-gray-400 bg-gray-200">
+                      <div className="flex flex-col items-center justify-center ">
+                        <p className="text-[2rem] text-green-500 font-semibold mb-[1rem]">
+                          You need to send us ৳ {total_price_with_shipping}
+                        </p>
+                        <Image className="w-[20rem]" src={qr_code} alt="" />
+                        <div className="my-[1rem]">
+                          <p className="text-secondary-light">
+                            Account Type :{"  "}
+                            <span className="font-semibold">
+                              Personal Nagad
+                            </span>
+                          </p>
+                          <p className="text-secondary-light">
+                            Account Number :{"  "}
+                            <span className="font-semibold">01733668841</span>
+                          </p>
+                        </div>
+                      </div>
                       <div className="mb-[3.5rem] relative">
                         <p className="text-gray-600 font-medium">
                           Account number*
@@ -769,7 +834,7 @@ function CheckoutForm() {
                   <h2 id="accordion-collapse-heading-3">
                     <button
                       type="button"
-                      className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3"
+                      className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-200 bg-gray-100 gap-3"
                       data-accordion-target="#accordion-collapse-body-3"
                       aria-expanded={activeIndex === 3}
                       aria-controls="accordion-collapse-body-3"
@@ -785,7 +850,7 @@ function CheckoutForm() {
                           value="RocketPayment"
                           checked={isSelected === "RocketPayment"}
                         />
-                        <span className="ml-[1rem]">Pay with Rocket</span>
+                        <span className="ml-[1rem] ">Pay with Rocket</span>
                       </div>
                       <div>
                         <Image
@@ -803,68 +868,88 @@ function CheckoutForm() {
                     className={activeIndex === 3 ? "" : "hidden"}
                     aria-labelledby="accordion-collapse-heading-3"
                   >
-                    <div className="p-5 border border-gray-400 bg-gray-200">
-                      <div className="mb-[3.5rem] relative">
-                        <p className="text-gray-600 font-medium">
-                          Account number*
+                    <div className="p-5 border border-b-0 border-gray-400 bg-gray-200">
+                      <div className="flex flex-col items-center justify-center ">
+                        <p className="text-[2rem] text-green-500 font-semibold mb-[1rem]">
+                          You need to send us ৳ {total_price_with_shipping}
                         </p>
-                        <input
-                          className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-                          type="tel"
-                          placeholder="Account number"
-                          {...registerTransaction(
-                            "Rocket_account_number",
-                            isSelected === "RocketPayment"
-                              ? {
-                                  required: "Mobile number is required",
-                                  minLength: {
-                                    value: 11,
-                                    message: "Minimum length is 11",
-                                  },
-                                  maxLength: {
-                                    value: 11,
-                                    message: "Maximum length is 11",
-                                  },
-                                  pattern: {
-                                    value: /^01[0-9]{9}$/,
-                                    message: "Invalid account number",
-                                  },
-                                }
-                              : {}
-                          )}
-                        />
-                        {errorsTransaction.Rocket_account_number && (
-                          <p className="text-red-500 absolute">
-                            {errorsTransaction.Rocket_account_number.message}
+                        <Image className="w-[20rem]" src={qr_code} alt="" />
+                        <div className="my-[1rem]">
+                          <p className="text-secondary-light">
+                            Account Type :{"  "}
+                            <span className="font-semibold">
+                              Personal Rocket
+                            </span>
                           </p>
-                        )}
+                          <p className="text-secondary-light">
+                            Account Number :{"  "}
+                            <span className="font-semibold">01733668841</span>
+                          </p>
+                        </div>
                       </div>
-                      <div className="mb-[3.5rem] relative">
-                        <p className="text-gray-600 font-medium">
-                          Transaction Id*
-                        </p>
-                        <input
-                          className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
-                          type="tel"
-                          placeholder="Transaction Id"
-                          {...registerTransaction(
-                            "Rocket_transaction_id",
-                            isSelected === "RocketPayment"
-                              ? {
-                                  required: "Transaction Id is required",
-                                  minLength: {
-                                    value: 7,
-                                    message: "Minimum length is 7",
-                                  },
-                                }
-                              : {}
-                          )}
-                        />
-                        {errorsTransaction.Rocket_transaction_id && (
-                          <p className="text-red-500 absolute">
-                            {errorsTransaction.Rocket_transaction_id.message}
+                      <div className="p-5 border ">
+                        <div className="mb-[3.5rem] relative">
+                          <p className="text-gray-600 font-medium">
+                            Account number*
                           </p>
-                        )}
+                          <input
+                            className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                            type="tel"
+                            placeholder="Account number"
+                            {...registerTransaction(
+                              "Rocket_account_number",
+                              isSelected === "RocketPayment"
+                                ? {
+                                    required: "Mobile number is required",
+                                    minLength: {
+                                      value: 11,
+                                      message: "Minimum length is 11",
+                                    },
+                                    maxLength: {
+                                      value: 11,
+                                      message: "Maximum length is 11",
+                                    },
+                                    pattern: {
+                                      value: /^01[0-9]{9}$/,
+                                      message: "Invalid account number",
+                                    },
+                                  }
+                                : {}
+                            )}
+                          />
+                          {errorsTransaction.Rocket_account_number && (
+                            <p className="text-red-500 absolute">
+                              {errorsTransaction.Rocket_account_number.message}
+                            </p>
+                          )}
+                        </div>
+                        <div className="mb-[3.5rem] relative">
+                          <p className="text-gray-600 font-medium">
+                            Transaction Id*
+                          </p>
+                          <input
+                            className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                            type="tel"
+                            placeholder="Transaction Id"
+                            {...registerTransaction(
+                              "Rocket_transaction_id",
+                              isSelected === "RocketPayment"
+                                ? {
+                                    required: "Transaction Id is required",
+                                    minLength: {
+                                      value: 7,
+                                      message: "Minimum length is 7",
+                                    },
+                                  }
+                                : {}
+                            )}
+                          />
+                          {errorsTransaction.Rocket_transaction_id && (
+                            <p className="text-red-500 absolute">
+                              {errorsTransaction.Rocket_transaction_id.message}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
