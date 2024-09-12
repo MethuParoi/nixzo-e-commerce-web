@@ -17,8 +17,12 @@ export async function placeOrder({
   Email,
   Total_price,
   Without_discount_price,
+  total_price_with_shipping,
   Cart_items,
   shipping_cost,
+  account_number,
+  transaction_id,
+  payment_method,
 }) {
   const { data, error } = await supabase
     .from("order_table")
@@ -34,8 +38,12 @@ export async function placeOrder({
         email: Email,
         total_price: Total_price,
         without_discount_price: Without_discount_price,
+        total_price_with_shipping: total_price_with_shipping,
         ordered_items: Cart_items,
         shipping_cost: shipping_cost,
+        account_number: account_number,
+        transaction_id: transaction_id,
+        payment_method: payment_method,
       },
     ])
     .select();
