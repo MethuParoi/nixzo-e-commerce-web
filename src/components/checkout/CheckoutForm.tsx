@@ -308,16 +308,16 @@ function CheckoutForm() {
   ]);
   // 2xl:mr-[12rem] xl:mr-[28rem] lg:mr-[28rem]
   return (
-    <div className="flex items-start justify-between gap-x-[4rem] pr-[5rem] 2xl:mr-[0rem] mb-[20rem]">
+    <div className="flex sm:flex-row flex-col sm:items-start items-center sm:justify-between gap-x-[4rem] sm:pr-[5rem] md:ml-[2rem] lg:ml-[0rem] xl:ml-[-5rem] 2xl:ml-0 2xl:mr-[0rem] mb-[20rem] ">
       <div>
         <h1 className="text-[2.5rem] font-semibold mb-[2rem]">CheckoutForm</h1>
         <div>
           <form ref={formRef} onSubmit={handleSubmitCheckout(onSubmitCheckout)}>
-            <div className="flex items-center gap-x-[4rem]">
+            <div className="flex xl:flex-row flex-col  xl:items-center xl:gap-x-[4rem]">
               <div className="mb-[3.5rem] relative">
                 <p className="text-gray-600 font-medium">First Name*</p>
                 <input
-                  className="xl:w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] shadow-md mt-[1rem]"
+                  className="w-[32rem] lg:w-[50rem] xl:w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] shadow-md mt-[1rem]"
                   type="text"
                   placeholder="First name"
                   {...registerCheckout("First_name", {
@@ -335,7 +335,7 @@ function CheckoutForm() {
               <div className="mb-[3.5rem] relative">
                 <p className="text-gray-600 font-medium">Last Name*</p>
                 <input
-                  className="w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                  className="w-[32rem] lg:w-[50rem] xl:w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                   type="text"
                   placeholder="Last name"
                   {...registerCheckout("Last_name", {
@@ -352,11 +352,11 @@ function CheckoutForm() {
               </div>
             </div>
 
-            <div className="flex items-center gap-x-[4rem]">
+            <div className="flex xl:flex-row flex-col  xl:items-center xl:gap-x-[4rem]">
               <div className="mb-[3.5rem] relative">
                 <p className="text-gray-600 font-medium">Street address*</p>
                 <input
-                  className="w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                  className="w-[32rem] lg:w-[50rem] xl:w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                   type="text"
                   placeholder="Street address"
                   {...registerCheckout("Street_address", {
@@ -376,7 +376,7 @@ function CheckoutForm() {
                   Zip/Postal code (optional)
                 </p>
                 <input
-                  className="w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                  className="w-[32rem] lg:w-[50rem] xl:w-[35rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                   type="text"
                   placeholder="Zip/Postal code"
                   {...registerCheckout("zip_code", {})}
@@ -387,7 +387,7 @@ function CheckoutForm() {
             <div className="mb-[3.5rem] relative">
               <p className="text-gray-600 font-medium">City/Upazila*</p>
               <input
-                className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                className="w-[32rem] lg:w-[50rem] xl:w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                 type="text"
                 placeholder="Town/City"
                 {...registerCheckout("Town_City", {
@@ -405,7 +405,7 @@ function CheckoutForm() {
             <div className="mb-[3.5rem] relative">
               <p className="text-gray-600 font-medium">District*</p>
               <input
-                className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                className="w-[32rem] lg:w-[50rem] xl:w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                 type="text"
                 placeholder="District"
                 {...registerCheckout("District", {
@@ -423,7 +423,7 @@ function CheckoutForm() {
             <div className="mb-[3.5rem] relative">
               <p className="text-gray-600 font-medium">Mobile number*</p>
               <input
-                className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                className="w-[32rem] lg:w-[50rem] xl:w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                 type="tel"
                 placeholder="Mobile number"
                 {...registerCheckout("Mobile_number", {
@@ -446,7 +446,7 @@ function CheckoutForm() {
             <div className="mb-[3.5rem] relative">
               <p className="text-gray-600 font-medium">Email(optional)</p>
               <input
-                className="w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                className="w-[32rem] lg:w-[50rem] xl:w-[75rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                 type="text"
                 placeholder="Email"
                 {...registerCheckout("Email", {
@@ -518,19 +518,19 @@ function CheckoutForm() {
       </div>
 
       {/* checkout data */}
-      <div className="mt-[8rem] relative">
-        <div className="border-l-[.3rem] border-l-gray-400 pl-[4rem]">
+      <div className="mt-[2rem] sm:mt-[8rem] relative sm:ml-[-2rem] lg:ml-[-3rem] xl:ml-[-2rem] 2xl:ml-0">
+        <div className="sm:border-l-[.3rem] sm:border-l-gray-400 sm:pl-[2rem] xl:pl-[4rem]">
           <div className="flex items-center justify-start">
             <h2 className="text-[2rem] font-medium">CART TOTALS</h2>
           </div>
-          <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-400 mt-2" />
+          <hr className="lg:w-[37rem] xl:w-[47rem] h-1 border-0 rounded bg-gray-400 mt-2" />
           <div className="flex items-center justify-between mt-[2rem]">
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Subtotal
             </p>
             <p className="text-[1.8rem] font-bold">৳ {total}</p>
           </div>
-          <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
+          <hr className="lg:w-[37rem] xl:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
           <div className="flex items-center justify-between mt-[2rem]">
             <p className="text-[1.8rem] text-secondary-light font-medium">
               {shippingCost === 60
@@ -541,7 +541,7 @@ function CheckoutForm() {
             <p className="text-[1.8rem] font-bold">৳ {shippingCost}</p>
           </div>
 
-          <hr className="lg:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
+          <hr className="lg:w-[37rem] xl:w-[47rem] h-1 border-0 rounded bg-gray-300 mt-2" />
           <div className="flex items-center justify-between mt-[2rem] mb-[2rem]">
             <p className="text-[1.8rem] text-secondary-light font-medium">
               Total
@@ -595,7 +595,7 @@ function CheckoutForm() {
                   <h2 id="accordion-collapse-heading-1">
                     <button
                       type="button"
-                      className="flex items-center justify-between w-[48rem] p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-200 bg-gray-100  gap-3"
+                      className="flex items-center justify-between w-[30rem] md:w-[35rem] lg:w-[48rem] p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-200 bg-gray-100  gap-3"
                       data-accordion-target="#accordion-collapse-body-1"
                       aria-expanded={activeIndex === 1}
                       aria-controls="accordion-collapse-body-1"
@@ -629,7 +629,7 @@ function CheckoutForm() {
                     className={activeIndex === 1 ? "" : "hidden"}
                     aria-labelledby="accordion-collapse-heading-1"
                   >
-                    <div className="p-5 border border-b-0 border-gray-400 bg-gray-200">
+                    <div className="p-5 border border-b-0 border-gray-400 bg-gray-200 w-[30rem] md:w-[35rem] lg:w-[48rem]">
                       <div className="flex flex-col items-center justify-center ">
                         <p className="text-[2rem] text-green-500 font-semibold mb-[1rem]">
                           You need to send us ৳ {total_price_with_shipping}
@@ -653,7 +653,7 @@ function CheckoutForm() {
                           Account number*
                         </p>
                         <input
-                          className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                          className="w-[27rem] md:w-[32rem] lg:w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                           type="tel"
                           placeholder="Account number"
                           {...registerTransaction(
@@ -688,7 +688,7 @@ function CheckoutForm() {
                           Transaction Id*
                         </p>
                         <input
-                          className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                          className="w-[27rem] md:w-[32rem] lg:w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                           type="tel"
                           placeholder="Transaction Id"
                           {...registerTransaction(
@@ -751,7 +751,7 @@ function CheckoutForm() {
                     className={activeIndex === 2 ? "" : "hidden"}
                     aria-labelledby="accordion-collapse-heading-2"
                   >
-                    <div className="p-5 border border-b-0 border-gray-400 bg-gray-200">
+                    <div className="p-5 border border-b-0 border-gray-400 bg-gray-200 w-[30rem] md:w-[35rem] lg:w-[48rem]">
                       <div className="flex flex-col items-center justify-center ">
                         <p className="text-[2rem] text-green-500 font-semibold mb-[1rem]">
                           You need to send us ৳ {total_price_with_shipping}
@@ -775,7 +775,7 @@ function CheckoutForm() {
                           Account number*
                         </p>
                         <input
-                          className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                          className="w-[27rem] md:w-[32rem] lg:w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                           type="tel"
                           placeholder="Account number"
                           {...registerTransaction(
@@ -810,7 +810,7 @@ function CheckoutForm() {
                           Transaction Id*
                         </p>
                         <input
-                          className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                          className="w-[27rem] md:w-[32rem] lg:w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                           type="tel"
                           placeholder="Transaction Id"
                           {...registerTransaction(
@@ -873,7 +873,7 @@ function CheckoutForm() {
                     className={activeIndex === 3 ? "" : "hidden"}
                     aria-labelledby="accordion-collapse-heading-3"
                   >
-                    <div className="p-5 border border-b-0 border-gray-400 bg-gray-200">
+                    <div className="p-5 border border-b-0 border-gray-400 bg-gray-200 w-[30rem] md:w-[35rem] lg:w-[48rem]">
                       <div className="flex flex-col items-center justify-center ">
                         <p className="text-[2rem] text-green-500 font-semibold mb-[1rem]">
                           You need to send us ৳ {total_price_with_shipping}
@@ -898,7 +898,7 @@ function CheckoutForm() {
                             Account number*
                           </p>
                           <input
-                            className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                            className="w-[26rem] md:w-[32rem] lg:w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                             type="tel"
                             placeholder="Account number"
                             {...registerTransaction(
@@ -933,7 +933,7 @@ function CheckoutForm() {
                             Transaction Id*
                           </p>
                           <input
-                            className="w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
+                            className="w-[26rem] md:w-[32rem] lg:w-[45rem] h-[5rem] rounded-[1rem] border-2 border-primary-dark px-[1rem] mt-[1rem] shadow-md"
                             type="tel"
                             placeholder="Transaction Id"
                             {...registerTransaction(
