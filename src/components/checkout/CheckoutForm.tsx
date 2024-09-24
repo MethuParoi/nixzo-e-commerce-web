@@ -19,6 +19,8 @@ function CheckoutForm() {
   const [grandTotal, setGrandTotal] = useState(0);
   //select COD or OnlinePayment
   const [isSelected, setIsSelected] = useState("");
+  //pending status
+  const [isPending, setIsPending] = useState(false);
   const router = useRouter();
   //using redux store
   const without_discount_total = useSelector(
@@ -167,19 +169,15 @@ function CheckoutForm() {
         transactionData = onSubmitTransaction(data); // get filtered data
       })();
 
-      console.log("checkout data", checkoutData);
-      console.log("transaction data", transactionData);
-
       // Combine the data from both forms
       const combinedData = {
         ...checkoutData,
         ...transactionData,
       };
 
-      console.log("combined data", combinedData);
-
       // Place the order with the combined data
       if (isSelected === "cashOnDelivery") {
+        setIsPending(true);
         const result = await placeOrder(combinedData);
         if (result.success) {
           toast.success("Order placed successfully!", {
@@ -192,10 +190,15 @@ function CheckoutForm() {
             progress: undefined,
             theme: "colored",
           });
+          setIsPending(false);
           router.push("/cart/checkout/order-placed");
         }
       }
-      if (!transactionData && isSelected != "cashOnDelivery") {
+      // check transactionData is empty or not
+      const isEmptyObject = Object.values(transactionData).every(
+        (value) => value === ""
+      );
+      if (isEmptyObject && isSelected != "cashOnDelivery") {
         toast.error(" Enter payment details / Select a payment option", {
           position: "top-right",
           autoClose: 5000,
@@ -212,6 +215,7 @@ function CheckoutForm() {
         isSelected != "" &&
         transactionData
       ) {
+        setIsPending(true);
         const result = await placeOrder(combinedData);
         if (result.success) {
           toast.success("Order placed successfully!", {
@@ -224,6 +228,7 @@ function CheckoutForm() {
             progress: undefined,
             theme: "colored",
           });
+          setIsPending(false);
           router.push("/cart/checkout/order-placed");
         }
       }
@@ -552,7 +557,7 @@ function CheckoutForm() {
               //   }
               // }}
               onClick={handleProceedToCheckout}
-              disabled={invalid}
+              disabled={invalid || isPending}
               type="auth"
               label="PROCEED TO CHECKOUT"
             />

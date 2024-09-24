@@ -171,9 +171,15 @@ function Cart() {
               <div>SUBTOTAL</div>
               <hr className="xl:w-[96rem] lg:w-[66rem] md:w-[50rem] h-1 border-0 rounded bg-gray-400 mt-2" />
             </div>
+            <div className="md:hidden">
+              <p className="text-[1.8rem] text-secondary-light font-semibold">
+                CART ITEMS
+              </p>
+              <hr className="w-[30rem] sm:w-[55rem] h-1 border-0 rounded bg-gray-400 mt-2" />
+            </div>
             {/* map function */}
             {/* <CartItems /> */}
-            <div className="max-h-[60rem] overflow-y-auto">
+            <div className="max-h-[75rem] overflow-y-auto">
               {cart.map((item) => (
                 <CartItems item={item} key={item.product_id} />
               ))}

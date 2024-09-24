@@ -110,14 +110,31 @@ const Categories = () => {
           Explore our premium collection of handpicked items designed for trend
           and style.
         </p>
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 items-center place-items-center "> */}
-        <div className="flex flex-wrap gap-2 justify-center w-[100rem]">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2 items-center place-items-center ">
+          {/* <div className="flex flex-wrap gap-2 justify-center max-w-[100rem]"> }
           {products.map((product, index) => (
             <CategoryCard
               key={index}
               title={product.title}
               images={product.images}
               btnLink={product.btnLink}
+            />
+          ))}
+        </div> */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-2 gap-y-5 md:gap-y-10 items-center place-items-center">
+          {products.map((product, index) => (
+            <CategoryCard
+              key={index}
+              title={product.title}
+              images={product.images}
+              btnLink={product.btnLink}
+              className={`${
+                index === 3
+                  ? "lg:ml-[30rem] xl:ml-0"
+                  : index === 4
+                  ? "md:ml-[35rem] xl:ml-[38rem] xl:col-span-1 xl:col-start-2"
+                  : ""
+              }`}
             />
           ))}
         </div>
