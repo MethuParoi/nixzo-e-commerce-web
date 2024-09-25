@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <main>
       <Hero />
-      <div className="mt-[-8rem]">
+      <div className="mt-[-8.1rem]">
         <Categories />
       </div>
     </main>
