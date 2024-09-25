@@ -57,8 +57,39 @@ export async function placeOrder({
   }
 }
 
-export async function getOrders() {
-  const { data, error } = await supabase.from("order_table").select("*");
+export async function getOrders(sortType) {
+  const now = new Date();
+  const twentyFourHoursAgo = new Date(
+    now.getTime() - 24 * 60 * 60 * 1000
+  ).toISOString();
+  const sevenDaysAgo = new Date(
+    now.getTime() - 7 * 24 * 60 * 60 * 1000
+  ).toISOString();
+  const thirtyDaysAgo = new Date(
+    now.getTime() - 30 * 24 * 60 * 60 * 1000
+  ).toISOString();
+
+  let data = null;
+  let error = null;
+
+  if (sortType === "day") {
+    ({ data, error } = await supabase
+      .from("order_table")
+      .select("*")
+      .gte("created_at", twentyFourHoursAgo));
+  } else if (sortType === "week") {
+    ({ data, error } = await supabase
+      .from("order_table")
+      .select("*")
+      .gte("created_at", sevenDaysAgo));
+  } else if (sortType === "month") {
+    ({ data, error } = await supabase
+      .from("order_table")
+      .select("*")
+      .gte("created_at", thirtyDaysAgo));
+  } else {
+    ({ data, error } = await supabase.from("order_table").select("*"));
+  }
 
   if (error) {
     console.error("Error fetching orders:", error);

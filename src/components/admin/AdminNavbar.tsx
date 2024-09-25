@@ -33,7 +33,7 @@ function AdminNavbar() {
       </div>
 
       <div>
-        <h1 className="text-secondary-dark text-[2rem] mr-[8rem] font-semibold">
+        <h1 className="hidden sm:block text-secondary-dark text-[2rem] mr-[8rem] font-semibold">
           Admin Dashboard
         </h1>
       </div>
