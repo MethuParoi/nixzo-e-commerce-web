@@ -39,6 +39,7 @@ function SearchPage() {
                   price={product.price}
                   description={product.description}
                   rating={product.rating.rate}
+                  product_id={undefined}
                 />
               </Link>
             ))}

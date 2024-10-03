@@ -6,15 +6,21 @@ import Button from "../ui/Button";
 import { toast } from "react-toastify";
 import { insertAdmin } from "../../../utils/admin";
 
+interface AdminFormData {
+  admin_contact: string;
+  admin_password: string;
+  user_type?: string;
+}
+
 function AdminForm() {
   const formRef = useRef(null);
 
-  const { register, handleSubmit, reset, formState } = useForm({
+  const { register, handleSubmit, reset, formState } = useForm<AdminFormData>({
     defaultValues: {},
   });
   const { errors } = formState;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: AdminFormData) => {
     const filteredData = Object.keys(data)
       .filter(
         (key) =>
@@ -23,9 +29,9 @@ function AdminForm() {
           key === "user_type"
       )
       .reduce((obj, key) => {
-        obj[key] = data[key];
+        obj[key] = data[key] as string;
         return obj;
-      }, {});
+      }, {} as AdminFormData);
 
     // Set the user type to admin
     filteredData.user_type = "admin";
@@ -58,7 +64,7 @@ function AdminForm() {
     }
   };
 
-  const onError = (errors) => {
+  const onError = (errors: any) => {
     console.error(errors);
     toast.error("Please fix the errors in the form.", {
       position: "top-right",
@@ -128,8 +134,20 @@ function AdminForm() {
               }
             }}
             label={"Submit Admin Details"}
+            isActive={false}
+            setActiveButton={function (label: string): void {
+              throw new Error("Function not implemented.");
+            }}
           />
-          <Button label={"Cancel"} type="reset" onClick={() => reset()} />
+          <Button
+            label={"Cancel"}
+            type="reset"
+            onClick={() => reset()}
+            isActive={false}
+            setActiveButton={function (label: string): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </div>
       </form>
     </div>

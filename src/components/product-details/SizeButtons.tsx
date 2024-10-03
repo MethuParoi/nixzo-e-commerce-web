@@ -3,7 +3,7 @@
 import React, { use, useEffect, useState } from "react";
 import Button from "../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { setSize } from "@/store/features/checkout/checkout";
+// import { setSize } from "@/store/features/checkout/checkout";
 
 function SizeButtons({ setSelectedSize, selectedSize }) {
   const [activeButton, setActiveButton] = useState<string | null>(null);
@@ -29,24 +29,36 @@ function SizeButtons({ setSelectedSize, selectedSize }) {
         type="size"
         onClick={() => handleClick("M")}
         isActive={activeButton === "M"}
+        setActiveButton={function (label: string): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <Button
         label="L"
         type="size"
         onClick={() => handleClick("L")}
         isActive={activeButton === "L"}
+        setActiveButton={function (label: string): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <Button
         label="XL"
         type="size"
         onClick={() => handleClick("XL")}
         isActive={activeButton === "XL"}
+        setActiveButton={function (label: string): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <Button
         label="XXL"
         type="size"
         onClick={() => handleClick("XXL")}
         isActive={activeButton === "XXL"}
+        setActiveButton={function (label: string): void {
+          throw new Error("Function not implemented.");
+        }}
       />
     </div>
   );

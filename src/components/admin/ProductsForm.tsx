@@ -25,7 +25,16 @@ function useCreateOrEditProduct() {
   return { isWorking, handleProductForm };
 }
 
-function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
+interface Product {
+  product_id?: string;
+  [key: string]: any;
+}
+
+function ProductsForm({
+  productToEdit = {} as Product,
+  onClose,
+  modalHandler,
+}) {
   const { isWorking, handleProductForm } = useCreateOrEditProduct();
 
   const formRef = useRef(null);
@@ -51,10 +60,10 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
 
   // Onclick handler for the submit button
   function onSubmit(data) {
-    const images = [];
+    const images: File[] = [];
     for (let i = 0; i < 3; i++) {
       if (data[`image${i + 1}`]?.[0]) {
-        images.push(data[`image${i + 1}`][0]);
+        images.push(data[`image${i + 1}`][0] as File);
       }
     }
 
@@ -134,11 +143,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
         </button>
       </div>
       <div className="bg-gray-100 w-[88rem] h-[82rem] py-[2rem] pl-[6rem] shadow-xl rounded-[2rem] border-2 border-gray-200">
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit(onSubmit, onError)}
-          type={onClose ? "modal" : "regular"}
-        >
+        <form ref={formRef} onSubmit={handleSubmit(onSubmit, onError)}>
           <div className="mb-[3.5rem] relative">
             <p className="text-gray-600 font-medium">Product title*</p>
             <input
@@ -152,7 +157,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
             />
             {errors.productTitle && (
               <p className="text-red-500 absolute">
-                {errors.productTitle.message}
+                {errors.productTitle?.message?.toString()}
               </p>
             )}
           </div>
@@ -169,7 +174,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
             />
             {errors.productCategory && (
               <p className="text-red-500 absolute">
-                {errors.productCategory.message}
+                {errors.productCategory?.message?.toString()}
               </p>
             )}
           </div>
@@ -186,7 +191,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
             />
             {errors.regularPrice && (
               <p className="text-red-500 absolute">
-                {errors.regularPrice.message}
+                {errors.regularPrice?.message?.toString()}
               </p>
             )}
           </div>
@@ -213,7 +218,9 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
               })}
             />
             {errors.rating && (
-              <p className="text-red-500 absolute">{errors.rating.message}</p>
+              <p className="text-red-500 absolute">
+                {errors.rating?.message?.toString() ?? ""}
+              </p>
             )}
           </div>
           <div className="mb-[3.5rem] relative">
@@ -229,7 +236,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
             />
             {errors.description && (
               <p className="text-red-500 absolute">
-                {errors.description.message}
+                {errors.description?.message?.toString()}
               </p>
             )}
           </div>
@@ -251,7 +258,9 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
               />
             ))}
             {errors.image1 && (
-              <p className="text-red-500 absolute">{errors.image1.message}</p>
+              <p className="text-red-500 absolute">
+                {errors.image1?.message?.toString()}
+              </p>
             )}
           </div>
           <div>
@@ -266,8 +275,20 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
               }}
               label={isEditing ? "Edit product" : "Add a new Product"}
               disabled={isWorking}
+              isActive={false}
+              setActiveButton={function (label: string): void {
+                throw new Error("Function not implemented.");
+              }}
             />
-            <Button label={"Cancel"} onClick={onClose} type="reset" />
+            <Button
+              label={"Cancel"}
+              onClick={onClose}
+              type="reset"
+              isActive={false}
+              setActiveButton={function (label: string): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
           </div>
           {/*single photo upload  */}
           {/* <div className="mb-[3.5rem] relative">

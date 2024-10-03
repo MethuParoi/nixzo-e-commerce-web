@@ -6,12 +6,24 @@ import Loader from "../ui/Loader/Loader";
 import { useSelector } from "react-redux";
 
 function ProductsRow() {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  interface Product {
+    id: number;
+    image: string;
+    category: string;
+    title: string;
+    price: number;
+    description: string;
+    rating: {
+      rate: number;
+    };
+  }
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const selectedCategories = useSelector(
-    (state) => state.sortProduct.selectedOptions
+    (state: any) => state.sortProduct.selectedOptions
   );
 
   useEffect(() => {

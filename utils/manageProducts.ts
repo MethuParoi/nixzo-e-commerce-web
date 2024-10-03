@@ -3,6 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("Missing Supabase URL or Key");
+}
 const supabase = createClient(supabaseUrl, supabaseKey);
 // import supabase, { supabaseUrl } from "./supabase";
 
@@ -18,7 +21,7 @@ export async function getProducts() {
 
 //createProduct and Edit Product function
 export async function createProduct(newProduct, id) {
-  let imageUrls = [];
+  let imageUrls: string[] = [];
 
   if (newProduct.image && newProduct.image.length > 0) {
     for (const image of newProduct.image) {

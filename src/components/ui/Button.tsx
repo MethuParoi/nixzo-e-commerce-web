@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 interface ButtonProps {
-  onClick?: () => void | string; // Optional onClick prop for button functionality
+  onClick: (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => string | void | Promise<void>; // Optional onClick prop for button functionality
   href?: string; // Optional href prop for link functionality
   type?:
     | "auth"
@@ -30,12 +32,12 @@ const Button: React.FC<ButtonProps> = ({
   isActive = false,
   setActiveButton = () => {},
 }) => {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (type === "size") {
       setActiveButton(label);
     }
     if (onClick) {
-      onClick();
+      onClick(e);
     }
   };
 
@@ -81,7 +83,9 @@ const Button: React.FC<ButtonProps> = ({
     return (
       <Link href={href} passHref>
         <a
-          onClick={onClick}
+          onClick={(e) =>
+            onClick(e as unknown as React.MouseEvent<HTMLButtonElement>)
+          }
           className={buttonClass}
           aria-label={label} // Add aria-label for accessibility
         >

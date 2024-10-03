@@ -24,9 +24,11 @@ function CheckoutForm() {
   const router = useRouter();
   //using redux store
   const without_discount_total = useSelector(
-    (state) => state.checkout.subtotal
+    (state: { checkout: { subtotal: number } }) => state.checkout.subtotal
   );
-  const total = useSelector((state) => state.checkout.total);
+  const total = useSelector(
+    (state: { checkout: { total: number } }) => state.checkout.total
+  );
   // console.log("without_discount_total:", without_discount_total);
   // console.log("total:", total);
   const cart = useSelector(getCart);
@@ -343,7 +345,8 @@ function CheckoutForm() {
                 />
                 {errorsCheckout.First_name && (
                   <p className="text-red-500 absolute">
-                    {errorsCheckout.First_name.message}
+                    {typeof errorsCheckout.First_name?.message === "string" &&
+                      errorsCheckout.First_name.message}
                   </p>
                 )}
               </div>
@@ -361,7 +364,8 @@ function CheckoutForm() {
                 />
                 {errorsCheckout.Last_name && (
                   <p className="text-red-500 absolute">
-                    {errorsCheckout.Last_name.message}
+                    {typeof errorsCheckout.Last_name?.message === "string" &&
+                      errorsCheckout.Last_name.message}
                   </p>
                 )}
               </div>
@@ -381,7 +385,8 @@ function CheckoutForm() {
                 />
                 {errorsCheckout.Street_address && (
                   <p className="text-red-500 absolute">
-                    {errorsCheckout.Street_address.message}
+                    {typeof errorsCheckout.Street_address?.message ===
+                      "string" && errorsCheckout.Street_address.message}
                   </p>
                 )}
               </div>
@@ -412,7 +417,8 @@ function CheckoutForm() {
               />
               {errorsCheckout.Town_City && (
                 <p className="text-red-500 absolute">
-                  {errorsCheckout.Town_City.message}
+                  {typeof errorsCheckout.Town_City?.message === "string" &&
+                    errorsCheckout.Town_City.message}
                 </p>
               )}
             </div>
@@ -430,7 +436,8 @@ function CheckoutForm() {
               />
               {errorsCheckout.District && (
                 <p className="text-red-500 absolute">
-                  {errorsCheckout.District.message}
+                  {typeof errorsCheckout.District?.message === "string" &&
+                    errorsCheckout.District.message}
                 </p>
               )}
             </div>
@@ -453,7 +460,8 @@ function CheckoutForm() {
               />
               {errorsCheckout.Mobile_number && (
                 <p className="text-red-500 absolute">
-                  {errorsCheckout.Mobile_number.message}
+                  {typeof errorsCheckout.Mobile_number?.message === "string" &&
+                    errorsCheckout.Mobile_number.message}
                 </p>
               )}
             </div>
@@ -473,7 +481,8 @@ function CheckoutForm() {
               />
               {errorsCheckout.Email && (
                 <p className="text-red-500 absolute">
-                  {errorsCheckout.Email.message}
+                  {typeof errorsCheckout.Email?.message === "string" &&
+                    errorsCheckout.Email.message}
                 </p>
               )}
             </div>
@@ -576,6 +585,10 @@ function CheckoutForm() {
               disabled={invalid || isPending}
               type="auth"
               label="PROCEED TO CHECKOUT"
+              isActive={false}
+              setActiveButton={function (label: string): void {
+                throw new Error("Function not implemented.");
+              }}
             />
           </div>
 
@@ -693,11 +706,11 @@ function CheckoutForm() {
                               : {}
                           )}
                         />
-                        {errorsTransaction.Bkash_account_number && (
+                        {/* {errorsTransaction.Bkash_account_number && (
                           <p className="text-red-500 absolute">
                             {errorsTransaction.Bkash_account_number.message}
                           </p>
-                        )}
+                        )} */}
                       </div>
                       <div className="mb-[3.5rem] relative">
                         <p className="text-gray-600 font-medium">
@@ -720,11 +733,11 @@ function CheckoutForm() {
                               : {}
                           )}
                         />
-                        {errorsTransaction.Bkash_transaction_id && (
+                        {/* {errorsTransaction.Bkash_transaction_id && (
                           <p className="text-red-500 absolute">
                             {errorsTransaction.Bkash_transaction_id.message}
                           </p>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>
@@ -815,11 +828,11 @@ function CheckoutForm() {
                               : {}
                           )}
                         />
-                        {errorsTransaction.Nagad_account_number && (
+                        {/* {errorsTransaction.Nagad_account_number && (
                           <p className="text-red-500 absolute">
                             {errorsTransaction.Nagad_account_number.message}
                           </p>
-                        )}
+                        )} */}
                       </div>
                       <div className="mb-[3.5rem] relative">
                         <p className="text-gray-600 font-medium">
@@ -842,11 +855,11 @@ function CheckoutForm() {
                               : {}
                           )}
                         />
-                        {errorsTransaction.Nagad_transaction_id && (
+                        {/* {errorsTransaction.Nagad_transaction_id && (
                           <p className="text-red-500 absolute">
                             {errorsTransaction.Nagad_transaction_id.message}
                           </p>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>
@@ -938,11 +951,11 @@ function CheckoutForm() {
                                 : {}
                             )}
                           />
-                          {errorsTransaction.Rocket_account_number && (
+                          {/* {errorsTransaction.Rocket_account_number && (
                             <p className="text-red-500 absolute">
                               {errorsTransaction.Rocket_account_number.message}
                             </p>
-                          )}
+                          )} */}
                         </div>
                         <div className="mb-[3.5rem] relative">
                           <p className="text-gray-600 font-medium">
@@ -965,11 +978,11 @@ function CheckoutForm() {
                                 : {}
                             )}
                           />
-                          {errorsTransaction.Rocket_transaction_id && (
+                          {/* {errorsTransaction.Rocket_transaction_id && (
                             <p className="text-red-500 absolute">
                               {errorsTransaction.Rocket_transaction_id.message}
                             </p>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     </div>

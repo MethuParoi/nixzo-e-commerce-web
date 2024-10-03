@@ -32,14 +32,14 @@ function Cart() {
   const [isLoading, setIsLoading] = useState(false);
   //for coupon code
   const [coupon, setCoupon] = useState("");
-  const [couponData, setCouponData] = useState(null);
+  const [couponData, setCouponData] = useState<any[]>([]);
   const [discount, setDiscount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(totalCartPrice);
   const [couponApplied, setCouponApplied] = useState(false);
 
   //updating cart to user account
-  const user_id = useSelector((state: RootState) => state.user.user_id);
-  const user_avatar = useSelector((state: RootState) => state.user.user_avatar);
+  const user_id = useSelector((state: any) => state.user.user_id);
+  const user_avatar = useSelector((state: any) => state.user.user_avatar);
 
   //cart
   console.log("cart:", cart);
@@ -106,7 +106,10 @@ function Cart() {
   }, [coupon, totalPrice]);
 
   //match coupon code with the coupon code from the database
-  const handleApplyCoupon = async () => {
+  const handleApplyCoupon = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
     setIsLoading(true);
 
     try {
@@ -265,17 +268,29 @@ function Cart() {
                   <div className="md:hidden flex justify-center items-center ">
                     <Button
                       disabled={couponApplied}
-                      onClick={handleApplyCoupon}
+                      onClick={(e) => {
+                        (async () => await handleApplyCoupon(e))();
+                      }}
                       type="auth-transparent"
                       label="Apply Coupon"
+                      isActive={false}
+                      setActiveButton={function (label: string): void {
+                        throw new Error("Function not implemented.");
+                      }}
                     />
                   </div>
                   <div className="hidden md:flex justify-center items-center xl:w-[48rem] lg:w-[42rem] md:w-[32rem] w-[30rem]">
                     <Button
                       disabled={couponApplied}
-                      onClick={handleApplyCoupon}
+                      onClick={(e) => {
+                        (async () => await handleApplyCoupon(e))();
+                      }}
                       type="auth-transparent"
                       label="Apply Coupon"
+                      isActive={false}
+                      setActiveButton={function (label: string): void {
+                        throw new Error("Function not implemented.");
+                      }}
                     />
                   </div>
                 </div>
@@ -290,6 +305,10 @@ function Cart() {
                 }}
                 type="auth-cart"
                 label="PROCEED TO CHECKOUT"
+                isActive={false}
+                setActiveButton={function (label: string): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             </div>
             <div className="hidden md:flex justify-center items-center xl:w-[48rem] lg:w-[42rem] md:w-[32rem] w-[30rem]">
@@ -301,6 +320,10 @@ function Cart() {
                 }}
                 type="auth-cart"
                 label="PROCEED TO CHECKOUT"
+                isActive={false}
+                setActiveButton={function (label: string): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             </div>
           </div>

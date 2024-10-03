@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import signupImage from "../../../../../public/signup.svg";
-import OtpVerification from "@/components/auth/OtpVerification";
+// import OtpVerification from "@/components/auth/OtpVerification";
 
 function OtpValidation() {
   return (
@@ -16,9 +16,7 @@ function OtpValidation() {
           <Image className="md:w-[50rem] w-[30rem] " src={signupImage} alt="" />
         </div>
       </div>
-      <div className="grid-cols-1">
-        <OtpVerification />
-      </div>
+      <div className="grid-cols-1">{/* <OtpVerification /> */}</div>
     </div>
   );
 }

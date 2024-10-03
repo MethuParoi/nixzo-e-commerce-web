@@ -27,9 +27,9 @@ function ProductCard({
   const cart = useSelector(getCart);
 
   // Updating cart to user account
-  const user_id = useSelector((state: RootState) => state.user.user_id);
+  const user_id = useSelector((state: any) => state.user.user_id);
   console.log("User ID:", user_id);
-  const user_avatar = useSelector((state: RootState) => state.user.user_avatar);
+  const user_avatar = useSelector((state: any) => state.user.user_avatar);
 
   useEffect(() => {
     const trimmedUserAvatar = user_avatar.trim().toLowerCase();
@@ -165,6 +165,10 @@ function ProductCard({
               }}
               type="card"
               label="Add to cart"
+              isActive={false}
+              setActiveButton={function (label: string): void {
+                throw new Error("Function not implemented.");
+              }}
             />
           ) : (
             <QuantityButton

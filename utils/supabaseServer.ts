@@ -17,8 +17,8 @@ export async function supabaseServerClient() {
         set(name: string, value: string, options: CookieOptions) {
           cookieStore.set({ name, value, ...options });
         },
-        remove(name: string, value: string, options: CookieOptions) {
-          cookieStore.set({ name, value, ...options });
+        remove(name: string) {
+          cookieStore.set({ name, value: "", maxAge: -1 });
         },
       },
     }

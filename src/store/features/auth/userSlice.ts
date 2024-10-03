@@ -41,17 +41,17 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<void>) => {
+    setUser: (state, action: PayloadAction<string>) => {
       state.user_id = action.payload;
       // Save to localStorage
       localStorage.setItem("auth", JSON.stringify(state));
     },
-    setUserName: (state, action: PayloadAction<void>) => {
+    setUserName: (state, action: PayloadAction<string>) => {
       state.user_name = action.payload;
       // Save to localStorage
       localStorage.setItem("auth", JSON.stringify(state));
     },
-    setUserAvatar: (state, action: PayloadAction<void>) => {
+    setUserAvatar: (state, action: PayloadAction<string>) => {
       state.user_avatar = action.payload;
       // Save to localStorage
       localStorage.setItem("auth", JSON.stringify(state));

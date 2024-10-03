@@ -1,9 +1,11 @@
-import { Cart } from "@/components/cart/Cart";
 import { createClient } from "@supabase/supabase-js";
 
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("Missing Supabase URL or Key");
+}
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function placeOrder({
@@ -69,8 +71,8 @@ export async function getOrders(sortType) {
     now.getTime() - 30 * 24 * 60 * 60 * 1000
   ).toISOString();
 
-  let data = null;
-  let error = null;
+  let data: any[] | null = null;
+  let error: any = null;
 
   if (sortType === "day") {
     ({ data, error } = await supabase

@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect, Provider } from "react";
+import React, { useState, useEffect } from "react";
 import signupImage from "../../../../public/signup.svg";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { setEmailUser } from "@/store/features/auth/authSlice";
+// import { setEmailUser } from "@/store/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
 import supabaseClient from "../../../../utils/supabaseClient";
@@ -24,7 +24,9 @@ function SignIn() {
   const route = useRouter();
   const dispatch = useDispatch();
 
-  const handleSignin = async (e) => {
+  const handleSignin = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): Promise<void> => {
     // e.preventDefault();
     try {
       const response = await fetch("/api/auth-user-signin/", {
@@ -110,6 +112,8 @@ function SignIn() {
               type="default"
               label="Admin Signin"
               onClick={() => route.push("/signin/admin")}
+              isActive={false}
+              setActiveButton={() => {}}
             />
           </div>
           <div className="flex flex-col items-center md:justify-center md:h-[90dvh] mb-[2rem] md:mb-0">
@@ -121,7 +125,7 @@ function SignIn() {
             </p>
             <div className="mt-[3rem] ">
               <button
-                onClick={socialAuth.bind(this, "google")}
+                onClick={() => socialAuth("google")}
                 className="p-4 font-semibold lg:w-[48rem] md:w-[35rem] w-[30rem] h-[4.5rem] bg-primary-light hover:bg-primary-dark text-secondary-light  rounded-md border-2 border-gray-300 shadow-md flex items-center justify-center gap-x-5"
               >
                 <Image className="w-[2.2rem]" src={googleLogo} alt="" />
@@ -151,7 +155,15 @@ function SignIn() {
                 placeholder="Enter password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button onClick={handleSignin} label={"Sign in"} type="auth" />
+              <Button
+                onClick={(e) => {
+                  handleSignin(e);
+                }}
+                label={"Sign in"}
+                type="auth"
+                isActive={false}
+                setActiveButton={() => {}}
+              />
             </div>
             <p className="mt-[1.5rem] text-[1.6rem]">
               Signup with email
@@ -165,6 +177,10 @@ function SignIn() {
               type="default"
               label="Admin Signin"
               onClick={() => route.push("/signin/admin")}
+              isActive={false}
+              setActiveButton={function (label: string): void {
+                throw new Error("Function not implemented.");
+              }}
             />
           </div>
         </div>

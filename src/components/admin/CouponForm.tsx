@@ -9,7 +9,12 @@ import { upsertCoupon } from "../../../utils/coupon";
 function CouponForm() {
   const formRef = useRef(null);
 
-  const { register, handleSubmit, reset, formState } = useForm({
+  interface CouponFormData {
+    coupon_code: string;
+    discount_percent: string;
+  }
+
+  const { register, handleSubmit, reset, formState } = useForm<CouponFormData>({
     defaultValues: {},
   });
   const { errors } = formState;
@@ -111,8 +116,20 @@ function CouponForm() {
               }
             }}
             label={"Add a new Coupon"}
+            isActive={false}
+            setActiveButton={function (label: string): void {
+              throw new Error("Function not implemented.");
+            }}
           />
-          <Button label={"Cancel"} type="reset" onClick={() => reset()} />
+          <Button
+            label={"Cancel"}
+            type="reset"
+            onClick={() => reset()}
+            isActive={false}
+            setActiveButton={function (label: string): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </div>
       </form>
     </div>

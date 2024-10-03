@@ -40,9 +40,9 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   // Updating cart to user account
-  const user_id = useSelector((state: RootState) => state.user.user_id);
+  const user_id = useSelector((state: any) => state.user.user_id);
   console.log("User ID:", user_id);
-  const user_avatar = useSelector((state: RootState) => state.user.user_avatar);
+  const user_avatar = useSelector((state: any) => state.user.user_avatar);
   useEffect(() => {
     const trimmedUserAvatar = user_avatar.trim().toLowerCase();
     const defaultAvatarUrl =
@@ -270,6 +270,8 @@ const ProductDetails = () => {
                   }}
                   type="auth"
                   label="Add to cart"
+                  isActive={false} // depending on your logic
+                  setActiveButton={() => {}} // provide a function or state setter here
                 />
               ) : (
                 <QuantityButton

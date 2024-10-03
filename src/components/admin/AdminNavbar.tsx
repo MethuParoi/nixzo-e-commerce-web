@@ -22,6 +22,10 @@ function AdminNavbar() {
           }}
           label="Overview"
           type="button"
+          isActive={false}
+          setActiveButton={function (label: string): void {
+            throw new Error("Function not implemented.");
+          }}
         />
         <Button
           onClick={() => {
@@ -29,6 +33,10 @@ function AdminNavbar() {
           }}
           label="Manage Products"
           type="button"
+          isActive={false}
+          setActiveButton={function (label: string): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </div>
 
@@ -46,6 +54,10 @@ function AdminNavbar() {
           }}
           label="Logout"
           type="reset"
+          isActive={false}
+          setActiveButton={function (label: string): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </div>
     </div>

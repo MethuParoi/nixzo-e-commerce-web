@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addItem,
   clearCart,
-  fetchUserCart,
   getTotalCartQuantity,
 } from "@/store/features/cart/cartSlice";
 import supabaseClient from "../../../utils/supabaseClient";
@@ -30,16 +29,26 @@ function Navbar() {
   const [searchValue, setSearchValue] = useState("");
   const [searchClicked, setSearchClicked] = useState(false);
   //state to handle authenticated user cart
-  const [userCart, setUserCart] = useState([]);
+  interface CartItem {
+    productId: string;
+    title: string;
+    quantity: number;
+    unitPrice: number;
+    img: string;
+    category: string;
+    description: string;
+  }
+
+  const [userCart, setUserCart] = useState<CartItem[]>([]);
   const [cartDispatched, setCartDispatched] = useState(false);
   //state to handle logout button
   const [showLogout, setShowLogout] = useState(false);
 
   //google auth user ----------------------------------
   const dispatch = useDispatch();
-  const user_id = useSelector((state: RootState) => state.user.user_id);
-  const userName = useSelector((state: RootState) => state.user.user_name);
-  const userAvatar = useSelector((state: RootState) => state.user.user_avatar);
+  const user_id = useSelector((state: any) => state.user.user_id);
+  const userName = useSelector((state: any) => state.user.user_name);
+  const userAvatar = useSelector((state: any) => state.user.user_avatar);
   // console.log("User avatar:", userAvatar);
   //get all added products from cart
   const CartItem = useSelector(getTotalCartQuantity);
@@ -338,6 +347,10 @@ function Navbar() {
                     }}
                     label="Logout"
                     type="reset"
+                    isActive={false}
+                    setActiveButton={function (label: string): void {
+                      throw new Error("Function not implemented.");
+                    }}
                   />
                 )}
               </div>

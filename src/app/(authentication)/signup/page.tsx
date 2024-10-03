@@ -12,7 +12,7 @@ import {
   setUserAvatar,
   setUserName,
 } from "@/store/features/auth/userSlice";
-import { getEmailUserId } from "../../../../utils/cart";
+// import { getEmailUserId } from "../../../../utils/cart";
 
 function SignIn() {
   const {
@@ -96,7 +96,9 @@ function SignIn() {
                 })}
               />
               {errors.name && (
-                <p className="text-red-500 absolute">{errors.name.message}</p>
+                <p className="text-red-500 absolute">
+                  {errors.name?.message as string}
+                </p>
               )}
             </div>
 
@@ -114,7 +116,9 @@ function SignIn() {
                 })}
               />
               {errors.email && (
-                <p className="text-red-500 absolute">{errors.email.message}</p>
+                <p className="text-red-500 absolute">
+                  {errors.email?.message?.toString()}
+                </p>
               )}
             </div>
 
@@ -138,7 +142,7 @@ function SignIn() {
               </button>
               {errors.password && (
                 <p className="text-red-500 absolute">
-                  {errors.password.message}
+                  {errors.password?.message?.toString()}
                 </p>
               )}
             </div>
@@ -163,7 +167,7 @@ function SignIn() {
               </button>
               {errors.repeatedPassword && (
                 <p className="text-red-500 absolute">
-                  {errors.repeatedPassword.message}
+                  {errors.repeatedPassword?.message?.toString()}
                 </p>
               )}
             </div>
@@ -178,6 +182,10 @@ function SignIn() {
             }}
             label={"Sign up"}
             type="auth"
+            isActive={false}
+            setActiveButton={function (label: string): void {
+              throw new Error("Function not implemented.");
+            }}
           />
           <p className="mt-[1.5rem] text[1.2rem]">
             Signin with Google?

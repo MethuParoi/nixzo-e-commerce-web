@@ -17,7 +17,8 @@ interface SortProductsProps {
 const SortProducts: React.FC<SortProductsProps> = ({ Options, label }) => {
   const dispatch = useDispatch();
   const selectedOptions = useSelector(
-    (state) => state.sortProduct.selectedOptions
+    (state: { sortProduct: { selectedOptions: string[] } }) =>
+      state.sortProduct.selectedOptions
   );
   const [expandList, setExpandList] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);

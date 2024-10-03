@@ -13,8 +13,14 @@ function SortRows() {
 
   const [products, setProducts] = useState([]);
 
+  interface RootState {
+    sortProduct: {
+      selectedOptions: string[];
+    };
+  }
+
   const selectedCategories = useSelector(
-    (state) => state.sortProduct.selectedOptions
+    (state: RootState) => state.sortProduct.selectedOptions
   );
 
   // useEffect(() => {

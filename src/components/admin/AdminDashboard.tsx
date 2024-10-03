@@ -3,6 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("Missing Supabase URL or Key");
+}
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 import React, { use, useEffect, useState } from "react";
@@ -10,10 +13,40 @@ import HotProductCard from "../ui/HotProductCard";
 import OrderTable from "./OrderTable";
 import { getOrders } from "../../../utils/placeOrder";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { get } from "http";
 
 function AdminDashboard() {
-  const [orderData, setOrderData] = useState([]);
-  const [extractedItems, setExtractedItems] = useState([]);
+  interface Order {
+    id: number;
+    created_at: string;
+    first_name: string;
+    last_name: string;
+    total_price: number;
+    without_discount_price: number;
+    shipping_cost: number;
+    total_price_with_shipping: number;
+    mobile_number: string;
+    payment_method: string;
+    account_number: string;
+    transaction_id: string;
+    district: string;
+    town_city: string;
+    street_address: string;
+    zip_code: string;
+    email: string;
+    ordered_items: string;
+  }
+
+  const [orderData, setOrderData] = useState<Order[]>([]);
+  interface ExtractedItem {
+    order_id: number;
+    productId: string;
+    title: string;
+    quantity: number;
+    unitPrice: number;
+  }
+
+  const [extractedItems, setExtractedItems] = useState<ExtractedItem[]>([]);
 
   //sorting function
   const [sortVisible, setSortVisible] = useState(false);
@@ -22,7 +55,7 @@ function AdminDashboard() {
   useEffect(() => {
     async function fetchOrders(sortType) {
       const allOrders = await getOrders(sortType);
-      setOrderData(allOrders);
+      setOrderData(allOrders ?? []);
     }
 
     fetchOrders(sortType);
@@ -32,8 +65,8 @@ function AdminDashboard() {
 
   useEffect(() => {
     async function fetchOrders() {
-      const allOrders = await getOrders();
-      setOrderData(allOrders);
+      const allOrders = await getOrders(sortType);
+      setOrderData(allOrders ?? []);
     }
 
     fetchOrders();
@@ -45,7 +78,7 @@ function AdminDashboard() {
         { event: "*", schema: "public", table: "order_table" },
         (payload) => {
           console.log("Received event", payload);
-          setOrderData((prevOrders) => [...prevOrders, payload.new]);
+          setOrderData((prevOrders) => [...prevOrders, payload.new as Order]);
         }
       )
       .subscribe();
@@ -54,7 +87,7 @@ function AdminDashboard() {
     return () => {
       supabase.removeChannel(ordersChannel);
     };
-  }, []);
+  }, [sortType]);
 
   // Extract required fields from ordered_items
   useEffect(() => {

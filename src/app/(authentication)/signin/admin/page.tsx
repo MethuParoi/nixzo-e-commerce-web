@@ -86,6 +86,10 @@ function SignIn() {
                 type="default"
                 label="User Signin"
                 onClick={() => route.push("/signin")}
+                isActive={false}
+                setActiveButton={function (label: string): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             </div>
             <div className="flex flex-col items-center md:justify-center md:h-[90dvh] mb-[2rem] md:mb-0">
@@ -108,12 +112,17 @@ function SignIn() {
                 placeholder="Enter password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button onClick={handleSignin} label={"Sign in"} type="auth" />
+              {/* <Button onClick={() => handleSignin()} label={"Sign in"} type="auth" /> */}
               <div className="md:hidden p-[1rem] flex items-center justify-center">
                 <Button
+                  disabled={false}
+                  isActive={false}
                   type="default"
                   label="User Signin"
                   onClick={() => route.push("/signin")}
+                  setActiveButton={function (label: string): void {
+                    throw new Error("Function not implemented.");
+                  }}
                 />
               </div>
             </div>
