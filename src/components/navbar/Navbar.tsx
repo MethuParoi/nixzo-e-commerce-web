@@ -51,24 +51,41 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
+    console.log("User Id:", user_id);
     async function fetchUserCart() {
       if (
         userAvatar !=
-          "https://kjqzojrvmhadxwftawlo.supabase.co/storage/v1/object/public/product_images/profile-user.png" &&
+          "https://bsqvdcfziwmlpwiksmtt.supabase.co/storage/v1/object/public/images/profile-user.png" &&
         user_id
       ) {
         try {
           const userCartData = await getUserCart(user_id);
-          setUserCart(userCartData[0].user_cart);
+          if (userCartData && userCartData[0]) {
+            setUserCart(userCartData[0].user_cart);
+            console.log("User Cart:", userCartData[0].user_cart);
+          } else {
+            console.error(
+              "User cart data is undefined or empty:",
+              userCartData
+            );
+          }
         } catch (error) {
           console.error("Error fetching user cart:", error);
           toast.error("Failed to fetch user cart.");
         }
+        // try {
+        //   const userCartData = await getUserCart(user_id);
+        //   setUserCart(userCartData[0].user_cart);
+        //   console.log("User Cart:", userCartData[0].user_cart);
+        // } catch (error) {
+        //   console.error("Error fetching user cart:", error);
+        //   toast.error("Failed to fetch user cart.");
+        // }
       }
 
       if (
         userAvatar ===
-          "https://kjqzojrvmhadxwftawlo.supabase.co/storage/v1/object/public/product_images/profile-user.png" &&
+          "https://bsqvdcfziwmlpwiksmtt.supabase.co/storage/v1/object/public/images/profile-user.png" &&
         user_id
       ) {
         try {

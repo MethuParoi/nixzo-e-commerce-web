@@ -153,6 +153,21 @@ function CheckoutForm() {
     return filteredData;
   };
 
+  //handle proceed to checkout
+  const handleCheckout = async () => {
+    toast.success("Order placed successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+    router.push("/cart/checkout/order-placed");
+  };
+
   //submit all data
   const handleProceedToCheckout = async () => {
     try {
@@ -556,7 +571,8 @@ function CheckoutForm() {
               //     handleSubmit(onSubmit)();
               //   }
               // }}
-              onClick={handleProceedToCheckout}
+              // onClick={handleProceedToCheckout}
+              onClick={handleCheckout}
               disabled={invalid || isPending}
               type="auth"
               label="PROCEED TO CHECKOUT"
