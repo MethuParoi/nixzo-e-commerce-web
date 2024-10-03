@@ -20,6 +20,7 @@ function ProductsPage() {
               <Image
                 className="w-[100%] h-[20rem] md:h-[40rem] object-fill md:object-fill 2xl:object-cover"
                 src={img}
+                alt=""
               />
               <div className="mt-[1rem] flex items-centerjustify-between relative">
                 <h1 className="text-[1.6rem] lg:text-[2rem] font-semibold pl-[2rem] mt-[1.2rem]">

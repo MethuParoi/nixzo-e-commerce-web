@@ -103,7 +103,7 @@ function Cart() {
       }
     }
     fetchCoupon();
-  }, [coupon]);
+  }, [coupon, totalPrice]);
 
   //match coupon code with the coupon code from the database
   const handleApplyCoupon = async () => {
@@ -149,7 +149,7 @@ function Cart() {
     dispatch(setSubtotal(totalCartPrice));
     dispatch(setShippingCost(0)); // Assuming shipping cost is 0 for now
     dispatch(setTotal(totalPrice));
-  }, [totalCartPrice, totalPrice, totalCartQuantity]);
+  }, [totalCartPrice, totalPrice, totalCartQuantity, dispatch]);
 
   if (!cart.length)
     return (

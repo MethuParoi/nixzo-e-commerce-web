@@ -52,6 +52,7 @@ function CartItems({ item }) {
             src={img}
             height={150}
             width={150}
+            alt=""
           />
         </div>
         <div className="xl:ml-[2rem] mt-[1rem] xl:mt-0 h-[15rem]">

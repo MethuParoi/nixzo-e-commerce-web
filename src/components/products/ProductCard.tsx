@@ -91,7 +91,7 @@ function ProductCard({
     } else {
       setShowButton(true);
     }
-  }, [cart, productId]);
+  }, [cart, productId, quantity]);
 
   // Update the showButton state based on currentQuantity
   // useEffect(() => {

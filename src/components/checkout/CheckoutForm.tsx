@@ -69,7 +69,7 @@ function CheckoutForm() {
       setTotalPriceWithShipping(total + 100);
     }
     console.log("price with shipping", total_price_with_shipping);
-  }, [districtValue, total]);
+  }, [districtValue, total, total_price_with_shipping]);
 
   // Update the price_with_shipping field value
   useEffect(() => {

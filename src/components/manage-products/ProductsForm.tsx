@@ -158,7 +158,8 @@ const { isCreating, createCabinForm } = useState(true);
       <div className="mb-[3.5rem] relative">
         <p className="text-gray-600 font-medium">Cabin photo</p>
 
-        <input.attrs({ type: "file" })
+        <input
+          type="file"
           id="image"
           accept="image/*"
           {...register("image", {
@@ -171,10 +172,12 @@ const { isCreating, createCabinForm } = useState(true);
       </div>
       <div>
         {/* type is an HTML attribute! */}
-        <Button label={"Cancel"} onClick={onClose}  type="reset"/>
-    
-        <Button label={isEditing ? "Edit cabin" : "Add a new cabin"} disabled={isWorking}/>
-         
+        <Button label={"Cancel"} onClick={onClose} type="reset" />
+
+        <Button
+          label={isEditing ? "Edit cabin" : "Add a new cabin"}
+          disabled={isWorking}
+        />
       </div>
     </form>
   );

@@ -123,7 +123,7 @@ function Navbar() {
       });
       setCartDispatched(true); //to prevent dispatching multiple times
     }
-  }, [userCart, dispatch]);
+  }, [userCart, dispatch, cartDispatched]);
 
   //------------------
 
@@ -140,7 +140,7 @@ function Navbar() {
         theme: "colored",
       });
     }
-  }, [user_id]);
+  }, [user_id, userName]);
   //-------------------------------------------------
 
   //ContextApi hooks
@@ -170,7 +170,7 @@ function Navbar() {
       );
       setFilteredProducts(filtered);
     }
-  }, [ProductDesc, searchValue]);
+  }, [ProductDesc, searchValue, setFilteredProducts]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

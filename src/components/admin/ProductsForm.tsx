@@ -41,7 +41,7 @@ function ProductsForm({ productToEdit = {}, onClose, modalHandler }) {
   // Reset form when productToEdit changes
   useEffect(() => {
     reset(isEditing ? editValue : {});
-  }, [productToEdit, reset]);
+  }, [productToEdit, reset, isEditing, editValue]);
 
   // Reset the form and close modal on success
   function handleClose() {
