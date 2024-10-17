@@ -343,7 +343,7 @@ function SignIn() {
               />
             </div>
             <p className="mt-[1.5rem] text-[1.6rem]">
-              Signup with email
+              Signup With Email
               <span className="font-semibold underline ml-[1rem]">
                 <Link href="/signup">sign up</Link>
               </span>
