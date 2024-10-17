@@ -37,7 +37,8 @@ export async function GET(request: NextRequest) {
     });
     if (!error) {
       // Redirect to profile page upon successful sign-in
-      return NextResponse.redirect(redirectTo);
+      // return NextResponse.redirect(redirectTo);
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_REDIRECT_URL}`);
     }
   }
 
