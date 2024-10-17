@@ -87,7 +87,8 @@ function SignIn() {
       provider,
       options: {
         // redirectTo: `${location.origin}/auth/callback`,
-        redirectTo: process.env.NEXT_PUBLIC_REDIRECT_URL,
+        // redirectTo: process.env.NEXT_PUBLIC_REDIRECT_URL,
+        redirectTo: `https://nixzo-e-commerce-web.vercel.app/auth/callback`,
       },
     });
   }
