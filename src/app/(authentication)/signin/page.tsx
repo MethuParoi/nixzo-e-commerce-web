@@ -86,7 +86,8 @@ function SignIn() {
     await supabaseClient.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
+        // redirectTo: `${location.origin}/auth/callback`,
+        redirectTo: process.env.NEXT_PUBLIC_REDIRECT_URL,
       },
     });
   }
