@@ -86,9 +86,9 @@ function SignIn() {
     await supabaseClient.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
-        // // redirectTo: process.env.NEXT_PUBLIC_REDIRECT_URL,
-        // redirectTo: `https://nixzo-e-commerce-web.vercel.app/auth/callback`,
+        // redirectTo: `${location.origin}/auth/callback`,
+        // redirectTo: process.env.NEXT_PUBLIC_REDIRECT_URL,
+        redirectTo: `https://nixzo-e-commerce-web.vercel.app`,
       },
     });
   }
