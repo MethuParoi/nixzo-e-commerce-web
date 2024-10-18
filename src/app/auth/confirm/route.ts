@@ -37,14 +37,15 @@ export async function GET(request: NextRequest) {
     });
     if (!error) {
       // Redirect to profile page upon successful sign-in
-      // return NextResponse.redirect(redirectTo);
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_REDIRECT_URL}`);
+      return NextResponse.redirect(redirectTo);
+      // return NextResponse.redirect(`${process.env.NEXT_PUBLIC_REDIRECT_URL}`);
     }
   }
 
   // return the user to an error page with some instructions
   redirectTo.pathname = "/auth/auth-code-error";
   return NextResponse.redirect(redirectTo);
+  // return NextResponse.redirect(`${process.env.NEXT_PUBLIC_REDIRECT_URL}`);
 }
 
 // https://supabase.com/docs/guides/auth/server-side/email-based-auth-with-pkce-flow-for-ssr
