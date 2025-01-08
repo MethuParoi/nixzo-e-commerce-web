@@ -1,37 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Nixzo
 
-## Getting Started
+**Live Demo:** [Nixzo Live Demo](https://www.nixzobd.com/)
 
-First, run the development server:
+** Nixzo** is an e-commerce website where users can explore and purchase the latest productss and accessories. The website provides a smooth and engaging experience with a visually appealing UI.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📝 Project Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Nixzo is designed to offer users a unique and interactive way to explore and purchase the latest weareables, gadgets and accessories. With real-time product data and ratings, users can make informed decisions to buy the best possible products.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🚀  List of React Fundamental concepts used in the project
 
-## Learn More
+- **Next.js** - for building a dynamic and responsive user interface
+- **Redux toolkit** - for managing states along the web app
+- **React-toastify** - for elegant notifications and alerts
+- **React-icons** - for adding iconography and enhancing the UX
+- **React-Hook-form** - for managing forms
+  
 
-To learn more about Next.js, take a look at the following resources:
+## 🌟 Key Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Real-time Product Stats**: View updated product details, ratings, and reviews for a comprehensive shopping experience.
+2. **Seamless Product Selection**: Quickly browse and select products based on categories, ratings, and more.
+3. **Interactive Notifications**: Get instant notifications on product selection and other actions, enhancing the shopping experience.
+4. **Zoom Product**: User can view items with 2x zoom for better user experience.
+5. **Easy Checkout**: User can checkout easily by paying online or using COD.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# nixzo-bd
+
+## 📂 Installation & Setup
+
+1. Clone the repository:
+   ```bash
+    git clone https://github.com/methuparoi/project-nixzo.git
+    cd project-nixzo
+    npm install
+    npm run dev
+    ```
