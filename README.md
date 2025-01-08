@@ -18,7 +18,7 @@
 
 Nixzo is designed to offer users a unique and interactive way to explore and purchase the latest weareables, gadgets and accessories. With real-time product data and ratings, users can make informed decisions to buy the best possible products.
 
-## 🚀  List of React Fundamental concepts used in the project
+## 🚀  List of Technologies used in the project
 
 - **Next.js** - for building a dynamic and responsive user interface
 - **Redux toolkit** - for managing states along the web app
@@ -43,7 +43,7 @@ Nixzo is designed to offer users a unique and interactive way to explore and pur
 
 1. Clone the repository:
    ```bash
-    git clone https://github.com/methuparoi/project-nixzo.git
+    git clone https://github.com/methuparoi/nixzo-e-commerce-web.git
     cd project-nixzo
     npm install
     npm run dev
