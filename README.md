@@ -1,9 +1,13 @@
+# Nixzo
+
 <div align="center">
 
 ![Header](https://lrbogqzvnkxhatqgtwtr.supabase.co/storage/v1/object/public/images/nixzo-01.png)
 
+![Header](https://lrbogqzvnkxhatqgtwtr.supabase.co/storage/v1/object/public/images/nixzo-03.png)
+
 </div>
-# Nixzo
+
 
 **Live Demo:** [Nixzo Live Demo](https://www.nixzobd.com/)
 
