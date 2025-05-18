@@ -1,7 +1,6 @@
 import Hero from "@/components/hero/Hero";
 import Categories from "@/components/category/Categories";
-
-import React from "react";
+import ShopByCategory from "@/components/home/ShopByCategory";
 
 const HomePage = () => {
   return (
@@ -9,6 +8,7 @@ const HomePage = () => {
       <Hero />
       <div className="mt-[-8.1rem]">
         <Categories />
+        <ShopByCategory />
       </div>
     </main>
   );

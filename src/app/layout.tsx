@@ -17,7 +17,7 @@ export default function AuthLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="overflow-x-hidden">{children}</body>
     </html>
   );
 }
